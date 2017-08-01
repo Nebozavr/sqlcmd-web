@@ -1,22 +1,28 @@
+package ua.com.juja.sqlcmd;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Update {
+public class Find {
 
 
     private static Statement statement = null;
     private static final Connection connection = ConnectionDB.getConnection();
 
 
-    public static void query(String tableName, String columnWhere, String valueWhere, String columnSet, String valueSet) {
+    public static void query(String tableName) {
         try {
             statement = connection.createStatement();
-            String sql = "UPDATE " + tableName + " " +
-                         "SET " + columnSet + " = '" + valueSet + "' " +
-                         "WHERE " + columnWhere + " = '" + valueWhere + "'";
-            statement.executeUpdate(sql);
+            String sql = "SELECT * FROM " + tableName;
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
+            }
 
             statement.close();
+            resultSet.close();
             connection.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());

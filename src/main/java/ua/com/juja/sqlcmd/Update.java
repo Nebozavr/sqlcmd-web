@@ -1,18 +1,21 @@
+package ua.com.juja.sqlcmd;
+
 import java.sql.Connection;
 import java.sql.Statement;
 
-public class Delete {
+public class Update {
 
 
     private static Statement statement = null;
     private static final Connection connection = ConnectionDB.getConnection();
 
 
-    public static void query(String tableName, String column, String value) {
+    public static void query(String tableName, String columnWhere, String valueWhere, String columnSet, String valueSet) {
         try {
             statement = connection.createStatement();
-            String sql = "DELETE FROM " + tableName + " " +
-                         "WHERE " + column + " = '" + value + "'";
+            String sql = "UPDATE " + tableName + " " +
+                         "SET " + columnSet + " = '" + valueSet + "' " +
+                         "WHERE " + columnWhere + " = '" + valueWhere + "'";
             statement.executeUpdate(sql);
 
             statement.close();

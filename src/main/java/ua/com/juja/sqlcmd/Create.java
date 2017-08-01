@@ -1,31 +1,28 @@
+package ua.com.juja.sqlcmd;
+
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Insert {
+public class Create {
 
 
+    private static final Connection connection = new ConnectionDB().getConnection();
     private static Statement statement = null;
-    private static final Connection connection = ConnectionDB.getConnection();
 
-
-    public static void query(String tableName, String... values) {
+    public static void query(String tableName, String... columns) {
         try {
 
             statement = connection.createStatement();
-            StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
+            StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
-            for (int i = 0; i < values.length; i += 2) {
-                sql.append(values[i] + ",");
+            for (int i = 0; i < columns.length; i++) {
+                sql.append(columns[i] + ",");
             }
 
             sql.delete(sql.length() - 1, sql.length());
-            sql.append(") VALUES (");
-
-            for (int i = 1; i < values.length; i += 2) {
-                sql.append("'" + values[i] + "'" + ",");
-            }
-            sql.delete(sql.length() - 1, sql.length());
-            sql.append(");");
+            sql.append(")");
 
             statement.executeUpdate(String.valueOf(sql));
 

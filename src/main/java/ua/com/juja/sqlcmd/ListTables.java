@@ -1,3 +1,5 @@
+package ua.com.juja.sqlcmd;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
