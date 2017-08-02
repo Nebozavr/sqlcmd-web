@@ -1,14 +1,12 @@
 package ua.com.juja.sqlcmd;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Create {
 
 
-    private static final Connection connection = new ConnectionDB().getConnection();
+    private static final Connection connection = new DataBaseManager().getConnection();
     private static Statement statement = null;
 
     public static void query(String tableName, String... columns) {

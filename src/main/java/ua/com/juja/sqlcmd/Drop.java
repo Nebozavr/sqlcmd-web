@@ -7,7 +7,7 @@ public class Drop {
 
 
     private static Statement statement = null;
-    private static final Connection connection = ConnectionDB.getConnection();
+    private static final Connection connection = DataBaseManager.getConnection();
 
 
     public static void query(String tableName) {

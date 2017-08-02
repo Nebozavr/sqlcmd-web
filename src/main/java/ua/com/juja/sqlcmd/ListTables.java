@@ -3,12 +3,11 @@ package ua.com.juja.sqlcmd;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class ListTables {
 
 
-    private static final Connection connection = ConnectionDB.getConnection();
+    private static final Connection connection = DataBaseManager.getConnection();
     private static final String[] TYPES = {"TABLE"};
 
 
