@@ -5,9 +5,11 @@ public class Main {
     public static void main(String[] argv) {
 
         try {
-            Connect.connectionToDataBase("sqlcmd", "yura", "yura1990");
+            DataBaseManager dataBaseManager = new DataBaseManager();
+            dataBaseManager.connect("sqlcmd", "yura", "yura1990");
+            dataBaseManager.findData("TestTable");
 
-            ListTables.query();
+
 
 
         } catch (Exception e) {
