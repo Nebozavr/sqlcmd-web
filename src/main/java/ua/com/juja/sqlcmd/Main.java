@@ -7,7 +7,8 @@ public class Main {
         try {
             DataBaseManager.connectionToDataBase("sqlcmd", "yura", "yura1990");
 
-            Drop.query("orders");
+            ListTables.query();
+
 
         } catch (Exception e) {
             e.printStackTrace();
