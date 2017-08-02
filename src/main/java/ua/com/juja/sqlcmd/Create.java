@@ -6,7 +6,7 @@ import java.sql.Statement;
 public class Create {
 
 
-    private static final Connection connection = new DataBaseManager().getConnection();
+    private static final Connection connection = new Connect().getConnection();
     private static Statement statement = null;
 
     public static void query(String tableName, String... columns) {

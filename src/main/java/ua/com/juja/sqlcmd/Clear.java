@@ -7,7 +7,7 @@ public class Clear {
 
 
     private static Statement statement = null;
-    private static final Connection connection = DataBaseManager.getConnection();
+    private static final Connection connection = Connect.getConnection();
 
 
     public static void query(String tableName) {

@@ -7,7 +7,7 @@ public class Update {
 
 
     private static Statement statement = null;
-    private static final Connection connection = DataBaseManager.getConnection();
+    private static final Connection connection = Connect.getConnection();
 
 
     public static void query(String tableName, String columnWhere, String valueWhere, String columnSet, String valueSet) {
