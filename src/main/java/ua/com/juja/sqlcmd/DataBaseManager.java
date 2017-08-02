@@ -69,7 +69,7 @@ public class DataBaseManager {
     public void deleteRecords(String tableName, String column, String value) {
         try {
             Statement statement = connection.createStatement();
-            String sql = String.format("DELETE FROM %s WHERE %s = '%s'",tableName, column, value);
+            String sql = String.format("DELETE FROM %s WHERE %s = '%s'", tableName, column, value);
             statement.executeUpdate(sql);
 
             statement.close();
@@ -84,7 +84,7 @@ public class DataBaseManager {
     public void dropTable(String tableName) {
         try {
             Statement statement = connection.createStatement();
-            String sql = String.format("DROP TABLE %s",tableName);
+            String sql = String.format("DROP TABLE %s", tableName);
 
             statement.executeUpdate(sql);
             statement.close();
@@ -97,24 +97,43 @@ public class DataBaseManager {
         System.out.println("Query was executed \n");
     }
 
-    public void findData(String tableName) {
+    public DataSet[] findData(String tableName) {
         try {
+            int size = getSize(tableName);
+
             Statement statement = connection.createStatement();
             String sql = String.format("SELECT * FROM %s", tableName);
             ResultSet resultSet = statement.executeQuery(sql);
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            resultSetMetaData.getColumnName(1);
+            DataSet[] reslult = new DataSet[size];
+            int index = 0;
 
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
+                DataSet dataSet = new DataSet();
+                reslult[index++] = dataSet;
+                for (int i = 0; i <= resultSetMetaData.getColumnCount(); i++){
+                    dataSet.put(resultSetMetaData.getColumnName(1), resultSet.getObject(1));
+                }
             }
 
             statement.close();
             resultSet.close();
+            return reslult;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
+            return new DataSet[00];
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
+       }
+
+    private int getSize(String tableName) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet rsCount = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s", tableName));
+        rsCount.next();
+        int size = rsCount.getInt(1);
+        rsCount.close();
+        return size;
     }
 
     public void insertData(String tableName, String... values) {
@@ -151,6 +170,7 @@ public class DataBaseManager {
         try {
             DatabaseMetaData md = connection.getMetaData();
             String[] TYPES = {"TABLE"};
+
             ResultSet tables = md.getTables(null, "public", "%", TYPES);
 
             tables.last();

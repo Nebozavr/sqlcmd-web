@@ -7,7 +7,7 @@ public class Main {
         try {
             DataBaseManager dataBaseManager = new DataBaseManager();
             dataBaseManager.connect("sqlcmd", "yura", "yura1990");
-            dataBaseManager.findData("TestTable");
+            dataBaseManager.findData("users");
 
 
 
