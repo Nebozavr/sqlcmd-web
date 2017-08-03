@@ -198,14 +198,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try {
             Statement statement = connection.createStatement();
 
-            DataSet dataWhere = new DataSet();
-            dataWhere.put(columnWhere, valueWhere);
-            DataSet dataSet = new DataSet();
-            dataSet.put(columnSet, valueSet);
+            String columnWhere = getNameFormated(dataWhere, "%s,");
+            String valuesWhere = getValuesFormated(dataWhere, "'%s',");
+            String columnSet = getNameFormated(dataSet, "%s,");
+            String valuesSet = getValuesFormated(dataSet, "'%s',");
 
             String sql = "UPDATE " + tableName + " " +
-                    "SET " + dataSet.getNames() + " = '" + dataSet.getValues() + "' " +
-                    "WHERE " + dataWhere.getNames() + " = '" + dataWhere.getValues() + "'";
+                    "SET " + columnSet + " = " + valuesSet + " " +
+                    "WHERE " + columnWhere + " = " + valuesWhere;
 
             statement.executeUpdate(sql);
 

@@ -12,11 +12,14 @@ public class Main {
            // System.out.println(Arrays.toString(dataBaseManager.findData("users")));
           //  dataBaseManager.dropTable("testtable");
           //  System.out.println(Arrays.toString(dataBaseManager.listTables()));
-            DataSet input = new DataSet();
-            input.put("username", "yura2");
-            input.put("password", "yurapassword2");
+            DataSet where = new DataSet();
+            where.put("username", "yura2");
+            DataSet set = new DataSet();
+            set.put("password", "ahaha1990");
 
-            dataBaseManager.insertData("users", input);
+            //dataBaseManager.insertData("users", input);
+
+            dataBaseManager.update("users", where, set);
 
 
 
