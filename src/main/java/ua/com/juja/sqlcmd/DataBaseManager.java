@@ -3,6 +3,8 @@ package ua.com.juja.sqlcmd;
 public interface DataBaseManager {
     void connect(String database, String user, String password);
 
+    void exit();
+
     void clearTable(String tableName);
 
     void createTable(String tableName, String... columns);

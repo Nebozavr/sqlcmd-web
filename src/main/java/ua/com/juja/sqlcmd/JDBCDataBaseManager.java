@@ -12,19 +12,32 @@ public class JDBCDataBaseManager implements DataBaseManager {
     public void connect(String database, String user, String password) {
 
         try {
-        Class.forName("org.postgresql.Driver");
-    } catch (ClassNotFoundException e) {
-        System.out.println("Please add JDBC jar to you project");
-        e.printStackTrace();
-    }
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Please add JDBC jar to you project");
+            e.printStackTrace();
+        }
         try {
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user, password);
-    } catch (SQLException e) {
-        System.out.println(String.format("Can't get connection for database: %s user: %s", database, user));
-        e.printStackTrace();
-    }
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user, password);
+        } catch (SQLException e) {
+            System.out.println(String.format("Can't get connection for database: %s user: %s", database, user));
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
         System.out.println("Connection to: " + database + " was successfully \n");
-}
+    }
+
+    @Override
+    public void exit(){
+        try {
+            connection.close();
+            System.out.println("Connection to database was closed \n");
+            System.exit(0);
+
+        } catch (SQLException e) {
+            System.out.println("Can't close connection, sorry!");
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
 
     @Override
     public void clearTable(String tableName) {
@@ -118,7 +131,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             while (resultSet.next()) {
                 DataSet dataSet = new DataSet();
                 result[index++] = dataSet;
-                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++){
+                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
                     dataSet.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
                 }
             }
@@ -131,7 +144,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.exit(0);
             return new DataSet[00];
         }
-       }
+    }
 
     private int getSize(String tableName) throws SQLException {
         Statement statement = connection.createStatement();
@@ -220,7 +233,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private String getValuesFormated(DataSet input, String format) {
         String values = "";
-        for (Object value: input.getValues()) {
+        for (Object value : input.getValues()) {
             values += String.format(format, value);
         }
         values = values.substring(0, values.length() - 1);
