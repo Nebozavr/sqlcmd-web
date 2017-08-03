@@ -9,8 +9,8 @@
         <module name="sqlcmd" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="sqlcmd" target="1.5" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="sqlcmd" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

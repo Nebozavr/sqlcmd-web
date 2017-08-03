@@ -26,21 +26,21 @@ public class DataSet {
     public int index = 0;
 
     public void put(String name, Object value) {
-        data[index++] = new Data(name, value)
+        data[index++] = new Data(name, value);
     }
 
     public Object[] getValues(){
         Object[] result = new Object[index];
-        for (int i = 1; i < index; i++) {
-            result[i] = data[i].getValue()
+        for (int i = 0; i < index; i++) {
+            result[i] = data[i].getValue();
         }
         return result;
     }
 
     public String[] getNames(){
         String[] result = new String[index];
-        for (int i = 1; i < index; i++) {
-            result[i] = data[i].getName()
+        for (int i = 0; i < index; i++) {
+            result[i] = data[i].getName();
         }
         return result;
     }
@@ -48,8 +48,8 @@ public class DataSet {
     @Override
     public String toString() {
         return "DataSet{\n" +
-                "names:" + Arrays.toString(getNames()) + "\n" +
-                "values:" + Arrays.toString(getValues()) + "\n" +
+                "names: " + Arrays.toString(getNames()) + "\n" +
+                "values: " + Arrays.toString(getValues()) + "\n" +
                 "}";
     }
 }
