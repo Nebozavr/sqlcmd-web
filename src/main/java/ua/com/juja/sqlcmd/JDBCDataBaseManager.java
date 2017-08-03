@@ -27,16 +27,31 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void exit(){
+    public String[] listTables() {
         try {
-            connection.close();
-            System.out.println("Connection to database was closed \n");
-            System.exit(0);
+            DatabaseMetaData md = connection.getMetaData();
+            String[] TYPES = {"TABLE"};
+            String[] result;
+            ResultSet tables = md.getTables(null, "public", "%", TYPES);
 
-        } catch (SQLException e) {
-            System.out.println("Can't close connection, sorry!");
+            tables.last();
+            result = new String[tables.getRow()];
+            tables.beforeFirst();
+
+            int i = 0;
+            while (tables.next()) {
+                result[i++] = tables.getString(3);
+
+            }
+
+            tables.close();
+            return result;
+        } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            return new String[0];
         }
+
     }
 
     @Override
@@ -49,6 +64,23 @@ public class JDBCDataBaseManager implements DataBaseManager {
             statement.executeUpdate(sql);
 
             statement.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("-------------------------------------------");
+        System.out.println("Query was executed \n");
+    }
+
+    @Override
+    public void dropTable(String tableName) {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = String.format("DROP TABLE %s", tableName);
+
+            statement.executeUpdate(sql);
+            statement.close();
+
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
@@ -72,39 +104,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
             statement.executeUpdate(String.valueOf(sql));
 
-            statement.close();
-
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
-    }
-
-    @Override
-    public void deleteRecords(String tableName, String column, String value) {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = String.format("DELETE FROM %s WHERE %s = '%s'", tableName, column, value);
-            statement.executeUpdate(sql);
-
-            statement.close();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
-    }
-
-    @Override
-    public void dropTable(String tableName) {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = String.format("DROP TABLE %s", tableName);
-
-            statement.executeUpdate(sql);
             statement.close();
 
         } catch (Exception e) {
@@ -146,15 +145,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
-    private int getSize(String tableName) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet rsCount = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s", tableName));
-        rsCount.next();
-        int size = rsCount.getInt(1);
-        rsCount.close();
-        return size;
-    }
-
     @Override
     public void insertData(String tableName, DataSet input) {
         try {
@@ -176,34 +166,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
         System.out.println("-------------------------------------------");
         System.out.println("Query was executed \n");
-    }
-
-    @Override
-    public String[] listTables() {
-        try {
-            DatabaseMetaData md = connection.getMetaData();
-            String[] TYPES = {"TABLE"};
-            String[] result;
-            ResultSet tables = md.getTables(null, "public", "%", TYPES);
-
-            tables.last();
-            result = new String[tables.getRow()];
-            tables.beforeFirst();
-
-            int i = 0;
-            while (tables.next()) {
-                result[i++] = tables.getString(3);
-
-            }
-
-            tables.close();
-            return result;
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return new String[0];
-        }
-
     }
 
     @Override
@@ -229,6 +191,44 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
         System.out.println("-------------------------------------------");
         System.out.println("Query was executed \n");
+    }
+
+    @Override
+    public void deleteRecords(String tableName, String column, String value) {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = String.format("DELETE FROM %s WHERE %s = '%s'", tableName, column, value);
+            statement.executeUpdate(sql);
+
+            statement.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("-------------------------------------------");
+        System.out.println("Query was executed \n");
+    }
+
+    @Override
+    public void exit() {
+        try {
+            connection.close();
+            System.out.println("Connection to database was closed \n");
+            System.exit(0);
+
+        } catch (SQLException e) {
+            System.out.println("Can't close connection, sorry!");
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    private int getSize(String tableName) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet rsCount = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s", tableName));
+        rsCount.next();
+        int size = rsCount.getInt(1);
+        rsCount.close();
+        return size;
     }
 
     private String getValuesFormated(DataSet input, String format) {
