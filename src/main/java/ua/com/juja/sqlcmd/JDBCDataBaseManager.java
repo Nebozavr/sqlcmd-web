@@ -194,10 +194,15 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void deleteRecords(String tableName, String column, String value) {
+    public void deleteRecords(String tableName, DataSet input) {
         try {
+
             Statement statement = connection.createStatement();
-            String sql = String.format("DELETE FROM %s WHERE %s = '%s'", tableName, column, value);
+
+            String column = getNameFormated(input, "%s,");
+            String value = getValuesFormated(input, "'%s',");
+
+            String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
 
             statement.close();
