@@ -1,6 +1,5 @@
-package ua.com.juja.sqlcmd;
+package ua.com.juja.sqlcmd.model;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class JDBCDataBaseManagerTest {
         dataBaseManager.clearTable("users");
 
         DataSet input = new DataSet();
-        input.put("username", "yura2");
+        input.put("username", "yura22");
         input.put("user_id", "1");
         input.put("password", "qwerty");
 
@@ -48,7 +47,7 @@ public class JDBCDataBaseManagerTest {
 
         DataSet user = users[0];
         assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
-        assertEquals("[1, yura2, qwerty]", Arrays.toString(user.getValues()));
+        assertEquals("[1, yura22, qwerty]", Arrays.toString(user.getValues()));
 
     }
 

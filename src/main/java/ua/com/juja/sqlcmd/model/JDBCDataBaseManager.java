@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd;
+package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
 
@@ -20,10 +20,10 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user, password);
         } catch (SQLException e) {
-            System.out.println(String.format("Can't get connection for database: %s user: %s", database, user));
+            System.out.println(String.format("Can't get connection for model: %s user: %s", database, user));
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        System.out.println("Connection to: " + database + " was successfully \n");
+
     }
 
     @Override
@@ -68,8 +68,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
@@ -85,8 +83,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
@@ -110,8 +106,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
@@ -164,8 +158,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
@@ -189,8 +181,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
@@ -210,16 +200,12 @@ public class JDBCDataBaseManager implements DataBaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("-------------------------------------------");
-        System.out.println("Query was executed \n");
     }
 
     @Override
     public void exit() {
         try {
             connection.close();
-            System.out.println("Connection to database was closed \n");
-            System.exit(0);
 
         } catch (SQLException e) {
             System.out.println("Can't close connection, sorry!");

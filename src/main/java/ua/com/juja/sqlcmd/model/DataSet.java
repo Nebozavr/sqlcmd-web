@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd;
+package ua.com.juja.sqlcmd.model;
 
 import java.util.Arrays;
 
@@ -27,6 +27,15 @@ public class DataSet {
 
     public void put(String name, Object value) {
         data[index++] = new Data(name, value);
+    }
+
+    public Object get(String name){
+        for (int i = 0; i < index; index++) {
+            if (data[i].getName().equals(name)){
+                return data[i].getValue();
+            }
+        }
+        return null;
     }
 
     public Object[] getValues(){
