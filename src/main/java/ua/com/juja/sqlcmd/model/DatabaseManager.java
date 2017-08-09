@@ -1,10 +1,10 @@
 package ua.com.juja.sqlcmd.model;
 
-public interface DataBaseManager {
+public interface DatabaseManager {
 
-    void connect(String database, String user, String password);
+    void connect(String database, String userName, String password);
 
-    String[] listTables();;
+    String[] listTables();
 
     void clearTable(String tableName);
 

@@ -2,26 +2,27 @@ package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
 
-public class JDBCDataBaseManager implements DataBaseManager {
+public class JDBCDatabaseManager implements DatabaseManager {
 
 
     private Connection connection;
 
 
     @Override
-    public void connect(String database, String user, String password) {
+    public void connect(String database, String userName, String password) {
 
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("Please add JDBC jar to you project");
-            e.printStackTrace();
+            throw new RuntimeException("Please add JDBC jar to you project", e);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user, password);
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, userName, password);
         } catch (SQLException e) {
-            System.out.println(String.format("Can't get connection for model: %s user: %s", database, user));
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            connection = null;
+            throw new RuntimeException(String.format("Can't get connection for database:" +
+                                                     " %s user: %s", database, userName), e);
+
         }
 
     }
@@ -30,7 +31,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     public String[] listTables() {
         try {
             DatabaseMetaData md = connection.getMetaData();
-            String[] TYPES = {"TABLE"};
+            final String[] TYPES = {"TABLE"};
             String[] result;
             ResultSet tables = md.getTables(null, "public", "%", TYPES);
 
@@ -46,9 +47,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
             tables.close();
             return result;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
             return new String[0];
         }
 
@@ -66,7 +66,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             statement.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 
@@ -81,7 +80,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 
@@ -104,7 +102,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 
@@ -134,7 +131,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             return result;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
             return new DataSet[00];
         }
     }
@@ -156,7 +152,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             statement.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 
@@ -179,7 +174,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             statement.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 
@@ -198,7 +192,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             statement.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
     }
 

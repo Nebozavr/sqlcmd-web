@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class DataSet {
 
-    static class Data {
+    class Data {
         private String name;
         private Object value;
 
@@ -22,23 +22,23 @@ public class DataSet {
         }
     }
 
-   public Data[] data = new Data[100];
+    public Data[] data = new Data[100];
     public int index = 0;
 
     public void put(String name, Object value) {
         data[index++] = new Data(name, value);
     }
 
-    public Object get(String name){
+    public Object get(String name) {
         for (int i = 0; i < index; index++) {
-            if (data[i].getName().equals(name)){
+            if (data[i].getName().equals(name)) {
                 return data[i].getValue();
             }
         }
         return null;
     }
 
-    public Object[] getValues(){
+    public Object[] getValues() {
         Object[] result = new Object[index];
         for (int i = 0; i < index; i++) {
             result[i] = data[i].getValue();
@@ -46,7 +46,7 @@ public class DataSet {
         return result;
     }
 
-    public String[] getNames(){
+    public String[] getNames() {
         String[] result = new String[index];
         for (int i = 0; i < index; i++) {
             result[i] = data[i].getName();

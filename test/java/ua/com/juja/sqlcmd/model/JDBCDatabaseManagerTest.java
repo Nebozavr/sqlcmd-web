@@ -5,19 +5,20 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class JDBCDataBaseManagerTest {
+public class JDBCDatabaseManagerTest {
 
 
     String[] result = new String[]{"test", "test2", "users"};
-    private DataBaseManager dataBaseManager;
+    private DatabaseManager databaseManager;
 
     @Before
     public void setup() {
         try {
-            dataBaseManager = new JDBCDataBaseManager();
-            dataBaseManager.connect("sqlcmd", "yura", "yura1990");
+            databaseManager = new JDBCDatabaseManager();
+            databaseManager.connect("sqlcmd", "yura", "yura1990");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,22 +28,22 @@ public class JDBCDataBaseManagerTest {
     @Test
     public void listTableTest() {
 
-        assertEquals(dataBaseManager.listTables(), result);
+        assertArrayEquals(databaseManager.listTables(), result);
     }
 
 
     @Test
     public void findDataTest() {
-        dataBaseManager.clearTable("users");
+        databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "yura22");
         input.put("user_id", "1");
         input.put("password", "qwerty");
 
-        dataBaseManager.insertData("users", input);
+        databaseManager.insertData("users", input);
 
-        DataSet[] users = dataBaseManager.findData("users");
+        DataSet[] users = databaseManager.findData("users");
 
 
         DataSet user = users[0];
@@ -53,14 +54,14 @@ public class JDBCDataBaseManagerTest {
 
     @Test
     public void updateTest() {
-        dataBaseManager.clearTable("users");
+        databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "yuraTest");
         input.put("user_id", "2");
         input.put("password", "passwordTest");
 
-        dataBaseManager.insertData("users", input);
+        databaseManager.insertData("users", input);
 
         DataSet where = new DataSet();
         where.put("username", "yuraTest");
@@ -68,9 +69,9 @@ public class JDBCDataBaseManagerTest {
         DataSet output = new DataSet();
         output.put("password", "changePass");
 
-        dataBaseManager.update("users", where, output);
+        databaseManager.update("users", where, output);
 
-        DataSet[] users = dataBaseManager.findData("users");
+        DataSet[] users = databaseManager.findData("users");
 
 
         DataSet user = users[0];
