@@ -15,5 +15,6 @@ public class Main {
         DatabaseManager manager = new JDBCDatabaseManager();
         View view = new Console();
         MainController mainController = new MainController(view, manager);
+        mainController.run();
     }
 }

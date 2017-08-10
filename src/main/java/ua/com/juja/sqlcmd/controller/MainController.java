@@ -11,15 +11,15 @@ public class MainController {
     private DatabaseManager manager;
 
     public MainController(View view, DatabaseManager manager) {
-       this.view = view;
-       this.manager = manager;
+        this.view = view;
+        this.manager = manager;
     }
 
-    public static void main(String[] args) {
+    public void run(){
         connectToDB();
     }
 
-    public void connectToDB() {
+    private void connectToDB() {
         view.write("Hello User");
         view.write("Please enter database name, username and password, in the format: database|username|password");
         while (true) {
