@@ -22,9 +22,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             connection = null;
             throw new RuntimeException(String.format("Can't get connection for database:" +
                                                      " %s user: %s", database, userName), e);
-
         }
-
     }
 
     @Override
@@ -42,7 +40,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             int i = 0;
             while (tables.next()) {
                 result[i++] = tables.getString(3);
-
             }
 
             tables.close();
@@ -51,7 +48,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return new String[0];
         }
-
     }
 
     @Override
@@ -86,7 +82,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void createTable(String tableName, String... columns) {
         try {
-
             Statement statement = connection.createStatement();
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
@@ -138,14 +133,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void insertData(String tableName, DataSet input) {
         try {
-
             Statement statement = connection.createStatement();
 
-            String columnNames = getNameFormated(input, "%s,");
-            String values = getValuesFormated(input, "'%s',");
+            String columnNames = getNameFormatted(input, "%s,");
+            String values = getValuesFormatted(input, "'%s',");
             String sql = "INSERT INTO " + tableName + " (" + columnNames + ")" +
                     "VALUES (" + values + ")";
-
 
             statement.executeUpdate(sql);
 
@@ -160,10 +153,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             Statement statement = connection.createStatement();
 
-            String columnWhere = getNameFormated(dataWhere, "%s,");
-            String valuesWhere = getValuesFormated(dataWhere, "'%s',");
-            String columnSet = getNameFormated(dataSet, "%s,");
-            String valuesSet = getValuesFormated(dataSet, "'%s',");
+            String columnWhere = getNameFormatted(dataWhere, "%s,");
+            String valuesWhere = getValuesFormatted(dataWhere, "'%s',");
+            String columnSet = getNameFormatted(dataSet, "%s,");
+            String valuesSet = getValuesFormatted(dataSet, "'%s',");
 
             String sql = "UPDATE " + tableName + " " +
                     "SET " + columnSet + " = " + valuesSet + " " +
@@ -180,11 +173,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void deleteRecords(String tableName, DataSet input) {
         try {
-
             Statement statement = connection.createStatement();
 
-            String column = getNameFormated(input, "%s,");
-            String value = getValuesFormated(input, "'%s',");
+            String column = getNameFormatted(input, "%s,");
+            String value = getValuesFormatted(input, "'%s',");
 
             String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
@@ -199,10 +191,31 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void exit() {
         try {
             connection.close();
-
         } catch (SQLException e) {
             System.out.println("Can't close connection, sorry!");
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    @Override
+    public String[] getTableColumnsNames(String tableName) {
+        try {
+            DatabaseMetaData md = connection.getMetaData();
+            ResultSet tables = md.getColumns(null, null, tableName, null);
+            tables.last();
+            String[] result = new String[tables.getRow()];
+            tables.beforeFirst();
+
+            int i = 0;
+            while (tables.next()) {
+                result[i++] = tables.getString("column_name");
+            }
+
+            tables.close();
+            return result;
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return new String[0];
         }
     }
 
@@ -215,7 +228,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return size;
     }
 
-    private String getValuesFormated(DataSet input, String format) {
+    private String getValuesFormatted(DataSet input, String format) {
         String values = "";
         for (Object value : input.getValues()) {
             values += String.format(format, value);
@@ -224,7 +237,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return values;
     }
 
-    private String getNameFormated(DataSet newValue, String format) {
+    private String getNameFormatted(DataSet newValue, String format) {
         String string = "";
         for (String name : newValue.getNames()) {
             string += String.format(format, name);
