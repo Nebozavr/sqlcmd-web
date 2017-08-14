@@ -23,4 +23,6 @@ public interface DatabaseManager {
     void exit();
 
     String[] getTableColumnsNames(String tableName);
+
+    boolean isConnected();
 }

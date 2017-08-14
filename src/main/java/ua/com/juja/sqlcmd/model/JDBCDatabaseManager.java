@@ -218,6 +218,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
+    @Override
+    public boolean isConnected() {
+        return connection != null;
+    }
+
     private int getSize(String tableName) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet rsCount = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s", tableName));
