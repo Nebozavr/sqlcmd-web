@@ -1,7 +1,8 @@
 package ua.com.juja.sqlcmd.controller;
 
-import ua.com.juja.sqlcmd.controller.Command.Command;
-import ua.com.juja.sqlcmd.controller.Command.Exit;
+import ua.com.juja.sqlcmd.controller.command.Command;
+import ua.com.juja.sqlcmd.controller.command.Exit;
+import ua.com.juja.sqlcmd.controller.command.Help;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -17,7 +18,7 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[] {new Exit(view, manager)};
+        this.commands = new Command[] {new Exit(view, manager), new Help(view)};
     }
 
     public void run() {
@@ -28,8 +29,8 @@ public class MainController {
 
             String command = view.read();
 
-            if (command.equals("help")) {
-                doHelp();
+            if (commands[1].canProcess(command)) {
+                commands[1].process(command);
             } else if (commands[0].canProcess(command)){
                 commands[0].process(command);
             } else if (command.equals("list")) {
@@ -81,15 +82,6 @@ public class MainController {
         String tablesNames = Arrays.toString(manager.listTables());
 
         view.write(tablesNames);
-    }
-
-
-    private void doHelp() {
-        view.write("List of all commands:");
-        view.write("\t help \n\t\t View all commands and their description");
-        view.write("\t list \n\t\t Show all tables from database");
-        view.write("\t find|tableName \n\t\t Show all data from tableName");
-        view.write("\t exit \n\t\t Close connection to database and exit program!");
     }
 
     private void connectToDB() {

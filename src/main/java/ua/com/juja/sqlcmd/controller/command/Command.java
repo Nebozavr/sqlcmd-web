@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.controller.Command;
+package ua.com.juja.sqlcmd.controller.command;
 
 public interface Command {
 
