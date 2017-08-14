@@ -1,11 +1,8 @@
 package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.*;
-import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
-
-import java.util.Arrays;
 
 public class MainController {
 
@@ -16,8 +13,11 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[]{new Exit(view, manager), new Help(view), new List(view, manager),
-                new Find(view, manager)};
+        this.commands = new Command[] {new Exit(view, manager),
+                                       new Help(view),
+                                       new List(view, manager),
+                                       new Find(view, manager),
+                                       new UnknownCommand(view)};
     }
 
     public void run() {
@@ -26,51 +26,15 @@ public class MainController {
         while (true) {
             view.write("Enter a new command or use help command.");
 
-            String command = view.read();
+            String input = view.read();
 
-            for (int index = 0; index < commands.length; index++) {
-                if (commands[index].canProcess(command)) {
-                    commands[index].process(command);
+            for (Command command: commands) {
+                if (command.canProcess(input)) {
+                    command.process(input);
+                    break;
                 }
             }
         }
-    }
-
-    private void doFind(String command) {
-        String[] data = command.split("\\|");
-        String tableName = data[1];
-        DataSet[] result = manager.findData(tableName);
-        String[] tableColumn = manager.getTableColumnsNames(tableName);
-
-        printHeader(tableColumn);
-        printTable(result);
-    }
-
-    private void printTable(DataSet[] result) {
-        for (DataSet row : result) {
-            printRow(row);
-        }
-    }
-
-    private void printRow(DataSet row) {
-        Object[] values = row.getValues();
-        String result = "|";
-
-        for (Object value : values) {
-            result += value + "|";
-        }
-
-        view.write(result);
-    }
-
-    private void printHeader(String[] tableData) {
-        String result = "|";
-
-        for (String columnName : tableData) {
-            result += columnName + "|";
-        }
-
-        view.write(result);
     }
 
     private void connectToDB() {

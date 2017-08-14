@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Find implements Command {
+
     private View view;
     private DatabaseManager manager;
 
@@ -23,10 +24,11 @@ public class Find implements Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         String tableName = data[1];
-        DataSet[] result = manager.findData(tableName);
-        String[] tableColumn = manager.getTableColumnsNames(tableName);
 
+        String[] tableColumn = manager.getTableColumnsNames(tableName);
         printHeader(tableColumn);
+
+        DataSet[] result = manager.findData(tableName);
         printTable(result);
     }
 
