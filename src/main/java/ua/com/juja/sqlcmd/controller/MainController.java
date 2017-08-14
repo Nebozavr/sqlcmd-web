@@ -1,5 +1,7 @@
 package ua.com.juja.sqlcmd.controller;
 
+import ua.com.juja.sqlcmd.controller.Command.Command;
+import ua.com.juja.sqlcmd.controller.Command.Exit;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -8,12 +10,14 @@ import java.util.Arrays;
 
 public class MainController {
 
+    private Command[] commands;
     private View view;
     private DatabaseManager manager;
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
+        this.commands = new Command[] {new Exit(view, manager)};
     }
 
     public void run() {
@@ -26,8 +30,8 @@ public class MainController {
 
             if (command.equals("help")) {
                 doHelp();
-            } else if (command.equals("exit")) {
-                doExit();
+            } else if (commands[0].canProcess(command)){
+                commands[0].process(command);
             } else if (command.equals("list")) {
                 doList();
             } else if (command.startsWith("find")) {
@@ -79,12 +83,6 @@ public class MainController {
         view.write(tablesNames);
     }
 
-    private void doExit() {
-        manager.exit();
-        view.write("Connection was close!");
-        view.write("Goodbye!!!");
-        System.exit(0);
-    }
 
     private void doHelp() {
         view.write("List of all commands:");

@@ -29,12 +29,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public String[] listTables() {
         try {
             DatabaseMetaData md = connection.getMetaData();
-            final String[] TYPES = {"TABLE"};
-            String[] result;
-            ResultSet tables = md.getTables(null, "public", "%", TYPES);
+            String[] types = {"TABLE"};
+            ResultSet tables = md.getTables(null, "public", "%", types);
 
             tables.last();
-            result = new String[tables.getRow()];
+            String[] result = new String[tables.getRow()];
             tables.beforeFirst();
 
             int i = 0;
