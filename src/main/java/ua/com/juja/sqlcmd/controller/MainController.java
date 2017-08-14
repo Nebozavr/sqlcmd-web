@@ -1,8 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
-import ua.com.juja.sqlcmd.controller.command.Command;
-import ua.com.juja.sqlcmd.controller.command.Exit;
-import ua.com.juja.sqlcmd.controller.command.Help;
+import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -18,7 +16,8 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[] {new Exit(view, manager), new Help(view)};
+        this.commands = new Command[]{new Exit(view, manager), new Help(view), new List(view, manager),
+                new Find(view, manager)};
     }
 
     public void run() {
@@ -29,14 +28,10 @@ public class MainController {
 
             String command = view.read();
 
-            if (commands[1].canProcess(command)) {
-                commands[1].process(command);
-            } else if (commands[0].canProcess(command)){
-                commands[0].process(command);
-            } else if (command.equals("list")) {
-                doList();
-            } else if (command.startsWith("find")) {
-                doFind(command);
+            for (int index = 0; index < commands.length; index++) {
+                if (commands[index].canProcess(command)) {
+                    commands[index].process(command);
+                }
             }
         }
     }
@@ -76,12 +71,6 @@ public class MainController {
         }
 
         view.write(result);
-    }
-
-    private void doList() {
-        String tablesNames = Arrays.toString(manager.listTables());
-
-        view.write(tablesNames);
     }
 
     private void connectToDB() {
