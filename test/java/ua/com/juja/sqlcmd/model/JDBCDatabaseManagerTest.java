@@ -11,37 +11,61 @@ import static org.junit.Assert.assertEquals;
 public class JDBCDatabaseManagerTest {
 
 
-    String[] result = new String[]{"test", "test2", "users"};
+
     private DatabaseManager databaseManager;
 
     @Before
     public void setup() {
         try {
             databaseManager = new JDBCDatabaseManager();
-            databaseManager.connect("sqlcmd", "yura", "yura1990");
+            databaseManager.connect("sqlcmd", "yura", "yura1990");   //Test for connection
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //Test for listTables
     @Test
     public void listTableTest() {
+        String[] result = new String[]{"test", "test2", "users"};
 
         assertArrayEquals(databaseManager.listTables(), result);
     }
 
+    //Test for dropTable
+    @Test
+    public void dropTableTest() {
+        databaseManager.dropTable("test");
 
+        String[] result = new String[]{"test2", "users"};
+        assertArrayEquals(databaseManager.listTables(), result);
+
+    }
+
+    //Test for createTable
+    @Test
+    public void createTableTest() {
+        databaseManager.createTable("test", "id integer", "name text");
+
+
+        String[] result = new String[]{"test", "test2", "users"};
+        assertArrayEquals(databaseManager.listTables(), result);
+
+    }
+
+
+    //Test for findData
     @Test
     public void findDataTest() {
-        databaseManager.clearTable("users");
+        databaseManager.clearTable("users");   //Test for clearTable
 
         DataSet input = new DataSet();
         input.put("username", "yura22");
         input.put("user_id", "1");
         input.put("password", "qwerty");
 
-        databaseManager.insertData("users", input);
+        databaseManager.insertData("users", input); //Test for insertTable
 
         DataSet[] users = databaseManager.findData("users");
 
@@ -52,6 +76,7 @@ public class JDBCDatabaseManagerTest {
 
     }
 
+    //Test for updateData
     @Test
     public void updateTest() {
         databaseManager.clearTable("users");
