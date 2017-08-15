@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Connect implements Command {
+    private static final String CONNECT_SAMPLE = "connect|database|username|password";
 
     private View view;
     private DatabaseManager manager;
@@ -23,8 +24,8 @@ public class Connect implements Command {
           try {
 
             String[] data = command.split("\\|");
-            if (data.length != 4) {
-                throw new IllegalArgumentException("The entered number of parameters is not correct. Must be 4 param, but you enter: " + data.length);
+            if (data.length != countParams()) {
+                throw new IllegalArgumentException(String.format("The entered number of parameters is not correct. Must be %s param, but you enter: %s",countParams(), data.length));
             }
             String databaseName = data[1];
             String userName = data[2];
@@ -35,6 +36,10 @@ public class Connect implements Command {
         } catch (Exception e) {
             printError(e);
         }
+    }
+
+    private int countParams() {
+        return CONNECT_SAMPLE.split("\\|").length;
     }
 
 
