@@ -20,8 +20,6 @@ public interface DatabaseManager {
 
     void deleteRecords(String tableName, DataSet input);
 
-    void exit();
-
     String[] getTableColumnsNames(String tableName);
 
     boolean isConnected();

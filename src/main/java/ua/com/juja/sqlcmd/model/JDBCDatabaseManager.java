@@ -186,17 +186,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
     }
 
-    @Override
-    public void exit() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println("Can't close connection, sorry!");
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        }
-    }
-
-    @Override
+   @Override
     public String[] getTableColumnsNames(String tableName) {
         try {
             DatabaseMetaData md = connection.getMetaData();
