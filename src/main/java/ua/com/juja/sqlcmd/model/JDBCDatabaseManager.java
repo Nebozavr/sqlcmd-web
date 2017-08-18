@@ -21,7 +21,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException(String.format("Can't get connection for database:" +
-                                                     " %s user: %s", database, userName), e);
+                    " %s user: %s", database, userName), e);
         }
     }
 
@@ -57,10 +57,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
             String sql = String.format("DELETE FROM %s", tableName);
 
             statement.executeUpdate(sql);
-
             statement.close();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
+
         }
     }
 
@@ -72,9 +72,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             statement.executeUpdate(sql);
             statement.close();
-
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -95,7 +94,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             statement.close();
 
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -125,7 +124,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             return result;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new DataSet[00];
+            return new DataSet[0];
         }
     }
 
@@ -143,7 +142,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             statement.close();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -165,7 +164,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             statement.close();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -182,11 +181,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             statement.close();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
-   @Override
+    @Override
     public String[] getTableColumnsNames(String tableName) {
         try {
             DatabaseMetaData md = connection.getMetaData();
