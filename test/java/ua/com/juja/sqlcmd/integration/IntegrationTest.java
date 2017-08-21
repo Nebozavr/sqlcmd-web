@@ -76,4 +76,40 @@ public class IntegrationTest {
 				"Connection was close!\r\n" +
 				"Goodbye!!!\r\n", out.getData());
 	}
+
+	@Test
+    public void testUnknownCommand(){
+        in.add("connect|sqlcmd|yura|yura1990");
+	    in.add("errorCommand");
+	    in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Unknown command!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+    }
+
+    @Test
+    public void testList(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("list");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "[test, test2, users]\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+    }
 }

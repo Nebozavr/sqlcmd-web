@@ -15,11 +15,6 @@ public class List implements Command {
         this.manager = manager;
     }
 
-    public List(DatabaseManager manager) {
-
-        this.manager = manager;
-    }
-
     @Override
     public boolean canProcess(String command) {
         return command.equals("list");
