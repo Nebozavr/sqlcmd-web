@@ -112,4 +112,20 @@ public class IntegrationTest {
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());
     }
+
+    @Test
+    public void testIsConnected(){
+        in.add("list");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Before using any command you must connect to database\r\n" +
+                "Please connect to database! Use this format: connect|database|username|password\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+    }
 }
