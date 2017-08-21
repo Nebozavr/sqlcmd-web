@@ -22,25 +22,46 @@ public class MainController {
     }
 
     public void run() {
+        try {
+            doWork();
+        } catch (ExitException e) {
+            // e.getMessage();
+        }
+    }
+
+    private void doWork() {
         view.write("Hello User");
         view.write("Please enter database name, username and password, in the format: connect|database|username|password");
 
-        try {
-            while (true) {
+        while (true) {
+            String input = view.read();
 
-                String input = view.read();
-
-                for (Command command : commands) {
+            for (Command command : commands) {
+                try {
                     if (command.canProcess(input)) {
                         command.process(input);
                         break;
                     }
+                } catch (Exception e) {
+                    if (e instanceof ExitException) {
+                        throw e;
+                    }
+
+                    printError(e);
+                    break;
                 }
-                view.write("Enter a new command or use help command.");
             }
-        } catch (ExitException e){
-           // e.getMessage();
+            view.write("Enter a new command or use help command.");
         }
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        if (e.getCause() != null) {
+            message += " " + e.getCause().getMessage();
+        }
+        view.write("An error occurred because: " + message);
+        view.write("Please try again");
     }
 
 
