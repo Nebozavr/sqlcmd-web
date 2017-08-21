@@ -78,6 +78,23 @@ public class IntegrationTest {
 	}
 
 	@Test
+	public void testConnectWithError(){
+
+		in.add("connect|sqlcmd|errorName|yura1990");
+		in.add("exit");
+
+		Main.main(new String[0]);
+
+		assertEquals("Hello User\r\n" +
+				"Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+				"An error occurred because: Can't get connection for database: sqlcmd user: errorName FATAL: password authentication failed for user \"errorName\"\r\n" +
+                "Please try again\r\n" +
+				"Enter a new command or use help command.\r\n" +
+				"Connection was close!\r\n" +
+				"Goodbye!!!\r\n", out.getData());
+	}
+
+	@Test
     public void testUnknownCommand(){
         in.add("connect|sqlcmd|yura|yura1990");
 	    in.add("errorCommand");
