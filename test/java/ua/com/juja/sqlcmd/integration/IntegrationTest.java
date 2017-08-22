@@ -142,7 +142,7 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
-                "[test, test2, users]\r\n" +
+                "[invoices, test, test2, users]\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());
@@ -184,9 +184,9 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testCreateTable(){
+    public void testCreateTableWitError(){
         in.add("connect|sqlcmd|yura|yura1990");
-        in.add("create|Invoices|invoice_id integer|invoice text|price integer");
+        in.add("create|tableName");
         in.add("exit");
 
         Main.main(new String[0]);
@@ -195,7 +195,8 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
-                "Table Invoices was created!\r\n" +
+                "An error occurred because: Error entering command, must be like \"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: create|tableName\r\n" +
+                "Please try again\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());

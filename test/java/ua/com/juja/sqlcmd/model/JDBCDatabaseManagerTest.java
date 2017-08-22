@@ -42,7 +42,7 @@ public class JDBCDatabaseManagerTest {
 
     @Test
     public void listTableTest() {
-        String[] result = new String[]{"test", "test2", "users"};
+        String[] result = new String[]{"invoices", "test", "test2", "users"};
 
         assertArrayEquals(databaseManager.listTables(), result);
     }
@@ -52,7 +52,7 @@ public class JDBCDatabaseManagerTest {
     public void dropTableTest() {
         databaseManager.dropTable("test");
 
-        String[] result = new String[]{"test2", "users"};
+        String[] result = new String[]{"invoices", "test2", "users"};
         assertArrayEquals(databaseManager.listTables(), result);
 
     }
@@ -76,7 +76,7 @@ public class JDBCDatabaseManagerTest {
         databaseManager.createTable("test", "id integer", "name text");
 
 
-        String[] result = new String[]{"test", "test2", "users"};
+        String[] result = new String[]{"invoices", "test", "test2", "users"};
         assertArrayEquals(databaseManager.listTables(), result);
 
     }

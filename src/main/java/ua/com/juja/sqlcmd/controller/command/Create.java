@@ -20,6 +20,9 @@ public class Create implements Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
+        if (data.length < 3){
+            throw new IllegalArgumentException("Error entering command, must be like \"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: " + command);
+        }
         String tableName = data[1];
         String columns = data[2];
 
