@@ -41,6 +41,8 @@ public class IntegrationTest {
                 "\t\t Show all tables from database\r\n" +
                 "\t find|tableName \r\n" +
                 "\t\t Show all data from tableName\r\n" +
+                "\t create|tableName|column1Name fieldType|...|columnNName fieldType| \r\n" +
+                        "\t\t Create new table\r\n" +
                 "\t exit \r\n" +
                 "\t\t Close connection to database and exit program!\r\n" +
                 "Enter a new command or use help command.\r\n" +
