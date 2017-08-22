@@ -42,7 +42,9 @@ public class IntegrationTest {
                 "\t find|tableName \r\n" +
                 "\t\t Show all data from tableName\r\n" +
                 "\t create|tableName|column1Name fieldType|...|columnNName fieldType| \r\n" +
-                        "\t\t Create new table\r\n" +
+                "\t\t Create new table\r\n" +
+                "\t drop|tableName \r\n" +
+                "\t\t Delete table\r\n" +
                 "\t exit \r\n" +
                 "\t\t Close connection to database and exit program!\r\n" +
                 "Enter a new command or use help command.\r\n" +
@@ -198,6 +200,46 @@ public class IntegrationTest {
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "An error occurred because: Error entering command, must be like \"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: create|tableName\r\n" +
+                "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testDropTableWithErrorTableName(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("drop|errorTableName");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "An error occurred because: ERROR: table \"errortablename\" does not exist ERROR: table \"errortablename\" does not exist\r\n" +
+                "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testDropTableWithWrongNumberOfParameters(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("drop|errorTableName|test");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "An error occurred because: Error entering command, must be like \"drop|tableName\", but you enter:drop|errorTableName|test\r\n" +
                 "Please try again\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +

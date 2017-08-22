@@ -19,6 +19,7 @@ public class MainController {
                 new List(view, manager),
                 new Find(view, manager),
                 new Create(view, manager),
+                new Drop(view, manager),
                 new UnknownCommand(view)};
     }
 
