@@ -182,4 +182,23 @@ public class IntegrationTest {
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());
     }
+
+    @Test
+    public void testCreateTable(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("create|Invoices|invoice_id integer|invoice text|price integer");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table Invoices was created!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
 }

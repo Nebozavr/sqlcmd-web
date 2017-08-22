@@ -18,6 +18,7 @@ public class MainController {
                 new isConnected(view, manager),
                 new List(view, manager),
                 new Find(view, manager),
+                new Create(view, manager),
                 new UnknownCommand(view)};
     }
 
