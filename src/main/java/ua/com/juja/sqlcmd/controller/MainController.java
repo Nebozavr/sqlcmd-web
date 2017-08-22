@@ -20,6 +20,7 @@ public class MainController {
                 new Find(view, manager),
                 new Create(view, manager),
                 new Drop(view, manager),
+                new Clear(view, manager),
                 new UnknownCommand(view)};
     }
 
@@ -59,7 +60,7 @@ public class MainController {
 
     private void printError(Exception e) {
         String message = e.getMessage();
-        if (e.getCause() != null) {
+        if (e.getCause() != null && e.getCause().equals(e.getMessage())) {
             message += " " + e.getCause().getMessage();
         }
         view.write("An error occurred because: " + message);

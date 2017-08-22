@@ -24,6 +24,7 @@ public class Help implements Command {
         view.write("\t find|tableName \r\n\t\t Show all data from tableName");
         view.write("\t create|tableName|column1Name fieldType|...|columnNName fieldType| \r\n\t\t Create new table");
         view.write("\t drop|tableName \r\n\t\t Delete table");
+        view.write("\t clear|tableName \r\n\t\t Clear all data from table");
         view.write("\t exit \r\n\t\t Close connection to database and exit program!");
     }
 }
