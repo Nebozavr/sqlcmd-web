@@ -112,13 +112,22 @@ public class JDBCDatabaseManagerTest {
         DataSet user = users[0];
         assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[1, yura22, qwerty]", Arrays.toString(user.getValues()));
+
+        databaseManager.clearTable("users");
     }
 
     @Test
     public void findDataWithError() {
-        DataSet[] data = databaseManager.findData("errorTableName");
 
-        assertEquals(0, data.length);
+        String error = "";
+        try {
+            databaseManager.findData("errorTableName");
+        }catch (Exception e){
+            error += e.getMessage();
+        }
+
+        assertEquals(error, "ERROR: relation \"errortablename\" does not exist\n" +
+                "  Position: 22");
     }
 
     @Test

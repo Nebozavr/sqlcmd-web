@@ -172,24 +172,6 @@ public class IntegrationTest {
                 "Goodbye!!!\r\n", out.getData());
     }
 
-    @Test
-    public void testFind() {
-        in.add("connect|sqlcmd|yura|yura1990");
-        in.add("find|users");
-        in.add("exit");
-
-        Main.main(new String[0]);
-
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "|1|yura22|qwerty|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
-    }
 
     @Test
     public void testCreateTableWitError(){
@@ -252,27 +234,6 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testClearTableWithErrorTableName(){
-        in.add("connect|sqlcmd|yura|yura1990");
-        in.add("clear|errorTableName");
-        in.add("exit");
-
-        Main.main(new String[0]);
-
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: ERROR: relation \"errortablename\" does not exist\r\n" +
-                "  Position: 13\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
-
-    }
-
-    @Test
     public void testClearTableWithWrongNumberOfParameters(){
         in.add("connect|sqlcmd|yura|yura1990");
         in.add("clear|errorTableName|test");
@@ -315,7 +276,9 @@ public class IntegrationTest {
     @Test
     public void testInsertData(){
         in.add("connect|sqlcmd|yura|yura1990");
-        in.add("insert|users|username|yura33|password|*****");
+        in.add("clear|users");
+        in.add("insert|users|username|yura33|password|*****|user_id|10|");
+        in.add("clear|users");
         in.add("exit");
 
         Main.main(new String[0]);
@@ -324,10 +287,33 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
+                "Enter a new command or use help command.\r\n" +
                 "New data was add to users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());
 
     }
+
+    @Test
+    public void testFind() {
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("find|users");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "|user_id|username|password|\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+    }
+
 }
