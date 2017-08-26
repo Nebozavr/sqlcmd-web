@@ -22,6 +22,8 @@ public class MainController {
                 new Drop(view, manager),
                 new Clear(view, manager),
                 new Insert(view, manager),
+                new Delete(view, manager),
+                new Update(view, manager),
                 new UnknownCommand(view)};
     }
 

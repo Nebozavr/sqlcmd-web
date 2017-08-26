@@ -26,6 +26,8 @@ public class Help implements Command {
         view.write("\t drop|tableName \r\n\t\t Delete table");
         view.write("\t clear|tableName \r\n\t\t Clear all data from table");
         view.write("\t insert|tableName|columnName1|value1|...|columnNameN|valueN \r\n\t\t Insert new data to table");
+        view.write("\t delete|tableName|columnName|value \r\n\t\t Delete data from table");
+        view.write("\t update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere \r\n\t\t Update data from table");
         view.write("\t exit \r\n\t\t Close connection to database and exit program!");
     }
 }

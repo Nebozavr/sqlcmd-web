@@ -48,7 +48,11 @@ public class IntegrationTest {
                 "\t clear|tableName \r\n" +
                 "\t\t Clear all data from table\r\n" +
                 "\t insert|tableName|columnName1|value1|...|columnNameN|valueN \r\n" +
-                        "\t\t Insert new data to table\r\n" +
+                "\t\t Insert new data to table\r\n" +
+                "\t delete|tableName|columnName|value \r\n" +
+                "\t\t Delete data from table\r\n" +
+                "\t update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere \r\n" +
+                "\t\t Update data from table\r\n" +
                 "\t exit \r\n" +
                 "\t\t Close connection to database and exit program!\r\n" +
                 "Enter a new command or use help command.\r\n" +
@@ -299,6 +303,126 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testDeleteData(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("clear|users");
+        in.add("insert|users|username|yura33|password|*****|user_id|10|");
+        in.add("insert|users|username|yura22|password|+++++|user_id|12|");
+        in.add("find|users");
+        in.add("delete|users|username|yura22");
+        in.add("find|users");
+        in.add("clear|users");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "New data was add to users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "New data was add to users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "|user_id|username|password|\r\n" +
+                "|10|yura33|*****|\r\n" +
+                "|12|yura22|+++++|\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "The data was delete from table: users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "|user_id|username|password|\r\n" +
+                "|10|yura33|*****|\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testDeleteDataWithWrongParameters(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("delete|errorTableName|test");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "An error occurred because: Error entering command, must be like delete|tableName|columnName|value, but you enter:delete|errorTableName|test\r\n" +
+                "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testUpdateData(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("clear|users");
+        in.add("insert|users|username|yura33|password|*****|user_id|10|");
+        in.add("insert|users|username|yura22|password|+++++|user_id|12|");
+        in.add("find|users");
+        in.add("update|users|username|yura22|password|&&&&&");
+        in.add("find|users");
+        in.add("clear|users");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "New data was add to users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "New data was add to users\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "|user_id|username|password|\r\n" +
+                "|10|yura33|*****|\r\n" +
+                "|12|yura22|+++++|\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Data from users was updated\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "|user_id|username|password|\r\n" +
+                "|10|yura33|*****|\r\n" +
+                "|12|yura22|&&&&&|\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table users was cleared\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testUpdateDataWithWrongParameters() {
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("update|errorTableName|test");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "An error occurred because: Error entering command, must be like update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:update|errorTableName|test\r\n" +
+                "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+        @Test
     public void testFind() {
         in.add("connect|sqlcmd|yura|yura1990");
         in.add("find|users");
