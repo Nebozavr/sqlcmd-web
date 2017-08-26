@@ -27,10 +27,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public String[] listTables() {
+        String[] types = {"TABLE"};
+        DatabaseMetaData md;
         try {
-            DatabaseMetaData md = connection.getMetaData();
-            String[] types = {"TABLE"};
-            ResultSet tables = md.getTables(null, "public", "%", types);
+            md = connection.getMetaData();
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return new String[0];
+        }
+        try (ResultSet tables = md.getTables(null, "public", "%", types)) {
 
             tables.last();
             String[] result = new String[tables.getRow()];
@@ -41,7 +46,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 result[i++] = tables.getString(3);
             }
 
-            tables.close();
             return result;
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -52,26 +56,21 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void clearTable(String tableName) {
 
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             String sql = String.format("DELETE FROM %s", tableName);
 
             statement.executeUpdate(sql);
-            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
-
         }
     }
 
     @Override
     public void dropTable(String tableName) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             String sql = String.format("DROP TABLE %s", tableName);
 
             statement.executeUpdate(sql);
-            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -79,8 +78,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void createTable(String tableName, String... columns) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
             for (int i = 0; i < columns.length; i++) {
@@ -90,9 +88,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
             sql.delete(sql.length() - 1, sql.length()).append(")");
 
             statement.executeUpdate(String.valueOf(sql));
-
-            statement.close();
-
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -100,12 +95,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public DataSet[] findData(String tableName) {
-        try {
-            int size = getSize(tableName);
+        int size = getSize(tableName);
+        String sql = String.format("SELECT * FROM %s", tableName);
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
 
-            Statement statement = connection.createStatement();
-            String sql = String.format("SELECT * FROM %s", tableName);
-            ResultSet resultSet = statement.executeQuery(sql);
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             resultSetMetaData.getColumnName(1);
             DataSet[] result = new DataSet[size];
@@ -119,8 +113,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 }
             }
 
-            statement.close();
-            resultSet.close();
             return result;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -130,17 +122,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void insertData(String tableName, DataSet input) {
-        try {
-            Statement statement = connection.createStatement();
-
+        try (Statement statement = connection.createStatement()) {
             String columnNames = getNameFormatted(input, "%s,");
             String values = getValuesFormatted(input, "'%s',");
             String sql = "INSERT INTO " + tableName + " (" + columnNames + ")" +
                     "VALUES (" + values + ")";
 
             statement.executeUpdate(sql);
-
-            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -148,8 +136,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void update(String tableName, DataSet dataWhere, DataSet dataSet) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
 
             String columnWhere = getNameFormatted(dataWhere, "%s,");
             String valuesWhere = getValuesFormatted(dataWhere, "'%s',");
@@ -161,8 +148,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     "WHERE " + columnWhere + " = " + valuesWhere;
 
             statement.executeUpdate(sql);
-
-            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -170,16 +155,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public void deleteRecords(String tableName, DataSet input) {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
 
             String column = getNameFormatted(input, "%s,");
             String value = getValuesFormatted(input, "'%s',");
 
             String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
-
-            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -187,9 +169,15 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public String[] getTableColumnsNames(String tableName) {
+        DatabaseMetaData md;
         try {
-            DatabaseMetaData md = connection.getMetaData();
-            ResultSet tables = md.getColumns(null, null, tableName, null);
+            md = connection.getMetaData();
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return new String[0];
+        }
+        try(ResultSet tables = md.getColumns(null, null, tableName, null)) {
+
             tables.last();
             String[] result = new String[tables.getRow()];
             tables.beforeFirst();
@@ -199,7 +187,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 result[i++] = tables.getString("column_name");
             }
 
-            tables.close();
             return result;
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -212,13 +199,18 @@ public class JDBCDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
-    private int getSize(String tableName) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet rsCount = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s", tableName));
-        rsCount.next();
-        int size = rsCount.getInt(1);
-        rsCount.close();
-        return size;
+    private int getSize(String tableName) {
+        String format = String.format("SELECT COUNT(*) FROM %s", tableName);
+
+        try (Statement statement = connection.createStatement();
+             ResultSet rsCount = statement.executeQuery(format)) {
+            rsCount.next();
+            int size = rsCount.getInt(1);
+            return size;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+
     }
 
     private String getValuesFormatted(DataSet input, String format) {

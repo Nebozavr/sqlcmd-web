@@ -111,7 +111,7 @@ public class IntegrationTest {
 
         assertEquals("Hello User\r\n" +
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "An error occurred because: Can't get connection for database: sqlcmd user: errorName FATAL: password authentication failed for user \"errorName\"\r\n" +
+                "An error occurred because: Can't get connection for database: sqlcmd user: errorName\r\n" +
                 "Please try again\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
@@ -261,7 +261,8 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
-                "An error occurred because: ERROR: table \"errortablename\" does not exist\r\n" +
+                "An error occurred because: ERROR: relation \"errortablename\" does not exist\r\n" +
+                "  Position: 13\r\n" +
                 "Please try again\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
