@@ -47,6 +47,8 @@ public class IntegrationTest {
                 "\t\t Delete table\r\n" +
                 "\t clear|tableName \r\n" +
                 "\t\t Clear all data from table\r\n" +
+                "\t insert|tableName|columnName1|value1|...|columnNameN|valueN \r\n" +
+                        "\t\t Insert new data to table\r\n" +
                 "\t exit \r\n" +
                 "\t\t Close connection to database and exit program!\r\n" +
                 "Enter a new command or use help command.\r\n" +
@@ -241,7 +243,7 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like \"drop|tableName\", but you enter:drop|errorTableName|test\r\n" +
+                "An error occurred because: Error entering command, must be like drop|tableName, but you enter:drop|errorTableName|test\r\n" +
                 "Please try again\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
@@ -273,7 +275,7 @@ public class IntegrationTest {
     @Test
     public void testClearTableWithWrongNumberOfParameters(){
         in.add("connect|sqlcmd|yura|yura1990");
-        in.add("drop|errorTableName|test");
+        in.add("clear|errorTableName|test");
         in.add("exit");
 
         Main.main(new String[0]);
@@ -282,8 +284,47 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
                 "Connection was successful!\r\n" +
                 "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like \"drop|tableName\", but you enter:drop|errorTableName|test\r\n" +
+                "An error occurred because: Error entering command, must be like clear|tableName, but you enter:clear|errorTableName|test\r\n" +
                 "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testInsertDataWithWrongParameters(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("insert|errorTableName|test");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "An error occurred because: Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, but you enter:insert|errorTableName|test\r\n" +
+                "Please try again\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
+    public void testInsertData(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("insert|users|username|yura33|password|*****");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "New data was add to users\r\n" +
                 "Enter a new command or use help command.\r\n" +
                 "Connection was close!\r\n" +
                 "Goodbye!!!\r\n", out.getData());

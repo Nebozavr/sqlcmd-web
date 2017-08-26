@@ -21,7 +21,7 @@ public class Clear implements Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != 2){
-            throw new IllegalArgumentException("Error entering command, must be like \"clear|tableName\", but you enter:" + command);
+            throw new IllegalArgumentException("Error entering command, must be like clear|tableName, but you enter:" + command);
         }
         String tableName = data[1];
 
