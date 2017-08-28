@@ -198,6 +198,34 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testCreateDropTable(){
+        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("create|qwe|testColumn integer");
+        in.add("list");
+        in.add("drop|qwe");
+        in.add("list");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User\r\n" +
+                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
+                "Connection was successful!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table qwe was created!\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "[invoices, qwe, test, test2, users]\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Table qwe was delete\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "[invoices, test, test2, users]\r\n" +
+                "Enter a new command or use help command.\r\n" +
+                "Connection was close!\r\n" +
+                "Goodbye!!!\r\n", out.getData());
+
+    }
+
+    @Test
     public void testDropTableWithErrorTableName(){
         in.add("connect|sqlcmd|yura|yura1990");
         in.add("drop|errorTableName");
