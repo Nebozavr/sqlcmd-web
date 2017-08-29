@@ -12,6 +12,7 @@ public class IntegrationTest {
 
     private ConfigurableInputStream in;
     private LogOutputStream out;
+    private String lineSeparator = System.getProperty("line.separator");
 
     @Before
     public void setup() {
@@ -30,34 +31,34 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "List of all commands:\r\n" +
-                "\t connect|database|username|password \r\n" +
-                "\t\t Connect to database\r\n" +
-                "\t help \r\n" +
-                "\t\t View all commands and their description\r\n" +
-                "\t list \r\n" +
-                "\t\t Show all tables from database\r\n" +
-                "\t find|tableName \r\n" +
-                "\t\t Show all data from tableName\r\n" +
-                "\t create|tableName|column1Name fieldType|...|columnNName fieldType| \r\n" +
-                "\t\t Create new table\r\n" +
-                "\t drop|tableName \r\n" +
-                "\t\t Delete table\r\n" +
-                "\t clear|tableName \r\n" +
-                "\t\t Clear all data from table\r\n" +
-                "\t insert|tableName|columnName1|value1|...|columnNameN|valueN \r\n" +
-                "\t\t Insert new data to table\r\n" +
-                "\t delete|tableName|columnName|value \r\n" +
-                "\t\t Delete data from table\r\n" +
-                "\t update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere \r\n" +
-                "\t\t Update data from table\r\n" +
-                "\t exit \r\n" +
-                "\t\t Close connection to database and exit program!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "List of all commands:"+ lineSeparator +"" +
+                "\t connect|database|username|password "+ lineSeparator +"" +
+                "\t\t Connect to database"+ lineSeparator +"" +
+                "\t help "+ lineSeparator +"" +
+                "\t\t View all commands and their description"+ lineSeparator +"" +
+                "\t list "+ lineSeparator +"" +
+                "\t\t Show all tables from database"+ lineSeparator +"" +
+                "\t find|tableName "+ lineSeparator +"" +
+                "\t\t Show all data from tableName"+ lineSeparator +"" +
+                "\t create|tableName|column1Name fieldType|...|columnNName fieldType| "+ lineSeparator +"" +
+                "\t\t Create new table"+ lineSeparator +"" +
+                "\t drop|tableName "+ lineSeparator +"" +
+                "\t\t Delete table"+ lineSeparator +"" +
+                "\t clear|tableName "+ lineSeparator +"" +
+                "\t\t Clear all data from table"+ lineSeparator +"" +
+                "\t insert|tableName|columnName1|value1|...|columnNameN|valueN "+ lineSeparator +"" +
+                "\t\t Insert new data to table"+ lineSeparator +"" +
+                "\t delete|tableName|columnName|value "+ lineSeparator +"" +
+                "\t\t Delete data from table"+ lineSeparator +"" +
+                "\t update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere "+ lineSeparator +"" +
+                "\t\t Update data from table"+ lineSeparator +"" +
+                "\t exit "+ lineSeparator +"" +
+                "\t\t Close connection to database and exit program!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
 
@@ -68,10 +69,10 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -82,12 +83,12 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -98,13 +99,13 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "An error occurred because: The entered number of parameters is not correct. Must be 4 param, but you enter: 3\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "An error occurred because: The entered number of parameters is not correct. Must be 4 param, but you enter: 3"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -115,13 +116,13 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "An error occurred because: Can't get connection for database: sqlcmd user: errorName\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "An error occurred because: Can't get connection for database: sqlcmd user: errorName"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -132,14 +133,14 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Unknown command!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Unknown command!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -150,14 +151,14 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "[invoices, test, test2, users]\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "[invoices, test, test2, users]"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
     @Test
@@ -167,13 +168,13 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Before using any command you must connect to database\r\n" +
-                "Please connect to database! Use this format: connect|database|username|password\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Before using any command you must connect to database"+ lineSeparator +"" +
+                "Please connect to database! Use this format: connect|database|username|password"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
 
@@ -185,15 +186,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like \"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: create|tableName\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like \"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: create|tableName"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -208,20 +209,20 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table qwe was created!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "[invoices, qwe, test, test2, users]\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table qwe was delete\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "[invoices, test, test2, users]\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table qwe was created!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "[invoices, qwe, test, test2, users]"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table qwe was delete"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "[invoices, test, test2, users]"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -233,15 +234,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: ERROR: table \"errortablename\" does not exist\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: ERROR: table \"errortablename\" does not exist"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -253,15 +254,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like drop|tableName, but you enter:drop|errorTableName|test\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like drop|tableName, but you enter:drop|errorTableName|test"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -273,15 +274,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like clear|tableName, but you enter:clear|errorTableName|test\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like clear|tableName, but you enter:clear|errorTableName|test"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -293,15 +294,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, but you enter:insert|errorTableName|test\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, but you enter:insert|errorTableName|test"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -315,18 +316,18 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "New data was add to users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "New data was add to users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -344,29 +345,29 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "New data was add to users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "New data was add to users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "|10|yura33|*****|\r\n" +
-                "|12|yura22|+++++|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "The data was delete from table: users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "|10|yura33|*****|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "New data was add to users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "New data was add to users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "|user_id|username|password|"+ lineSeparator +"" +
+                "|10|yura33|*****|"+ lineSeparator +"" +
+                "|12|yura22|+++++|"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "The data was delete from table: users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "|user_id|username|password|"+ lineSeparator +"" +
+                "|10|yura33|*****|"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -378,15 +379,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like delete|tableName|columnName|value, but you enter:delete|errorTableName|test\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like delete|tableName|columnName|value, but you enter:delete|errorTableName|test"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -404,30 +405,30 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "New data was add to users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "New data was add to users\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "|10|yura33|*****|\r\n" +
-                "|12|yura22|+++++|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Data from users was updated\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "|10|yura33|*****|\r\n" +
-                "|12|yura22|&&&&&|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Table users was cleared\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "New data was add to users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "New data was add to users"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "|user_id|username|password|"+ lineSeparator +"" +
+                "|10|yura33|*****|"+ lineSeparator +"" +
+                "|12|yura22|+++++|"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Data from users was updated"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "|user_id|username|password|"+ lineSeparator +"" +
+                "|10|yura33|*****|"+ lineSeparator +"" +
+                "|12|yura22|&&&&&|"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Table users was cleared"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
 
@@ -439,15 +440,15 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "An error occurred because: Error entering command, must be like update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:update|errorTableName|test\r\n" +
-                "Please try again\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "An error occurred because: Error entering command, must be like update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:update|errorTableName|test"+ lineSeparator +"" +
+                "Please try again"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
 
     }
         @Test
@@ -458,14 +459,14 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User\r\n" +
-                "Please enter database name, username and password, in the format: connect|database|username|password\r\n" +
-                "Connection was successful!\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "|user_id|username|password|\r\n" +
-                "Enter a new command or use help command.\r\n" +
-                "Connection was close!\r\n" +
-                "Goodbye!!!\r\n", out.getData());
+        assertEquals("Hello User"+ lineSeparator +"" +
+                "Please enter database name, username and password, in the format: connect|database|username|password"+ lineSeparator +"" +
+                "Connection was successful!"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "|user_id|username|password|"+ lineSeparator +"" +
+                "Enter a new command or use help command."+ lineSeparator +"" +
+                "Connection was close!"+ lineSeparator +"" +
+                "Goodbye!!!"+ lineSeparator +"", out.getData());
     }
 
 }

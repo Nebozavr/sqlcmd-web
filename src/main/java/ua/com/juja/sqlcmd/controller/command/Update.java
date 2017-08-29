@@ -22,7 +22,8 @@ public class Update implements Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != 6){
-            throw new IllegalArgumentException("Error entering command, must be like update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:" + command);
+            throw new IllegalArgumentException("Error entering command, must be like " +
+                    "update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:" + command);
         }
 
         String tableName = data[1];

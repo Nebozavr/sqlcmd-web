@@ -23,7 +23,8 @@ public class Connect implements Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != countParams()) {
-            throw new IllegalArgumentException(String.format("The entered number of parameters is not correct. Must be %s param, but you enter: %s", countParams(), data.length));
+            throw new IllegalArgumentException(String.format("The entered number of parameters is not correct. " +
+                    "Must be %s param, but you enter: %s", countParams(), data.length));
         }
         String databaseName = data[1];
         String userName = data[2];

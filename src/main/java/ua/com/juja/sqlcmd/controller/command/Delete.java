@@ -22,7 +22,8 @@ public class Delete implements Command {
     public void process(String command) {
         String[] data = command.split("\\|");
         if (data.length != 4){
-            throw new IllegalArgumentException("Error entering command, must be like delete|tableName|columnName|value, but you enter:" + command);
+            throw new IllegalArgumentException("Error entering command, must be like " +
+                    "delete|tableName|columnName|value, but you enter:" + command);
         }
 
         String tableName = data[1];
