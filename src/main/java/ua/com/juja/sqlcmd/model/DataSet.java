@@ -22,8 +22,8 @@ public class DataSet {
         }
     }
 
-    public Data[] data = new Data[100];
-    public int index = 0;
+    private Data[] data = new Data[100];
+    private int index = 0;
 
     public void put(String name, Object value) {
         data[index++] = new Data(name, value);

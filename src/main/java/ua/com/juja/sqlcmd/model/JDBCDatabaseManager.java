@@ -82,8 +82,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try (Statement statement = connection.createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
-            for (int i = 0; i < columns.length; i++) {
-                sql.append(columns[i] + ",");
+            for (String column : columns) {
+                sql.append(column + ",");
             }
 
             sql.delete(sql.length() - 1, sql.length()).append(")");
@@ -124,8 +124,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void insertData(String tableName, DataSet input) {
         try (Statement statement = connection.createStatement()) {
-            String columnNames = getNameFormatted(input, "%s,");
-            String values = getValuesFormatted(input, "'%s',");
+            String columnNames = getNameFormatted(input);
+            String values = getValuesFormatted(input);
             String sql = "INSERT INTO " + tableName + " (" + columnNames + ")" +
                     "VALUES (" + values + ")";
 
@@ -139,10 +139,10 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void update(String tableName, DataSet dataWhere, DataSet dataSet) {
         try (Statement statement = connection.createStatement()) {
 
-            String columnWhere = getNameFormatted(dataWhere, "%s,");
-            String valuesWhere = getValuesFormatted(dataWhere, "'%s',");
-            String columnSet = getNameFormatted(dataSet, "%s,");
-            String valuesSet = getValuesFormatted(dataSet, "'%s',");
+            String columnWhere = getNameFormatted(dataWhere);
+            String valuesWhere = getValuesFormatted(dataWhere);
+            String columnSet = getNameFormatted(dataSet);
+            String valuesSet = getValuesFormatted(dataSet);
 
             String sql = "UPDATE " + tableName + " " +
                     "SET " + columnSet + " = " + valuesSet + " " +
@@ -158,8 +158,8 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void deleteRecords(String tableName, DataSet input) {
         try (Statement statement = connection.createStatement()) {
 
-            String column = getNameFormatted(input, "%s,");
-            String value = getValuesFormatted(input, "'%s',");
+            String column = getNameFormatted(input);
+            String value = getValuesFormatted(input);
 
             String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
@@ -206,27 +206,26 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try (Statement statement = connection.createStatement();
              ResultSet rsCount = statement.executeQuery(format)) {
             rsCount.next();
-            int size = rsCount.getInt(1);
-            return size;
+            return rsCount.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
 
     }
 
-    private String getValuesFormatted(DataSet input, String format) {
+    private String getValuesFormatted(DataSet input) {
         String values = "";
         for (Object value : input.getValues()) {
-            values += String.format(format, value);
+            values += String.format("'%s',", value);
         }
         values = values.substring(0, values.length() - 1);
         return values;
     }
 
-    private String getNameFormatted(DataSet newValue, String format) {
+    private String getNameFormatted(DataSet newValue) {
         String string = "";
         for (String name : newValue.getNames()) {
-            string += String.format(format, name);
+            string += String.format("%s,", name);
         }
         string = string.substring(0, string.length() - 1);
         return string;

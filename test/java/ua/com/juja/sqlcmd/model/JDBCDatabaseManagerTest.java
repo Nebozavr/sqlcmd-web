@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertArrayEquals;
