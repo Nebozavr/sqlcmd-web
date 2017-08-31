@@ -18,7 +18,7 @@ public class MainController {
                 new Connect(view, manager),
                 new isConnected(view, manager),
                 new ListTables(view, manager),
-                new FindData(view, manager),
+                new FindData(manager),
                 new CreateTable(view, manager),
                 new DropTable(view, manager),
                 new ClearTable(view, manager),
