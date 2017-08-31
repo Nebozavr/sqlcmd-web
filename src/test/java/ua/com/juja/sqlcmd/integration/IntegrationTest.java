@@ -42,7 +42,7 @@ public class IntegrationTest {
                 "\t\t Show all tables from database"+ lineSeparator +"" +
                 "\t find|tableName "+ lineSeparator +"" +
                 "\t\t Show all data from tableName"+ lineSeparator +"" +
-                "\t create|tableName|column1Name fieldType|...|columnNName fieldType| "+ lineSeparator +"" +
+                "\t create|tableName|column1Name fieldType|...|columnNName fieldType "+ lineSeparator +"" +
                 "\t\t Create new table"+ lineSeparator +"" +
                 "\t drop|tableName "+ lineSeparator +"" +
                 "\t\t Delete table"+ lineSeparator +"" +

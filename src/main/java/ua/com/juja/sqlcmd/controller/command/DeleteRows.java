@@ -5,6 +5,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DeleteRows implements Command {
+    public static final String DELETE_ROWS_SAMPLE = "delete|tableName|columnName|value";
+
     private View view;
     private DatabaseManager manager;
 
@@ -21,9 +23,9 @@ public class DeleteRows implements Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 4){
+        if (data.length != 4) {
             throw new IllegalArgumentException("Error entering command, must be like " +
-                    "delete|tableName|columnName|value, but you enter:" + command);
+                    DELETE_ROWS_SAMPLE + ", but you enter:" + command);
         }
 
         String tableName = data[1];

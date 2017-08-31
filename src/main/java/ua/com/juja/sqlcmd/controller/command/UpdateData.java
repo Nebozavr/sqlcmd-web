@@ -5,6 +5,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class UpdateData implements Command {
+    public static final String UPDATE_DATA_SAMPLE = "update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere";
+
     private View view;
     private DatabaseManager manager;
 
@@ -21,9 +23,9 @@ public class UpdateData implements Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 6){
+        if (data.length != 6) {
             throw new IllegalArgumentException("Error entering command, must be like " +
-                    "update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:" + command);
+                    UPDATE_DATA_SAMPLE + ", but you enter:" + command);
         }
 
         String tableName = data[1];

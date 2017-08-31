@@ -4,6 +4,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DropTable implements Command {
+    public static final String DROP_TABLE_SAMPLE = "drop|tableName";
+
     private View view;
     private DatabaseManager manager;
 
@@ -20,9 +22,9 @@ public class DropTable implements Command {
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length != 2){
+        if (data.length != 2) {
             throw new IllegalArgumentException("Error entering command, must be like " +
-                    "drop|tableName, but you enter:" + command);
+                    DROP_TABLE_SAMPLE + ", but you enter:" + command);
         }
         String tableName = data[1];
 

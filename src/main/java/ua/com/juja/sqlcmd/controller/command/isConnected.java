@@ -8,7 +8,6 @@ public class isConnected implements Command {
     private DatabaseManager manager;
 
     public isConnected(View view, DatabaseManager manager) {
-
         this.view = view;
         this.manager = manager;
     }

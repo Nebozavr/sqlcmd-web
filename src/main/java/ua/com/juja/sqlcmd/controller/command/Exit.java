@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.controller.command.exceptions.ExitException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Exit implements Command {
+    public static final String EXIT_SAMPLE = "exit";
 
     private View view;
 

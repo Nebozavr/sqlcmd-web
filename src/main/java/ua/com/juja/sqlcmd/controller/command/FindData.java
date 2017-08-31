@@ -5,6 +5,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class FindData implements Command {
+    public static final String  FIND_DATA_SAMPLE = "find|tableName";
 
     private View view;
     private DatabaseManager manager;

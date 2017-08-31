@@ -4,7 +4,7 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Connect implements Command {
-    private static final String CONNECT_SAMPLE = "connect|database|username|password";
+    public static final String CONNECT_SAMPLE = "connect|database|username|password";
 
     private View view;
     private DatabaseManager manager;

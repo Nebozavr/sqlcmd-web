@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.view.View;
 import java.util.Arrays;
 
 public class ListTables implements Command {
+    public static final String LIST_TABLES_SAMPLE = "list";
 
     private View view;
     private DatabaseManager manager;
