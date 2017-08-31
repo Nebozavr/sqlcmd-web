@@ -4,11 +4,11 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Insert implements Command {
+public class InsertData implements Command {
     private View view;
     private DatabaseManager manager;
 
-    public Insert(View view, DatabaseManager manager) {
+    public InsertData(View view, DatabaseManager manager) {
 
         this.view = view;
         this.manager = manager;

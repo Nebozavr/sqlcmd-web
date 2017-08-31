@@ -8,14 +8,14 @@ import java.util.Arrays;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class JDBCDatabaseManagerTest {
+public class PgSQLDatabaseManagerTest {
 
     private DatabaseManager databaseManager;
 
     @Before
     public void setup() {
         try {
-            databaseManager = new JDBCDatabaseManager();
+            databaseManager = new PgSQLDatabaseManager();
             databaseManager.connect("sqlcmd", "yura", "yura1990");   //Test for connection
 
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class JDBCDatabaseManagerTest {
     public void connectionWithErrorTest() {
         String error = "";
         try {
-            DatabaseManager testManager = new JDBCDatabaseManager();
+            DatabaseManager testManager = new PgSQLDatabaseManager();
             testManager.connect("sqlcmd", "yura", "errorPass");
         } catch (Exception e) {
             error += e.getMessage();

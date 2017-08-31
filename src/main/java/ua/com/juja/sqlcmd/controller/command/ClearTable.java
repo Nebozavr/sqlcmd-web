@@ -3,11 +3,11 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Clear implements Command {
+public class ClearTable implements Command {
     private View view;
     private DatabaseManager manager;
 
-    public Clear(View view, DatabaseManager manager) {
+    public ClearTable(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
     }

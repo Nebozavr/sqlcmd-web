@@ -2,7 +2,7 @@ package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
 
-public class JDBCDatabaseManager implements DatabaseManager {
+public class PgSQLDatabaseManager implements DatabaseManager {
 
 
     private Connection connection;

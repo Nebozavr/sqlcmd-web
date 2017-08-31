@@ -4,11 +4,11 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Update implements Command {
+public class UpdateData implements Command {
     private View view;
     private DatabaseManager manager;
 
-    public Update(View view, DatabaseManager manager) {
+    public UpdateData(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
     }

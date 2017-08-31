@@ -4,12 +4,12 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Find implements Command {
+public class FindData implements Command {
 
     private View view;
     private DatabaseManager manager;
 
-    public Find(View view, DatabaseManager manager) {
+    public FindData(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
     }

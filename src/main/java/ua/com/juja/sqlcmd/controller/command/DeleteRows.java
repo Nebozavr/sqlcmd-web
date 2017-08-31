@@ -4,11 +4,11 @@ import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Delete implements Command {
+public class DeleteRows implements Command {
     private View view;
     private DatabaseManager manager;
 
-    public Delete(View view, DatabaseManager manager) {
+    public DeleteRows(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
     }

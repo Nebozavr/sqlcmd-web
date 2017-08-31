@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.*;
+import ua.com.juja.sqlcmd.controller.command.exceptions.ExitException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
@@ -16,14 +17,14 @@ public class MainController {
                 new Help(view),
                 new Connect(view, manager),
                 new isConnected(view, manager),
-                new List(view, manager),
-                new Find(view, manager),
-                new Create(view, manager),
-                new Drop(view, manager),
-                new Clear(view, manager),
-                new Insert(view, manager),
-                new Delete(view, manager),
-                new Update(view, manager),
+                new ListTables(view, manager),
+                new FindData(view, manager),
+                new CreateTable(view, manager),
+                new DropTable(view, manager),
+                new ClearTable(view, manager),
+                new InsertData(view, manager),
+                new DeleteRows(view, manager),
+                new UpdateData(view, manager),
                 new UnknownCommand(view)};
     }
 

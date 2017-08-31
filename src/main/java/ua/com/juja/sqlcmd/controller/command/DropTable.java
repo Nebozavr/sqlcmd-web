@@ -3,32 +3,31 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
-public class Create implements Command {
+public class DropTable implements Command {
     private View view;
     private DatabaseManager manager;
 
-    public Create(View view, DatabaseManager manager) {
+    public DropTable(View view, DatabaseManager manager) {
         this.view = view;
         this.manager = manager;
     }
 
     @Override
     public boolean canProcess(String command) {
-        return command.startsWith("create|");
+        return command.startsWith("drop|");
     }
 
     @Override
     public void process(String command) {
         String[] data = command.split("\\|");
-        if (data.length < 3){
+        if (data.length != 2){
             throw new IllegalArgumentException("Error entering command, must be like " +
-                    "\"create|tableName|column1Name fieldType|...|columnNName fieldType\", but you enter: " + command);
+                    "drop|tableName, but you enter:" + command);
         }
         String tableName = data[1];
-        String columns = data[2];
 
-        manager.createTable(tableName, columns);
+        manager.dropTable(tableName);
 
-        view.write(String.format("Table %s was created!", tableName));
+        view.write(String.format("Table %s was delete", tableName));
     }
 }
