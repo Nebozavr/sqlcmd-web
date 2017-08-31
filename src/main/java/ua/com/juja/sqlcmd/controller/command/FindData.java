@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import dnl.utils.text.table.TextTable;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -26,36 +27,17 @@ public class FindData implements Command {
         String tableName = data[1];
 
         String[] tableColumn = manager.getTableColumnsNames(tableName);
-        printHeader(tableColumn);
 
         DataSet[] result = manager.findData(tableName);
-        printTable(result);
-    }
 
-    private void printTable(DataSet[] result) {
-        for (DataSet row : result) {
-            printRow(row);
-        }
-    }
+        Object[][] values = new Object[result.length][tableColumn.length];
 
-    private void printRow(DataSet row) {
-        Object[] values = row.getValues();
-        String result = "|";
-
-        for (Object value : values) {
-            result += value + "|";
+        for (int i = 0; i < result.length; i++) {
+            values[i] = result[i].getValues();
         }
 
-        view.write(result);
-    }
+        TextTable table = new TextTable(tableColumn, values);
 
-    private void printHeader(String[] tableData) {
-        String result = "|";
-
-        for (String columnName : tableData) {
-            result += columnName + "|";
-        }
-
-        view.write(result);
+        table.printTable();
     }
 }
