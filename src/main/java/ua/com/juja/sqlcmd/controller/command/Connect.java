@@ -1,6 +1,8 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
+import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Connect implements Command {
@@ -30,8 +32,12 @@ public class Connect implements Command {
         String userName = data[2];
         String password = data[3];
 
-        manager.connect(databaseName, userName, password);
-        view.write("Connection was successful!");
+        try {
+            manager.connect(databaseName, userName, password);
+            view.write("Connection was successful!");
+        } catch (NoDriverException  | BadConnectionException e) {
+           view.writeError(e);
+        }
 
     }
 

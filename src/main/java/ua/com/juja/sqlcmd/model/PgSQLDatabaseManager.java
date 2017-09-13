@@ -1,5 +1,8 @@
 package ua.com.juja.sqlcmd.model;
 
+import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
+import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
+
 import java.sql.*;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
@@ -9,20 +12,21 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public void connect(String database, String userName, String password) {
+    public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
 
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Please add JDBC jar to you project", e);
+            //throw new RuntimeException("Please add JDBC jar to you project", e);
+            throw new NoDriverException("Please add JDBC jar to you project");
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
                                                         database, userName, password);
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(String.format("Can't get connection for database:" +
-                    " %s user: %s", database, userName), e);
+            throw new BadConnectionException(String.format("Can't get connection for database:" +
+                   " %s user: %s", database, userName));
         }
     }
 

@@ -4,6 +4,8 @@ public interface View {
 
     void write(String message);
 
+    void writeError(Exception e);
+
     String read();
 
 }

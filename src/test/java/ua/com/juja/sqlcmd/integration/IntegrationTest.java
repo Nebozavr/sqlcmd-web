@@ -52,7 +52,7 @@ public class IntegrationTest {
                 "\t\t Insert new data to table" + lineSeparator + 
                 "\t delete|tableName|columnName|value " + lineSeparator + 
                 "\t\t Delete data from table" + lineSeparator + 
-                "\t update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere " + lineSeparator + 
+                "\t update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet " + lineSeparator +
                 "\t\t Update data from table" + lineSeparator + 
                 "\t exit " + lineSeparator + 
                 "\t\t Close connection to database and exit program!" + lineSeparator + 
@@ -452,7 +452,7 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator + 
                 "Connection was successful!" + lineSeparator + 
                 "Enter a new command or use help command." + lineSeparator + 
-                "An error occurred because: Error entering command, must be like update|tableName|columnNameSet|valueSet|columnNameWhere|valueWhere, but you enter:update|errorTableName|test" + lineSeparator + 
+                "An error occurred because: Error entering command, must be like update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter:update|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator + 
                 "Enter a new command or use help command." + lineSeparator + 
                 "Connection was close!" + lineSeparator + 
@@ -474,7 +474,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Table users was cleared" + lineSeparator +
-                "Enter a new command or use help command."+ lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
                 "_____________________________" + lineSeparator +
                 "| user_id| username| password|" + lineSeparator +
                 "|============================|" + lineSeparator +
