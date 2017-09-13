@@ -14,17 +14,17 @@ public interface DatabaseManager {
 
     void dropTable(String tableName) throws RequestErrorException;
 
-    void createTable(String tableName, String... columns);
+    void createTable(String tableName, String... columns) throws RequestErrorException;
 
-    DataSet[] findData(String tableName);
+    DataSet[] findData(String tableName) throws RequestErrorException;
 
-    void insertData(String tableName, DataSet input);
+    void insertData(String tableName, DataSet input) throws RequestErrorException;
 
-    void update(String tableName, DataSet dataWhere, DataSet dataSet);
+    void update(String tableName, DataSet dataWhere, DataSet dataSet) throws RequestErrorException;
 
-    void deleteRecords(String tableName, DataSet input);
+    void deleteRecords(String tableName, DataSet input) throws RequestErrorException;
 
-    String[] getTableColumnsNames(String tableName);
+    String[] getTableColumnsNames(String tableName) throws RequestErrorException;
 
     boolean isConnected();
 }

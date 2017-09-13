@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
@@ -21,10 +22,10 @@ public class DropTable implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new IllegalArgumentException("Error entering command, must be like " +
+            throw new WrongNumberParametersException("Error entering command, must be like " +
                     DROP_TABLE_SAMPLE + ", but you enter:" + command);
         }
 

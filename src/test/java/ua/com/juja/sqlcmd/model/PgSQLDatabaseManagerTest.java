@@ -21,7 +21,7 @@ public class PgSQLDatabaseManagerTest {
             databaseManager = new PgSQLDatabaseManager();
             databaseManager.connect("sqlcmd", "yura", "yura1990");   //Test for connection
 
-        } catch (Exception e) {
+        } catch (BadConnectionException | NoDriverException e) {
             System.out.println(e.getCause().getMessage());
         }
     }
@@ -62,7 +62,7 @@ public class PgSQLDatabaseManagerTest {
         String error = "";
         try {
             databaseManager.dropTable("errorTableName");
-        } catch (Exception e) {
+        } catch (RequestErrorException e) {
             error += e.getMessage();
         }
 
@@ -86,11 +86,11 @@ public class PgSQLDatabaseManagerTest {
         String error = "";
         try {
             databaseManager.createTable("test", "id integer", "name text");
-        } catch (Exception e) {
+        } catch (RequestErrorException e) {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: relation \"test\" already exists");
+        assertEquals(error, "Request was not execute, because: ERROR: relation \"test\" already exists");
     }
 
 
@@ -126,7 +126,7 @@ public class PgSQLDatabaseManagerTest {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: relation \"errortablename\" does not exist\n" +
+        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
                 "  Position: 22");
     }
 
@@ -143,7 +143,7 @@ public class PgSQLDatabaseManagerTest {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: relation \"errortablename\" does not exist\n" +
+        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
                 "  Position: 13");
     }
 
@@ -189,7 +189,7 @@ public class PgSQLDatabaseManagerTest {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: relation \"errortablename\" does not exist\n" +
+        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
                 "  Position: 8");
     }
 
@@ -200,13 +200,13 @@ public class PgSQLDatabaseManagerTest {
 
 
     @Test
-    public void getTableColumnsNamesTest() {
+    public void getTableColumnsNamesTest() throws RequestErrorException {
         String[] result = databaseManager.getTableColumnsNames("users");
         assertEquals("[user_id, username, password]", Arrays.toString(result));
     }
 
     @Test
-    public void getTableColumnsNamesWithErrorTest() {
+    public void getTableColumnsNamesWithErrorTest() throws RequestErrorException {
         String[] result = databaseManager.getTableColumnsNames("errorTableName");
         assertEquals("[]", Arrays.toString(result));
     }
@@ -251,7 +251,7 @@ public class PgSQLDatabaseManagerTest {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: relation \"errortablename\" does not exist\n" +
+        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
                 "  Position: 13");
     }
 }
