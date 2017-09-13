@@ -118,7 +118,7 @@ public class IntegrationTest {
 
         assertEquals("Hello User" + lineSeparator + 
                 "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator + 
-                "An error occurred because: Can't get connection for database: sqlcmd user: errorName" + lineSeparator + 
+                "Can't get connection for database: sqlcmd user: errorName" + lineSeparator +
                 "Please try again" + lineSeparator + 
                 "Enter a new command or use help command." + lineSeparator + 
                 "Connection was close!" + lineSeparator + 
@@ -238,7 +238,7 @@ public class IntegrationTest {
                 "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator + 
                 "Connection was successful!" + lineSeparator + 
                 "Enter a new command or use help command." + lineSeparator + 
-                "An error occurred because: ERROR: table \"errortablename\" does not exist" + lineSeparator + 
+                "Request was not execute, because: ERROR: table \"errortablename\" does not exist" + lineSeparator +
                 "Please try again" + lineSeparator + 
                 "Enter a new command or use help command." + lineSeparator + 
                 "Connection was close!" + lineSeparator + 

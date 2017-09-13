@@ -66,7 +66,7 @@ public class PgSQLDatabaseManagerTest {
             error += e.getMessage();
         }
 
-        assertEquals(error, "ERROR: table \"errortablename\" does not exist");
+        assertEquals(error, "Request was not execute, because: ERROR: table \"errortablename\" does not exist");
     }
 
 

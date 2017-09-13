@@ -69,13 +69,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void dropTable(String tableName) {
+    public void dropTable(String tableName) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
             String sql = String.format("DROP TABLE %s", tableName);
 
             statement.executeUpdate(sql);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 

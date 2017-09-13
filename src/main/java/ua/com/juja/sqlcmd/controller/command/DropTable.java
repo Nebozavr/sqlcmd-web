@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DropTable implements Command {
@@ -26,10 +27,15 @@ public class DropTable implements Command {
             throw new IllegalArgumentException("Error entering command, must be like " +
                     DROP_TABLE_SAMPLE + ", but you enter:" + command);
         }
+
         String tableName = data[1];
 
-        manager.dropTable(tableName);
+        try {
+            manager.dropTable(tableName);
+            view.write(String.format("Table %s was delete", tableName));
+        } catch (RequestErrorException e) {
+            view.writeError(e);
+        }
 
-        view.write(String.format("Table %s was delete", tableName));
     }
 }

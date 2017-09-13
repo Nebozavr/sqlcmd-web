@@ -15,7 +15,7 @@ public class Console implements View {
         if (e.getCause() != null && e.getCause().equals(e.getMessage())) {
             message += " " + e.getCause().getMessage();
         }
-        System.out.println("An error occurred because: " + message);
+        System.out.println(message);
         System.out.println("Please try again");
     }
 

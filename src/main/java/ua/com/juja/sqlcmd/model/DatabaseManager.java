@@ -12,7 +12,7 @@ public interface DatabaseManager {
 
     void clearTable(String tableName) throws RequestErrorException;
 
-    void dropTable(String tableName);
+    void dropTable(String tableName) throws RequestErrorException;
 
     void createTable(String tableName, String... columns);
 
