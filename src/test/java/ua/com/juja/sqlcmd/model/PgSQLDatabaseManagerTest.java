@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.util.Arrays;
 
@@ -40,7 +41,7 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void listTableTest() {
+    public void listTableTest() throws RequestErrorException {
         String[] result = new String[]{"invoices", "test", "test2", "users"};
 
         assertArrayEquals(databaseManager.listTables(), result);
@@ -48,7 +49,7 @@ public class PgSQLDatabaseManagerTest {
 
     //Test for dropTable
     @Test
-    public void dropTableTest() {
+    public void dropTableTest() throws RequestErrorException {
         databaseManager.dropTable("test");
 
         String[] result = new String[]{"invoices", "test2", "users"};
@@ -71,7 +72,7 @@ public class PgSQLDatabaseManagerTest {
 
     //Test for createTable
     @Test
-    public void createTableTest() {
+    public void createTableTest() throws RequestErrorException {
         databaseManager.createTable("test", "id integer", "name text");
 
 

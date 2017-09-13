@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.model;
 
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.sql.*;
 
@@ -17,31 +18,29 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            //throw new RuntimeException("Please add JDBC jar to you project", e);
             throw new NoDriverException("Please add JDBC jar to you project");
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
-                                                        database, userName, password);
+                    database, userName, password);
         } catch (SQLException e) {
             connection = null;
             throw new BadConnectionException(String.format("Can't get connection for database:" +
-                   " %s user: %s", database, userName));
+                    " %s user: %s", database, userName));
         }
     }
 
     @Override
-    public String[] listTables() {
+    public String[] listTables() throws RequestErrorException {
         String[] types = {"TABLE"};
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
-        try (ResultSet tables = md.getTables(null, "public", "%", types)) {
 
+        try (ResultSet tables = md.getTables(null, "public", "%", types)) {
             tables.last();
             String[] result = new String[tables.getRow()];
             tables.beforeFirst();
@@ -53,8 +52,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
             return result;
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
@@ -181,7 +179,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return new String[0];
         }
-        try(ResultSet tables = md.getColumns(null, null, tableName, null)) {
+        try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
 
             tables.last();
             String[] result = new String[tables.getRow()];

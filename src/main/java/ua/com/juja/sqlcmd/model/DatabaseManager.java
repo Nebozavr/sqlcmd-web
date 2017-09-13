@@ -2,12 +2,13 @@ package ua.com.juja.sqlcmd.model;
 
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 public interface DatabaseManager {
 
     void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException;
 
-    String[] listTables();
+    String[] listTables() throws RequestErrorException;
 
     void clearTable(String tableName);
 
