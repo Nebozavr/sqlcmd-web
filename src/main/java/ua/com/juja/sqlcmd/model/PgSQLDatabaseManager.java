@@ -57,14 +57,14 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void clearTable(String tableName) {
+    public void clearTable(String tableName) throws RequestErrorException {
 
         try (Statement statement = connection.createStatement()) {
             String sql = String.format("DELETE FROM %s", tableName);
 
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 

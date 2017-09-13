@@ -10,7 +10,7 @@ public interface DatabaseManager {
 
     String[] listTables() throws RequestErrorException;
 
-    void clearTable(String tableName);
+    void clearTable(String tableName) throws RequestErrorException;
 
     void dropTable(String tableName);
 

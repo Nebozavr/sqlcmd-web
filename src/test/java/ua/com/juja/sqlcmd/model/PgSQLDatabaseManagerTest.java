@@ -96,7 +96,7 @@ public class PgSQLDatabaseManagerTest {
 
     //Test for findData
     @Test
-    public void findDataTest() {
+    public void findDataTest() throws RequestErrorException {
         databaseManager.clearTable("users");   //Test for clearTable
 
         DataSet input = new DataSet();
@@ -149,7 +149,7 @@ public class PgSQLDatabaseManagerTest {
 
     //Test for updateData
     @Test
-    public void updateTest() {
+    public void updateTest() throws RequestErrorException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
@@ -212,7 +212,7 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void deleteDataTest() {
+    public void deleteDataTest() throws RequestErrorException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
