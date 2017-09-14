@@ -1,0 +1,1 @@
+# sqlcmd - juja study project
