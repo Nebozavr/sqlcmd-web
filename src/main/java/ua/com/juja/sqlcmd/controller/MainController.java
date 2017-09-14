@@ -30,11 +30,10 @@ public class MainController {
     }
 
     public void run() {
-      try {
-          doWork();
-      } catch (ExitException e){
-
-      }
+        try {
+            doWork();
+        } catch (ExitException e) {
+        }
     }
 
     private void doWork() {
@@ -58,20 +57,8 @@ public class MainController {
                     view.writeError(e);
                     break;
                 }
-
             }
             view.write("Enter a new command or use help command.");
         }
     }
-
-   /* private void printError(Exception e) {
-        String message = e.getMessage();
-        if (e.getCause() != null && e.getCause().equals(e.getMessage())) {
-            message += " " + e.getCause().getMessage();
-        }
-        view.write("An error occurred because: " + message);
-        view.write("Please try again");
-    }*/
-
-
 }

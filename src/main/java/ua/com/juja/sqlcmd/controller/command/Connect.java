@@ -28,7 +28,6 @@ public class Connect implements Command {
         if (data.length != countParams()) {
             throw new WrongNumberParametersException(String.format("The entered number of parameters is not correct. " +
                     "Must be %s param, but you enter: %s", countParams(), data.length));
-
         }
         String databaseName = data[1];
         String userName = data[2];
@@ -37,10 +36,9 @@ public class Connect implements Command {
         try {
             manager.connect(databaseName, userName, password);
             view.write("Connection was successful!");
-        } catch (NoDriverException  | BadConnectionException e) {
-           view.writeError(e);
+        } catch (NoDriverException | BadConnectionException e) {
+            view.writeError(e);
         }
-
     }
 
     private int countParams() {

@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 class ConfigurableInputStream extends InputStream{
-
     private String line;
     private boolean endLine = false;
-
 
     @Override
     public int read() throws IOException {
@@ -37,10 +35,4 @@ class ConfigurableInputStream extends InputStream{
             this.line += "\n" + line;
         }
     }
-
-   /* @Override
-    public synchronized void reset() throws IOException {
-        line = null;
-        endLine = false;
-    }*/
 }

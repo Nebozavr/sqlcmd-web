@@ -5,11 +5,10 @@ import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersExc
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
-import ua.com.juja.sqlcmd.view.Console;
 import ua.com.juja.sqlcmd.view.View;
 
 public class FindData implements Command {
-    public static final String  FIND_DATA_SAMPLE = "find|tableName";
+    public static final String FIND_DATA_SAMPLE = "find|tableName";
 
     private DatabaseManager manager;
     private View view;

@@ -37,6 +37,5 @@ public class DropTable implements Command {
         } catch (RequestErrorException e) {
             view.writeError(e);
         }
-
     }
 }

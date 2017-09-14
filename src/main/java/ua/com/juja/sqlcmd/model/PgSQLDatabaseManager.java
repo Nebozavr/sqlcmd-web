@@ -8,13 +8,10 @@ import java.sql.*;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
-
     private Connection connection;
-
 
     @Override
     public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
-
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -58,7 +55,6 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void clearTable(String tableName) throws RequestErrorException {
-
         try (Statement statement = connection.createStatement()) {
             String sql = String.format("DELETE FROM %s", tableName);
 
@@ -89,7 +85,6 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             }
 
             sql.delete(sql.length() - 1, sql.length()).append(")");
-
             statement.executeUpdate(String.valueOf(sql));
         } catch (SQLException e) {
             throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
@@ -177,6 +172,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
+
         try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
 
             tables.last();
@@ -209,7 +205,6 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
-
     }
 
     private String getValuesFormatted(DataSet input) {
@@ -229,5 +224,4 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         string = string.substring(0, string.length() - 1);
         return string;
     }
-
 }

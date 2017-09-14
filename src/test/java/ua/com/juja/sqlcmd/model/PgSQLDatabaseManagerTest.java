@@ -12,21 +12,18 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class PgSQLDatabaseManagerTest {
-
     private DatabaseManager databaseManager;
 
     @Before
     public void setup() {
         try {
             databaseManager = new PgSQLDatabaseManager();
-            databaseManager.connect("sqlcmd", "yura", "yura1990");   //Test for connection
+            databaseManager.connect("sqlcmd", "yura", "yura1990");
 
         } catch (BadConnectionException | NoDriverException e) {
             System.out.println(e.getCause().getMessage());
         }
     }
-
-    //Test for listTables
 
     @Test
     public void connectionWithErrorTest() {
@@ -47,7 +44,6 @@ public class PgSQLDatabaseManagerTest {
         assertArrayEquals(databaseManager.listTables(), result);
     }
 
-    //Test for dropTable
     @Test
     public void dropTableTest() throws RequestErrorException {
         databaseManager.dropTable("test");
@@ -69,8 +65,6 @@ public class PgSQLDatabaseManagerTest {
         assertEquals(error, "Request was not execute, because: ERROR: table \"errortablename\" does not exist");
     }
 
-
-    //Test for createTable
     @Test
     public void createTableTest() throws RequestErrorException {
         databaseManager.createTable("test", "id integer", "name text");
@@ -78,7 +72,6 @@ public class PgSQLDatabaseManagerTest {
 
         String[] result = new String[]{"invoices", "test", "test2", "users"};
         assertArrayEquals(databaseManager.listTables(), result);
-
     }
 
     @Test
@@ -93,21 +86,18 @@ public class PgSQLDatabaseManagerTest {
         assertEquals(error, "Request was not execute, because: ERROR: relation \"test\" already exists");
     }
 
-
-    //Test for findData
     @Test
     public void findDataTest() throws RequestErrorException {
-        databaseManager.clearTable("users");   //Test for clearTable
+        databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "yura22");
         input.put("user_id", "1");
         input.put("password", "qwerty");
 
-        databaseManager.insertData("users", input); //Test for insertTable
+        databaseManager.insertData("users", input);
 
         DataSet[] users = databaseManager.findData("users");
-
 
         DataSet user = users[0];
         assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
@@ -118,8 +108,8 @@ public class PgSQLDatabaseManagerTest {
 
     @Test
     public void findDataWithError() {
-
         String error = "";
+
         try {
             databaseManager.findData("errorTableName");
         } catch (Exception e) {
@@ -133,6 +123,7 @@ public class PgSQLDatabaseManagerTest {
     @Test
     public void insertDataWithError() {
         String error = "";
+
         try {
             DataSet input = new DataSet();
             input.put("username", "yura22");
@@ -147,7 +138,6 @@ public class PgSQLDatabaseManagerTest {
                 "  Position: 13");
     }
 
-    //Test for updateData
     @Test
     public void updateTest() throws RequestErrorException {
         databaseManager.clearTable("users");
@@ -169,7 +159,6 @@ public class PgSQLDatabaseManagerTest {
 
         DataSet[] users = databaseManager.findData("users");
 
-
         DataSet user = users[0];
         assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[2, yuraTest, changePass]", Arrays.toString(user.getValues()));
@@ -178,6 +167,7 @@ public class PgSQLDatabaseManagerTest {
     @Test
     public void updateDataWithError() {
         String error = "";
+
         try {
             DataSet where = new DataSet();
             where.put("username", "yuraTest");
@@ -197,7 +187,6 @@ public class PgSQLDatabaseManagerTest {
     public void isConnectionTest() {
         assertEquals(true, databaseManager.isConnected());
     }
-
 
     @Test
     public void getTableColumnsNamesTest() throws RequestErrorException {
@@ -234,7 +223,6 @@ public class PgSQLDatabaseManagerTest {
         databaseManager.deleteRecords("users", del);
 
         DataSet[] results = databaseManager.findData("users");
-
 
         assertEquals(0, results.length);
     }

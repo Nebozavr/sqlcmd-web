@@ -30,6 +30,5 @@ public class ListTables implements Command {
         } catch (RequestErrorException e) {
             view.writeError(e);
         }
-
     }
 }

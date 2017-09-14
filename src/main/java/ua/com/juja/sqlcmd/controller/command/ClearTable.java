@@ -6,10 +6,10 @@ import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class ClearTable implements Command {
+    public static final String CLEAR_TABLE_SAMPLE = "clear|tableName";
+
     private View view;
     private DatabaseManager manager;
-
-    public static final String CLEAR_TABLE_SAMPLE = "clear|tableName";
 
     public ClearTable(View view, DatabaseManager manager) {
         this.view = view;
@@ -36,6 +36,5 @@ public class ClearTable implements Command {
         } catch (RequestErrorException e) {
             view.writeError(e);
         }
-
     }
 }

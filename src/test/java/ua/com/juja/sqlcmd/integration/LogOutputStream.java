@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 class LogOutputStream extends OutputStream{
-
     private String log = "";
 
     @Override
@@ -14,10 +13,5 @@ class LogOutputStream extends OutputStream{
 
     public String getData() {
         return log;
-
     }
-
-    /*public void reset(){
-        log = "";
-    }*/
 }
