@@ -230,7 +230,7 @@ public class IntegrationTest {
 
     @Test
     public void testDropTableWithErrorTableName() {
-        in.add("connect|sqlcmd|yura|yura1990");
+        in.add("connect|sqlcmd|postgres|postgres");
         in.add("drop|errorTableName");
         in.add("exit");
 
