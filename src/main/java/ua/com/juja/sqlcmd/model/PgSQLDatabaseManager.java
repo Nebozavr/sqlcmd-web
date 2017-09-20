@@ -9,6 +9,7 @@ import java.sql.*;
 public class PgSQLDatabaseManager implements DatabaseManager {
 
     private Connection connection;
+    private String lineSeparator = System.getProperty("line.separator");
 
     @Override
     public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
@@ -19,11 +20,11 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
-                    database, userName, password);
+                    database + "?loggerLevel=OFF",  userName, password );
         } catch (SQLException e) {
             connection = null;
             throw new BadConnectionException(String.format("Can't get connection for database:" +
-                    " %s user: %s", database, userName));
+                    " %s user: %s ", database, userName) + lineSeparator + e.getMessage());
         }
     }
 
