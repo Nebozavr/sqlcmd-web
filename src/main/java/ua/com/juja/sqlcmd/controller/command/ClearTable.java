@@ -1,13 +1,15 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class ClearTable implements Command {
+    public static final String CLEAR_TABLE_SAMPLE = "clear|tableName";
+
     private View view;
     private DatabaseManager manager;
-
-    public static final String CLEAR_TABLE_SAMPLE = "clear|tableName";
 
     public ClearTable(View view, DatabaseManager manager) {
         this.view = view;
@@ -20,16 +22,19 @@ public class ClearTable implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new IllegalArgumentException("Error entering command, " +
-                    "must be like " + CLEAR_TABLE_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException("Error entering command, must be like " +
+                    CLEAR_TABLE_SAMPLE + ", but you enter:" + command);
         }
         String tableName = data[1];
 
-        manager.clearTable(tableName);
-
-        view.write(String.format("Table %s was cleared", tableName));
+        try {
+            manager.clearTable(tableName);
+            view.write(String.format("Table %s was cleared", tableName));
+        } catch (RequestErrorException e) {
+            view.writeError(e);
+        }
     }
 }

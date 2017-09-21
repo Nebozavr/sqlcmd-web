@@ -29,18 +29,6 @@ public class DataSet {
         data[index++] = new Data(name, value);
     }
 
-/*
-    public Object get(String name) {                        //TODO need this method???
-        for (int i = 0; i < index; index++) {
-            if (data[i].getName().equals(name)) {
-                return data[i].getValue();
-            }
-        }
-        return null;
-    }
-*/
-
-
     public Object[] getValues() {
         Object[] result = new Object[index];
         for (int i = 0; i < index; i++) {

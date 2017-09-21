@@ -1,43 +1,44 @@
 package ua.com.juja.sqlcmd.model;
 
+import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
+import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+
 import java.sql.*;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
-
     private Connection connection;
-
+    private String lineSeparator = System.getProperty("line.separator");
 
     @Override
-    public void connect(String database, String userName, String password) {
-
+    public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Please add JDBC jar to you project", e);
+            throw new NoDriverException("Please add JDBC jar to you project");
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
-                                                        database, userName, password);
+                    database + "?loggerLevel=OFF",  userName, password );
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(String.format("Can't get connection for database:" +
-                    " %s user: %s", database, userName), e);
+            throw new BadConnectionException(String.format("Can't get connection for database:" +
+                    " %s user: %s ", database, userName) + lineSeparator + e.getMessage());
         }
     }
 
     @Override
-    public String[] listTables() {
+    public String[] listTables() throws RequestErrorException {
         String[] types = {"TABLE"};
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
-        try (ResultSet tables = md.getTables(null, "public", "%", types)) {
 
+        try (ResultSet tables = md.getTables(null, "public", "%", types)) {
             tables.last();
             String[] result = new String[tables.getRow()];
             tables.beforeFirst();
@@ -49,36 +50,34 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
             return result;
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void clearTable(String tableName) {
-
+    public void clearTable(String tableName) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
             String sql = String.format("DELETE FROM %s", tableName);
 
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void dropTable(String tableName) {
+    public void dropTable(String tableName) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
             String sql = String.format("DROP TABLE %s", tableName);
 
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void createTable(String tableName, String... columns) {
+    public void createTable(String tableName, String... columns) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
@@ -87,15 +86,14 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             }
 
             sql.delete(sql.length() - 1, sql.length()).append(")");
-
             statement.executeUpdate(String.valueOf(sql));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public DataSet[] findData(String tableName) {
+    public DataSet[] findData(String tableName) throws RequestErrorException {
         int size = getSize(tableName);
         String sql = String.format("SELECT * FROM %s", tableName);
         try (Statement statement = connection.createStatement();
@@ -115,14 +113,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             }
 
             return result;
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new DataSet[0];
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void insertData(String tableName, DataSet input) {
+    public void insertData(String tableName, DataSet input) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
             String columnNames = getNameFormatted(input);
             String values = getValuesFormatted(input);
@@ -130,13 +127,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
                     "VALUES (" + values + ")";
 
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void update(String tableName, DataSet dataWhere, DataSet dataSet) {
+    public void update(String tableName, DataSet dataWhere, DataSet dataSet) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
 
             String columnWhere = getNameFormatted(dataWhere);
@@ -149,13 +146,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
                     "WHERE " + columnWhere + " = " + valuesWhere;
 
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public void deleteRecords(String tableName, DataSet input) {
+    public void deleteRecords(String tableName, DataSet input) throws RequestErrorException {
         try (Statement statement = connection.createStatement()) {
 
             String column = getNameFormatted(input);
@@ -163,21 +160,21 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
             String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+        } catch (SQLException e) {
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
     @Override
-    public String[] getTableColumnsNames(String tableName) {
+    public String[] getTableColumnsNames(String tableName) throws RequestErrorException {
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
-        try(ResultSet tables = md.getColumns(null, null, tableName, null)) {
+
+        try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
 
             tables.last();
             String[] result = new String[tables.getRow()];
@@ -190,8 +187,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
             return result;
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return new String[0];
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
     }
 
@@ -200,7 +196,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
-    private int getSize(String tableName) {
+    private int getSize(String tableName) throws RequestErrorException {
         String format = String.format("SELECT COUNT(*) FROM %s", tableName);
 
         try (Statement statement = connection.createStatement();
@@ -208,9 +204,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             rsCount.next();
             return rsCount.getInt(1);
         } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }
-
     }
 
     private String getValuesFormatted(DataSet input) {
@@ -230,5 +225,4 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         string = string.substring(0, string.length() - 1);
         return string;
     }
-
 }

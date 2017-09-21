@@ -1,7 +1,9 @@
 package ua.com.juja.sqlcmd.controller.command;
 
+import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DeleteRows implements Command {
@@ -21,10 +23,10 @@ public class DeleteRows implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 4) {
-            throw new IllegalArgumentException("Error entering command, must be like " +
+            throw new WrongNumberParametersException("Error entering command, must be like " +
                     DELETE_ROWS_SAMPLE + ", but you enter:" + command);
         }
 
@@ -35,7 +37,11 @@ public class DeleteRows implements Command {
         DataSet dataSet = new DataSet();
         dataSet.put(columnName, value);
 
-        manager.deleteRecords(tableName, dataSet);
-        view.write(String.format("The data was delete from table: %s", tableName));
+        try {
+            manager.deleteRecords(tableName, dataSet);
+            view.write(String.format("The data was delete from table: %s", tableName));
+        } catch (RequestErrorException e) {
+            view.writeError(e);
+        }
     }
 }
