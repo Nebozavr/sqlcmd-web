@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
@@ -32,6 +33,16 @@ public class PgSQLDatabaseManagerTest {
         }
     }
 
+    @After
+    public void after(){
+        try {
+            databaseManager.dropTable("users");
+            databaseManager.dropTable("roles");
+        } catch (RequestErrorException e) {
+            e.getMessage();
+        }
+    }
+
     @Test
     public void connectionWithErrorTest() {
         String error = "";
@@ -45,31 +56,24 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void listTableTest() throws RequestErrorException {
+    public void testListTable() throws RequestErrorException {
         String[] result = new String[]{"roles", "users"};
 
         assertArrayEquals(databaseManager.listTables(), result);
     }
 
     @Test
-    public void dropTableTest() throws RequestErrorException {
-        databaseManager.dropTable("test");
+    public void testDropTable() throws RequestErrorException {
+        databaseManager.dropTable("roles");
 
-        String[] result = new String[]{"invoices", "test2", "users"};
+        String[] result = new String[]{"users"};
         assertArrayEquals(databaseManager.listTables(), result);
 
     }
 
-    @Test
-    public void dropTableWithErrorTest() {
-        String error = "";
-        try {
+    @Test(expected = RequestErrorException.class)
+    public void testDropTableWithError() throws RequestErrorException {
             databaseManager.dropTable("errorTableName");
-        } catch (RequestErrorException e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: table \"errortablename\" does not exist");
     }
 
     @Test
