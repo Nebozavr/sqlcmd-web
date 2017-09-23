@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @After
-    public void after(){
+    public void after() {
         try {
             databaseManager.dropTable("users");
             databaseManager.dropTable("roles");
@@ -43,16 +44,10 @@ public class PgSQLDatabaseManagerTest {
         }
     }
 
-    @Test
-    public void connectionWithErrorTest() {
-        String error = "";
-        try {
-            DatabaseManager testManager = new PgSQLDatabaseManager();
-            testManager.connect(DATABASE, USER, "errorPass");
-        } catch (NoDriverException | BadConnectionException e) {
-            error += e.getMessage();
-        }
-        assertEquals(error, "Can't get connection for database: sqlcmd user: yura");
+    @Test(expected = BadConnectionException.class)
+    public void testConnectionWithError() throws NoDriverException, BadConnectionException {
+        DatabaseManager testManager = new PgSQLDatabaseManager();
+        testManager.connect(DATABASE, USER, "errorPass");
     }
 
     @Test
@@ -73,37 +68,21 @@ public class PgSQLDatabaseManagerTest {
 
     @Test(expected = RequestErrorException.class)
     public void testDropTableWithError() throws RequestErrorException {
-            databaseManager.dropTable("errorTableName");
+        databaseManager.dropTable("errorTableName");
+    }
+
+    @Test(expected = RequestErrorException.class)
+    public void testCreateTableWithError() throws RequestErrorException {
+        databaseManager.createTable("test", " integer", "name text");
     }
 
     @Test
-    public void createTableTest() throws RequestErrorException {
-        databaseManager.createTable("test", "id integer", "name text");
-
-
-        String[] result = new String[]{"invoices", "test", "test2", "users"};
-        assertArrayEquals(databaseManager.listTables(), result);
-    }
-
-    @Test
-    public void createTableWithErrorTest() {
-        String error = "";
-        try {
-            databaseManager.createTable("test", "id integer", "name text");
-        } catch (RequestErrorException e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: relation \"test\" already exists");
-    }
-
-    @Test
-    public void findDataTest() throws RequestErrorException {
+    public void testFindData() throws RequestErrorException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "yura22");
-        input.put("user_id", "1");
+        input.put("id", "1");
         input.put("password", "qwerty");
 
         databaseManager.insertData("users", input);
@@ -111,51 +90,33 @@ public class PgSQLDatabaseManagerTest {
         DataSet[] users = databaseManager.findData("users");
 
         DataSet user = users[0];
-        assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
+        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[1, yura22, qwerty]", Arrays.toString(user.getValues()));
 
         databaseManager.clearTable("users");
     }
 
-    @Test
-    public void findDataWithError() {
-        String error = "";
+    @Test(expected = RequestErrorException.class)
+    public void testFindDataWithError() throws RequestErrorException {
+        databaseManager.findData("errorTableName");
+    }
 
-        try {
-            databaseManager.findData("errorTableName");
-        } catch (Exception e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
-                "  Position: 22");
+    @Test(expected = RequestErrorException.class)
+    public void testInsertDataWithError() throws RequestErrorException {
+        DataSet input = new DataSet();
+        input.put("username", "yura22");
+        input.put("user_id", "1");
+        input.put("password", "qwerty");
+        databaseManager.insertData("errorTableName", input);
     }
 
     @Test
-    public void insertDataWithError() {
-        String error = "";
-
-        try {
-            DataSet input = new DataSet();
-            input.put("username", "yura22");
-            input.put("user_id", "1");
-            input.put("password", "qwerty");
-            databaseManager.insertData("errorTableName", input);
-        } catch (Exception e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
-                "  Position: 13");
-    }
-
-    @Test
-    public void updateTest() throws RequestErrorException {
+    public void testUpdate() throws RequestErrorException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "yuraTest");
-        input.put("user_id", "2");
+        input.put("id", "2");
         input.put("password", "passwordTest");
 
         databaseManager.insertData("users", input);
@@ -171,53 +132,44 @@ public class PgSQLDatabaseManagerTest {
         DataSet[] users = databaseManager.findData("users");
 
         DataSet user = users[0];
-        assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
+        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[2, yuraTest, changePass]", Arrays.toString(user.getValues()));
     }
 
-    @Test
-    public void updateDataWithError() {
-        String error = "";
-
-        try {
+    @Test(expected = RequestErrorException.class)
+    public void testUpdateDataWithError() throws RequestErrorException {
             DataSet where = new DataSet();
             where.put("username", "yuraTest");
 
             DataSet output = new DataSet();
             output.put("password", "changePass");
             databaseManager.update("errorTableName", where, output);
-        } catch (Exception e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
-                "  Position: 8");
     }
 
     @Test
-    public void isConnectionTest() {
+    public void testIsConnection() {
         assertEquals(true, databaseManager.isConnected());
     }
 
     @Test
-    public void getTableColumnsNamesTest() throws RequestErrorException {
+    public void testGetTableColumnsNames() throws RequestErrorException {
         String[] result = databaseManager.getTableColumnsNames("users");
-        assertEquals("[user_id, username, password]", Arrays.toString(result));
+        assertEquals("[id, username, password]", Arrays.toString(result));
     }
 
     @Test
-    public void getTableColumnsNamesWithErrorTest() throws RequestErrorException {
+    public void testGetTableColumnsNamesWithError() throws RequestErrorException {
         String[] result = databaseManager.getTableColumnsNames("errorTableName");
         assertEquals("[]", Arrays.toString(result));
     }
 
     @Test
-    public void deleteDataTest() throws RequestErrorException {
+    public void testDeleteData() throws RequestErrorException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
         input.put("username", "testName");
-        input.put("user_id", "10");
+        input.put("id", "10");
         input.put("password", "testPass");
 
         databaseManager.insertData("users", input);
@@ -225,7 +177,7 @@ public class PgSQLDatabaseManagerTest {
         DataSet[] users = databaseManager.findData("users");
         DataSet user = users[0];
 
-        assertEquals("[user_id, username, password]", Arrays.toString(user.getNames()));
+        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[10, testName, testPass]", Arrays.toString(user.getValues()));
 
         DataSet del = new DataSet();
@@ -238,19 +190,10 @@ public class PgSQLDatabaseManagerTest {
         assertEquals(0, results.length);
     }
 
-    @Test
-    public void deleteDataWithError() {
-        String error = "";
-        try {
+    @Test(expected = RequestErrorException.class)
+    public void testDeleteDataWithError() throws RequestErrorException {
             DataSet del = new DataSet();
             del.put("username", "testName");
-
             databaseManager.deleteRecords("errorTableName", del);
-        } catch (Exception e) {
-            error += e.getMessage();
-        }
-
-        assertEquals(error, "Request was not execute, because: ERROR: relation \"errortablename\" does not exist\n" +
-                "  Position: 13");
     }
 }
