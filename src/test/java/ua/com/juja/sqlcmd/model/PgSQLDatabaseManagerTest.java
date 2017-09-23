@@ -12,16 +12,23 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class PgSQLDatabaseManagerTest {
+    private static final String DATABASE = "sqlcmd";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postgres";
+
     private DatabaseManager databaseManager;
 
     @Before
     public void setup() {
         try {
             databaseManager = new PgSQLDatabaseManager();
-            databaseManager.connect("sqlcmd", "yura", "yura1990");
+            databaseManager.connect(DATABASE, USER, PASSWORD);
 
-        } catch (BadConnectionException | NoDriverException e) {
-            System.out.println(e.getCause().getMessage());
+            databaseManager.createTable("users", "id int", "userName text", "password text");
+            databaseManager.createTable("roles", "roleID int", "roleName text", "description text");
+
+        } catch (BadConnectionException | NoDriverException | RequestErrorException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -30,7 +37,7 @@ public class PgSQLDatabaseManagerTest {
         String error = "";
         try {
             DatabaseManager testManager = new PgSQLDatabaseManager();
-            testManager.connect("sqlcmd", "yura", "errorPass");
+            testManager.connect(DATABASE, USER, "errorPass");
         } catch (NoDriverException | BadConnectionException e) {
             error += e.getMessage();
         }
@@ -39,7 +46,7 @@ public class PgSQLDatabaseManagerTest {
 
     @Test
     public void listTableTest() throws RequestErrorException {
-        String[] result = new String[]{"invoices", "test", "test2", "users"};
+        String[] result = new String[]{"roles", "users"};
 
         assertArrayEquals(databaseManager.listTables(), result);
     }
