@@ -24,7 +24,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         } catch (SQLException e) {
             connection = null;
             throw new BadConnectionException(String.format("Can't get connection for database:" +
-                    " %s user: %s ", database, userName) + lineSeparator + e.getMessage());
+                    " %s ", database) + lineSeparator + e.getMessage());
         }
     }
 
