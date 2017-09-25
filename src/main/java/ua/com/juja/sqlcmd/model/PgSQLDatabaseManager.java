@@ -5,9 +5,7 @@ import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.sql.*;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
@@ -93,20 +91,18 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public DataSet[] findData(String tableName) throws RequestErrorException {
-        int size = getSize(tableName);
+    public List<DataSet> findData(String tableName) throws RequestErrorException {
         String sql = String.format("SELECT * FROM %s", tableName);
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             resultSetMetaData.getColumnName(1);
-            DataSet[] result = new DataSet[size];
-            int index = 0;
+            List<DataSet> result = new LinkedList<>();
 
             while (resultSet.next()) {
                 DataSet dataSet = new DataSet();
-                result[index++] = dataSet;
+                result.add(dataSet);
                 for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
                     dataSet.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
                 }

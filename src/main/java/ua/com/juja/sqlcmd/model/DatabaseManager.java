@@ -4,6 +4,7 @@ import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
+import java.util.List;
 import java.util.Set;
 
 public interface DatabaseManager {
@@ -18,7 +19,7 @@ public interface DatabaseManager {
 
     void createTable(String tableName, String... columns) throws RequestErrorException;
 
-    DataSet[] findData(String tableName) throws RequestErrorException;
+    List<DataSet> findData(String tableName) throws RequestErrorException;
 
     void insertData(String tableName, DataSet input) throws RequestErrorException;
 

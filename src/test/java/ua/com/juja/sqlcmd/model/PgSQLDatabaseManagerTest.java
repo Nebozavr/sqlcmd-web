@@ -8,6 +8,7 @@ import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -85,9 +86,9 @@ public class PgSQLDatabaseManagerTest {
 
         databaseManager.insertData("users", input);
 
-        DataSet[] users = databaseManager.findData("users");
+        List<DataSet> users = databaseManager.findData("users");
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[1, yura22, qwerty]", Arrays.toString(user.getValues()));
 
@@ -127,9 +128,9 @@ public class PgSQLDatabaseManagerTest {
 
         databaseManager.update("users", where, output);
 
-        DataSet[] users = databaseManager.findData("users");
+        List<DataSet> users = databaseManager.findData("users");
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[2, yuraTest, changePass]", Arrays.toString(user.getValues()));
     }
@@ -172,8 +173,8 @@ public class PgSQLDatabaseManagerTest {
 
         databaseManager.insertData("users", input);
 
-        DataSet[] users = databaseManager.findData("users");
-        DataSet user = users[0];
+        List<DataSet> users = databaseManager.findData("users");
+        DataSet user = users.get(0);
 
         assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
         assertEquals("[10, testName, testPass]", Arrays.toString(user.getValues()));
@@ -183,9 +184,9 @@ public class PgSQLDatabaseManagerTest {
 
         databaseManager.deleteRecords("users", del);
 
-        DataSet[] results = databaseManager.findData("users");
+        List<DataSet> results = databaseManager.findData("users");
 
-        assertEquals(0, results.length);
+        assertEquals(0, results.size());
     }
 
     @Test(expected = RequestErrorException.class)

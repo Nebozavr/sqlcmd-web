@@ -7,6 +7,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.util.List;
+
 public class FindData implements Command {
     public static final String FIND_DATA_SAMPLE = "find|tableName";
 
@@ -42,12 +44,12 @@ public class FindData implements Command {
     private void printTable(String tableName) throws RequestErrorException {
         String[] tableColumn = manager.getTableColumnsNames(tableName).toArray(new String[0]);
 
-        DataSet[] result = manager.findData(tableName);
+       List<DataSet> result = manager.findData(tableName);
 
-        Object[][] values = new Object[result.length][tableColumn.length];
+        Object[][] values = new Object[result.size()][tableColumn.length];
 
-        for (int i = 0; i < result.length; i++) {
-            values[i] = result[i].getValues();
+        for (int i = 0; i < result.size(); i++) {
+            values[i] = result.get(i).getValues();
         }
 
         TextTable table = new TextTable(tableColumn, values);
