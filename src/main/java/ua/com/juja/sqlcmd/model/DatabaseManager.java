@@ -26,7 +26,7 @@ public interface DatabaseManager {
 
     void deleteRecords(String tableName, DataSet input) throws RequestErrorException;
 
-    String[] getTableColumnsNames(String tableName) throws RequestErrorException;
+    Set<String> getTableColumnsNames(String tableName) throws RequestErrorException;
 
     boolean isConnected();
 }

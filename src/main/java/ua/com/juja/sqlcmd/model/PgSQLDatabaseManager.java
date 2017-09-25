@@ -42,9 +42,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         try (ResultSet tables = md.getTables(null, "public", "%", types)) {
-           // tables.last();
             Set<String> result = new LinkedHashSet<>();
-         //   tables.beforeFirst();
 
             while (tables.next()) {
                 result.add(tables.getString(3));
@@ -168,7 +166,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String[] getTableColumnsNames(String tableName) throws RequestErrorException {
+    public Set<String> getTableColumnsNames(String tableName) throws RequestErrorException {
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
@@ -177,14 +175,10 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
+            Set<String> result = new LinkedHashSet<>();
 
-            tables.last();
-            String[] result = new String[tables.getRow()];
-            tables.beforeFirst();
-
-            int i = 0;
             while (tables.next()) {
-                result[i++] = tables.getString("column_name");
+                result.add(tables.getString("column_name"));
             }
 
             return result;

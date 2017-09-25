@@ -151,14 +151,14 @@ public class PgSQLDatabaseManagerTest {
 
     @Test
     public void testGetTableColumnsNames() throws RequestErrorException {
-        String[] result = databaseManager.getTableColumnsNames("users");
-        assertEquals("[id, username, password]", Arrays.toString(result));
+        String actual = databaseManager.getTableColumnsNames("users").toString();
+        assertEquals("[id, username, password]", actual);
     }
 
     @Test
     public void testGetTableColumnsNamesWithError() throws RequestErrorException {
-        String[] result = databaseManager.getTableColumnsNames("errorTableName");
-        assertEquals("[]", Arrays.toString(result));
+        String actual = databaseManager.getTableColumnsNames("errorTableName").toString();
+        assertEquals("[]", actual);
     }
 
     @Test

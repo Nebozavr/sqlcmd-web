@@ -40,7 +40,7 @@ public class FindData implements Command {
     }
 
     private void printTable(String tableName) throws RequestErrorException {
-        String[] tableColumn = manager.getTableColumnsNames(tableName);
+        String[] tableColumn = manager.getTableColumnsNames(tableName).toArray(new String[0]);
 
         DataSet[] result = manager.findData(tableName);
 
