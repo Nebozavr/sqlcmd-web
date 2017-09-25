@@ -393,18 +393,18 @@ public class IntegrationTest {
                 "Enter a new command or use help command." + lineSeparator +
                 "New data was add to users" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "________________________" + lineSeparator +
-                "| id| username| password|" + lineSeparator +
-                "|=======================|" + lineSeparator +
-                "| 10| yura33  | *****   |" + lineSeparator +
-                "| 12| yura22  | +++++   |" + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "The data was delete from table: users" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "________________________" + lineSeparator +
-                "| id| username| password|" + lineSeparator +
-                "|=======================|" + lineSeparator +
-                "| 10| yura33  | *****   |" + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "Table users was cleared" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
@@ -458,19 +458,19 @@ public class IntegrationTest {
                 "Enter a new command or use help command." + lineSeparator +
                 "New data was add to users" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "________________________" + lineSeparator +
-                "| id| username| password|" + lineSeparator +
-                "|=======================|" + lineSeparator +
-                "| 10| yura33  | *****   |" + lineSeparator +
-                "| 12| yura22  | +++++   |" + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "Data from users was updated" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "________________________" + lineSeparator +
-                "| id| username| password|" + lineSeparator +
-                "|=======================|" + lineSeparator +
-                "| 10| yura33  | *****   |" + lineSeparator +
-                "| 12| yura22  | &&&&&   |" + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | &&&&&   |\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "Table users was cleared" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
@@ -514,9 +514,9 @@ public class IntegrationTest {
                 "Enter a new command or use help command." + lineSeparator +
                 "Table users was cleared" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "________________________" + lineSeparator +
-                "| id| username| password|" + lineSeparator +
-                "|=======================|" + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator, out.getData());
