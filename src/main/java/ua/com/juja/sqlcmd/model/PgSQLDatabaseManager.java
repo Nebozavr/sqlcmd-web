@@ -137,6 +137,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             String columnSet = getNameFormatted(dataSet);
             String valuesSet = getValuesFormatted(dataSet);
 
+            checkRows(tableName, columnWhere, valuesWhere);
+
             String sql = "UPDATE " + tableName + " " +
                     "SET " + columnSet + " = " + valuesSet + " " +
                     "WHERE " + columnWhere + " = " + valuesWhere;
@@ -153,6 +155,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
             String column = getNameFormatted(input);
             String value = getValuesFormatted(input);
+
+            checkRows(tableName, column, value);
 
             String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
             statement.executeUpdate(sql);
@@ -188,13 +192,18 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
-    private int getSize(String tableName) throws RequestErrorException {
-        String format = String.format("SELECT COUNT(*) FROM %s", tableName);
+    @Override
+    public void checkRows(String tableName, String column, String value) throws RequestErrorException {
 
+        String sql = String.format("SELECT * FROM %s WHERE %s = %s", tableName, column, value);
         try (Statement statement = connection.createStatement();
-             ResultSet rsCount = statement.executeQuery(format)) {
-            rsCount.next();
-            return rsCount.getInt(1);
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            if (!resultSet.next()){
+                final String message = String.format("Request was not execute, " +
+                        "because the fields with this value (%s = %s) are not in the table %s", column, value, tableName);
+                throw new RequestErrorException(message);
+            }
         } catch (SQLException e) {
             throw new RequestErrorException("Request was not execute, because: " + e.getMessage());
         }

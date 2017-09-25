@@ -434,6 +434,53 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testDeleteDataForEmptyRows() {
+        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("clear|users");
+        in.add("insert|users|username|yura33|password|*****|id|10|");
+        in.add("insert|users|username|yura22|password|+++++|id|12|");
+        in.add("find|users");
+        in.add("delete|users|username|errorValue");
+        in.add("find|users");
+        in.add("clear|users");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, " +
+                "in the format: connect|database|username|password" + lineSeparator +
+                "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Table users was cleared" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "New data was add to users" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "New data was add to users" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
+                "Enter a new command or use help command." + lineSeparator +
+                "Request was not execute, because the fields with this value " +
+                "(username = 'errorValue') are not in the table users" + lineSeparator +
+                "Please try again" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
+                "Enter a new command or use help command." + lineSeparator +
+                "Table users was cleared" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed!" + lineSeparator +
+                "Bye!!!" + lineSeparator + "", out.getData());
+    }
+
+    @Test
     public void testUpdateData() {
         in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
         in.add("clear|users");
@@ -471,6 +518,53 @@ public class IntegrationTest {
                 "|=======================|\r\n" +
                 "| 10| yura33  | *****   |\n" +
                 "| 12| yura22  | &&&&&   |\n" +
+                "Enter a new command or use help command." + lineSeparator +
+                "Table users was cleared" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed!" + lineSeparator +
+                "Bye!!!" + lineSeparator + "", out.getData());
+    }
+
+    @Test
+    public void testUpdateDataForEmptyRows() {
+        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("clear|users");
+        in.add("insert|users|username|yura33|password|*****|id|10|");
+        in.add("insert|users|username|yura22|password|+++++|id|12|");
+        in.add("find|users");
+        in.add("update|users|username|errorValue|password|&&&&&");
+        in.add("find|users");
+        in.add("clear|users");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, " +
+                "in the format: connect|database|username|password" + lineSeparator +
+                "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Table users was cleared" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "New data was add to users" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "New data was add to users" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
+                "Enter a new command or use help command." + lineSeparator +
+                "Request was not execute, because the fields with this value " +
+                "(username = 'errorValue') are not in the table users" + lineSeparator +
+                "Please try again" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "________________________\r\n" +
+                "| id| username| password|\n" +
+                "|=======================|\r\n" +
+                "| 10| yura33  | *****   |\n" +
+                "| 12| yura22  | +++++   |\n" +
                 "Enter a new command or use help command." + lineSeparator +
                 "Table users was cleared" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +

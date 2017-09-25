@@ -30,4 +30,6 @@ public interface DatabaseManager {
     Set<String> getTableColumnsNames(String tableName) throws RequestErrorException;
 
     boolean isConnected();
+
+    void checkRows(String tableName, String column, String value) throws RequestErrorException;
 }
