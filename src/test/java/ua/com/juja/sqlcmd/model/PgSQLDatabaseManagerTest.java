@@ -89,8 +89,8 @@ public class PgSQLDatabaseManagerTest {
         List<DataSet> users = databaseManager.findData("users");
 
         DataSet user = users.get(0);
-        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
-        assertEquals("[1, yura22, qwerty]", Arrays.toString(user.getValues()));
+        assertEquals("[id, username, password]", user.getNames().toString());
+        assertEquals("[1, yura22, qwerty]", user.getValues().toString());
 
         databaseManager.clearTable("users");
     }
@@ -131,8 +131,8 @@ public class PgSQLDatabaseManagerTest {
         List<DataSet> users = databaseManager.findData("users");
 
         DataSet user = users.get(0);
-        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
-        assertEquals("[2, yuraTest, changePass]", Arrays.toString(user.getValues()));
+        assertEquals("[id, username, password]", user.getNames().toString());
+        assertEquals("[2, yuraTest, changePass]", user.getValues().toString());
     }
 
     @Test(expected = RequestErrorException.class)
@@ -176,8 +176,8 @@ public class PgSQLDatabaseManagerTest {
         List<DataSet> users = databaseManager.findData("users");
         DataSet user = users.get(0);
 
-        assertEquals("[id, username, password]", Arrays.toString(user.getNames()));
-        assertEquals("[10, testName, testPass]", Arrays.toString(user.getValues()));
+        assertEquals("[id, username, password]", user.getNames().toString());
+        assertEquals("[10, testName, testPass]", user.getValues().toString());
 
         DataSet del = new DataSet();
         del.put("username", "testName");

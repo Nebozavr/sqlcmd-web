@@ -1,55 +1,28 @@
 package ua.com.juja.sqlcmd.model;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class DataSet {
 
-    class Data {
-        private String name;
-        private Object value;
-
-        public Data(String name, Object value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-    }
-
-    private Data[] data = new Data[100];
-    private int index = 0;
+    private Map<String, Object> data = new LinkedHashMap<>();
 
     public void put(String name, Object value) {
-        data[index++] = new Data(name, value);
+        data.put(name, value);
     }
 
-    public Object[] getValues() {
-        Object[] result = new Object[index];
-        for (int i = 0; i < index; i++) {
-            result[i] = data[i].getValue();
-        }
-        return result;
+    public List<Object> getValues() {
+        return new ArrayList<>(data.values());
     }
 
-    public String[] getNames() {
-        String[] result = new String[index];
-        for (int i = 0; i < index; i++) {
-            result[i] = data[i].getName();
-        }
-        return result;
+    public Set<String> getNames() {
+        return data.keySet();
     }
 
     @Override
     public String toString() {
         return "DataSet{\n" +
-                "names: " + Arrays.toString(getNames()) + "\n" +
-                "values: " + Arrays.toString(getValues()) + "\n" +
+                "names: " + (getNames().toString()) + "\n" +
+                "values: " + (getValues().toString()) + "\n" +
                 "}";
     }
 }

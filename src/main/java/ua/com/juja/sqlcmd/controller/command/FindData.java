@@ -49,7 +49,7 @@ public class FindData implements Command {
         Object[][] values = new Object[result.size()][tableColumn.length];
 
         for (int i = 0; i < result.size(); i++) {
-            values[i] = result.get(i).getValues();
+            values[i] = result.get(i).getValues().toArray();
         }
 
         TextTable table = new TextTable(tableColumn, values);
