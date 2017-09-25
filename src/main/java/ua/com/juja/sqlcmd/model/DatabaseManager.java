@@ -4,11 +4,13 @@ import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
+import java.util.Set;
+
 public interface DatabaseManager {
 
     void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException;
 
-    String[] listTables() throws RequestErrorException;
+    Set<String> listTables() throws RequestErrorException;
 
     void clearTable(String tableName) throws RequestErrorException;
 

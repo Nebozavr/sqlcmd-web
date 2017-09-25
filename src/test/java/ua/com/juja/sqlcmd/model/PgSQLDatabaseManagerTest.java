@@ -1,6 +1,5 @@
 package ua.com.juja.sqlcmd.model;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class PgSQLDatabaseManagerTest {
@@ -52,17 +50,17 @@ public class PgSQLDatabaseManagerTest {
 
     @Test
     public void testListTable() throws RequestErrorException {
-        String[] result = new String[]{"roles", "users"};
+        String result = "[roles, users]";
 
-        assertArrayEquals(databaseManager.listTables(), result);
+        assertEquals(result, databaseManager.listTables().toString());
     }
 
     @Test
     public void testDropTable() throws RequestErrorException {
         databaseManager.dropTable("roles");
 
-        String[] result = new String[]{"users"};
-        assertArrayEquals(databaseManager.listTables(), result);
+        String result = "[users]";
+        assertEquals(result, databaseManager.listTables().toString());
 
     }
 

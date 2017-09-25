@@ -5,6 +5,9 @@ import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
@@ -29,7 +32,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public String[] listTables() throws RequestErrorException {
+    public Set<String> listTables() throws RequestErrorException {
         String[] types = {"TABLE"};
         DatabaseMetaData md;
         try {
@@ -39,13 +42,12 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         try (ResultSet tables = md.getTables(null, "public", "%", types)) {
-            tables.last();
-            String[] result = new String[tables.getRow()];
-            tables.beforeFirst();
+           // tables.last();
+            Set<String> result = new LinkedHashSet<>();
+         //   tables.beforeFirst();
 
-            int i = 0;
             while (tables.next()) {
-                result[i++] = tables.getString(3);
+                result.add(tables.getString(3));
             }
 
             return result;

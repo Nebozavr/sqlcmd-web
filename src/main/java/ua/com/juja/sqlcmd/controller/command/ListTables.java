@@ -25,8 +25,8 @@ public class ListTables implements Command {
     @Override
     public void process(String command) {
         try {
-            String tablesNames = Arrays.toString(manager.listTables());
-            view.write(tablesNames);
+            String message = manager.listTables().toString();
+            view.write(message);
         } catch (RequestErrorException e) {
             view.writeError(e);
         }
