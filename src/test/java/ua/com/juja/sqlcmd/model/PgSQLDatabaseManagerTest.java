@@ -6,15 +6,17 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class PgSQLDatabaseManagerTest {
-    private static final String DATABASE = "sqlcmd";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static final String DATABASE = propertiesLoader.getDatabaseName();
+    private static final String USER = propertiesLoader.getUserName();
+    private static final String PASSWORD = propertiesLoader.getPassword();
 
     private DatabaseManager databaseManager;
 
