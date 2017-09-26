@@ -9,8 +9,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class Connect implements Command {
     public static final String CONNECT_SAMPLE = "connect|database|username|password";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public Connect(View view, DatabaseManager manager) {
         this.view = view;

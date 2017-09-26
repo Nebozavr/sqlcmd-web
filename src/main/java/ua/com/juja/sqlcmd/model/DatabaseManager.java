@@ -31,5 +31,4 @@ public interface DatabaseManager {
 
     boolean isConnected();
 
-    void checkRows(String tableName, String column, String value) throws RequestErrorException;
 }

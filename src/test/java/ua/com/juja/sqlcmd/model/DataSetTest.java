@@ -3,13 +3,13 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DataSetTest {
     private DataSet input;
 
     @Before
-    public void start(){
+    public void start() {
         input = new DataSet();
         input.put("username", "yura22");
         input.put("password", "passTest");
@@ -18,7 +18,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void printTest(){
+    public void printTest() {
         String result = input.toString();
 
         assertEquals("DataSet{\n" +

@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.integration;
 import java.io.IOException;
 import java.io.InputStream;
 
-class ConfigurableInputStream extends InputStream{
+class ConfigurableInputStream extends InputStream {
     private String line;
     private boolean endLine = false;
 
@@ -25,7 +25,7 @@ class ConfigurableInputStream extends InputStream{
             endLine = true;
         }
 
-        return (int)ch;
+        return (int) ch;
     }
 
     public void add(String line) {

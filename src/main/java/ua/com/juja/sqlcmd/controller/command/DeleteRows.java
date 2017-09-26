@@ -9,8 +9,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class DeleteRows implements Command {
     public static final String DELETE_ROWS_SAMPLE = "delete|tableName|columnName|value";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public DeleteRows(View view, DatabaseManager manager) {
         this.view = view;

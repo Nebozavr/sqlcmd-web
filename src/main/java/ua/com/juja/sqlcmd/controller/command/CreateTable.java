@@ -8,8 +8,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class CreateTable implements Command {
     public static final String CREATE_TABLE_SAMPLE = "create|tableName|column1Name fieldType|...|columnNName fieldType";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public CreateTable(View view, DatabaseManager manager) {
         this.view = view;

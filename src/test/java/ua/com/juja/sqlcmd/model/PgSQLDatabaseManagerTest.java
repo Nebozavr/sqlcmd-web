@@ -7,7 +7,6 @@ import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -137,12 +136,12 @@ public class PgSQLDatabaseManagerTest {
 
     @Test(expected = RequestErrorException.class)
     public void testUpdateDataWithError() throws RequestErrorException {
-            DataSet where = new DataSet();
-            where.put("username", "yuraTest");
+        DataSet where = new DataSet();
+        where.put("username", "yuraTest");
 
-            DataSet output = new DataSet();
-            output.put("password", "changePass");
-            databaseManager.update("errorTableName", where, output);
+        DataSet output = new DataSet();
+        output.put("password", "changePass");
+        databaseManager.update("errorTableName", where, output);
     }
 
     @Test
@@ -191,8 +190,8 @@ public class PgSQLDatabaseManagerTest {
 
     @Test(expected = RequestErrorException.class)
     public void testDeleteDataWithError() throws RequestErrorException {
-            DataSet del = new DataSet();
-            del.put("username", "testName");
-            databaseManager.deleteRecords("errorTableName", del);
+        DataSet del = new DataSet();
+        del.put("username", "testName");
+        databaseManager.deleteRecords("errorTableName", del);
     }
 }

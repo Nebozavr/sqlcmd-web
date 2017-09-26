@@ -8,8 +8,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class DropTable implements Command {
     public static final String DROP_TABLE_SAMPLE = "drop|tableName";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public DropTable(View view, DatabaseManager manager) {
         this.view = view;

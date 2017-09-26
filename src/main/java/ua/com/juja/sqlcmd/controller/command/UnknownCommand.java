@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.view.View;
 
 public class UnknownCommand implements Command {
-    private View view;
+    private final View view;
 
     public UnknownCommand(View view) {
         this.view = view;

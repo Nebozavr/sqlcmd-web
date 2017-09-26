@@ -15,13 +15,13 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertEquals;
 
 public class IntegrationTest {
-    public static final String DATABASE = "sqlcmd";
-    public static final String USER = "postgres";
-    public static final String PASSWORD = "postgres";
-    
+    private static final String DATABASE = "sqlcmd";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postgres";
+
     private ConfigurableInputStream in;
     private LogOutputStream out;
-    private String lineSeparator = System.getProperty("line.separator");
+    private final String lineSeparator = System.getProperty("line.separator");
     private DatabaseManager databaseManager;
 
     @Before
@@ -61,32 +61,32 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User" + lineSeparator + 
-                "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator + 
-                "List of all commands:" + lineSeparator + 
-                "\t connect|database|username|password " + lineSeparator + 
-                "\t\t Connect to database" + lineSeparator + 
-                "\t help " + lineSeparator + 
-                "\t\t View all commands and their description" + lineSeparator + 
-                "\t list " + lineSeparator + 
-                "\t\t Show all tables from database" + lineSeparator + 
-                "\t find|tableName " + lineSeparator + 
-                "\t\t Show all data from tableName" + lineSeparator + 
-                "\t create|tableName|column1Name fieldType|...|columnNName fieldType " + lineSeparator + 
-                "\t\t Create new table" + lineSeparator + 
-                "\t drop|tableName " + lineSeparator + 
-                "\t\t Delete table" + lineSeparator + 
-                "\t clear|tableName " + lineSeparator + 
-                "\t\t Clear all data from table" + lineSeparator + 
-                "\t insert|tableName|columnName1|value1|...|columnNameN|valueN " + lineSeparator + 
-                "\t\t Insert new data to table" + lineSeparator + 
-                "\t delete|tableName|columnName|value " + lineSeparator + 
-                "\t\t Delete data from table" + lineSeparator + 
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator +
+                "List of all commands:" + lineSeparator +
+                "\t connect|database|username|password " + lineSeparator +
+                "\t\t Connect to database" + lineSeparator +
+                "\t help " + lineSeparator +
+                "\t\t View all commands and their description" + lineSeparator +
+                "\t list " + lineSeparator +
+                "\t\t Show all tables from database" + lineSeparator +
+                "\t find|tableName " + lineSeparator +
+                "\t\t Show all data from tableName" + lineSeparator +
+                "\t create|tableName|column1Name fieldType|...|columnNName fieldType " + lineSeparator +
+                "\t\t Create new table" + lineSeparator +
+                "\t drop|tableName " + lineSeparator +
+                "\t\t Delete table" + lineSeparator +
+                "\t clear|tableName " + lineSeparator +
+                "\t\t Clear all data from table" + lineSeparator +
+                "\t insert|tableName|columnName1|value1|...|columnNameN|valueN " + lineSeparator +
+                "\t\t Insert new data to table" + lineSeparator +
+                "\t delete|tableName|columnName|value " + lineSeparator +
+                "\t\t Delete data from table" + lineSeparator +
                 "\t update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet " + lineSeparator +
-                "\t\t Update data from table" + lineSeparator + 
-                "\t exit " + lineSeparator + 
-                "\t\t Close connection to database and exit program!" + lineSeparator + 
-                "Enter a new command or use help command." + lineSeparator + 
+                "\t\t Update data from table" + lineSeparator +
+                "\t exit " + lineSeparator +
+                "\t\t Close connection to database and exit program!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
@@ -106,7 +106,7 @@ public class IntegrationTest {
 
     @Test
     public void testConnect() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("exit");
 
         Main.main(new String[0]);
@@ -122,7 +122,7 @@ public class IntegrationTest {
 
     @Test
     public void testConnectWithWrongNumbersOfParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER);
+        in.add("connect|" + DATABASE + "|" + USER);
         in.add("exit");
 
         Main.main(new String[0]);
@@ -139,7 +139,7 @@ public class IntegrationTest {
 
     @Test
     public void testConnectWithError() {
-        in.add("connect|"+ DATABASE +"|errorUser|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|errorUser|" + PASSWORD);
         in.add("exit");
 
         Main.main(new String[0]);
@@ -157,7 +157,7 @@ public class IntegrationTest {
 
     @Test
     public void testUnknownCommand() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("errorCommand");
         in.add("exit");
 
@@ -176,7 +176,7 @@ public class IntegrationTest {
 
     @Test
     public void testList() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("list");
         in.add("exit");
 
@@ -212,7 +212,7 @@ public class IntegrationTest {
 
     @Test
     public void testCreateTableWitError() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("create|tableName");
         in.add("exit");
 
@@ -234,7 +234,7 @@ public class IntegrationTest {
 
     @Test
     public void testCreateDropTable() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("create|qwe|testColumn integer");
         in.add("list");
         in.add("drop|qwe");
@@ -262,7 +262,7 @@ public class IntegrationTest {
 
     @Test
     public void testDropTableWithErrorTableName() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("drop|errorTableName");
         in.add("exit");
 
@@ -282,7 +282,7 @@ public class IntegrationTest {
 
     @Test
     public void testDropTableWithWrongNumberOfParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("drop|errorTableName|test");
         in.add("exit");
 
@@ -303,7 +303,7 @@ public class IntegrationTest {
 
     @Test
     public void testClearTableWithWrongNumberOfParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|errorTableName|test");
         in.add("exit");
 
@@ -324,7 +324,7 @@ public class IntegrationTest {
 
     @Test
     public void testInsertDataWithWrongParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("insert|errorTableName|test");
         in.add("exit");
 
@@ -345,7 +345,7 @@ public class IntegrationTest {
 
     @Test
     public void testInsertData() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("insert|users|username|yura33|password|*****|id|10|");
         in.add("clear|users");
@@ -370,7 +370,7 @@ public class IntegrationTest {
 
     @Test
     public void testDeleteData() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("insert|users|username|yura33|password|*****|id|10|");
         in.add("insert|users|username|yura22|password|+++++|id|12|");
@@ -414,7 +414,7 @@ public class IntegrationTest {
 
     @Test
     public void testDeleteDataWithWrongParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("delete|errorTableName|test");
         in.add("exit");
 
@@ -435,7 +435,7 @@ public class IntegrationTest {
 
     @Test
     public void testDeleteDataForEmptyRows() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("insert|users|username|yura33|password|*****|id|10|");
         in.add("insert|users|username|yura22|password|+++++|id|12|");
@@ -482,7 +482,7 @@ public class IntegrationTest {
 
     @Test
     public void testUpdateData() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("insert|users|username|yura33|password|*****|id|10|");
         in.add("insert|users|username|yura22|password|+++++|id|12|");
@@ -527,7 +527,7 @@ public class IntegrationTest {
 
     @Test
     public void testUpdateDataForEmptyRows() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("insert|users|username|yura33|password|*****|id|10|");
         in.add("insert|users|username|yura22|password|+++++|id|12|");
@@ -574,27 +574,27 @@ public class IntegrationTest {
 
     @Test
     public void testUpdateDataWithWrongParameters() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("update|errorTableName|test");
         in.add("exit");
 
         Main.main(new String[0]);
 
-        assertEquals("Hello User" + lineSeparator + 
-                "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator + 
-                "Connection was successful!" + lineSeparator + 
-                "Enter a new command or use help command." + lineSeparator + 
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator +
+                "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like " +
                 "update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter:update|errorTableName|test" + lineSeparator +
-                "Please try again" + lineSeparator + 
-                "Enter a new command or use help command." + lineSeparator + 
-                "Connection was closed!" + lineSeparator + 
+                "Please try again" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
     @Test
     public void testFind() {
-        in.add("connect|"+ DATABASE +"|"+ USER +"|"+ PASSWORD);
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
         in.add("clear|users");
         in.add("find|users");
         in.add("exit");

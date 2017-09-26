@@ -12,8 +12,8 @@ import java.util.List;
 public class FindData implements Command {
     public static final String FIND_DATA_SAMPLE = "find|tableName";
 
-    private DatabaseManager manager;
-    private View view;
+    private final DatabaseManager manager;
+    private final View view;
 
     public FindData(View view, DatabaseManager manager) {
         this.view = view;
@@ -44,7 +44,7 @@ public class FindData implements Command {
     private void printTable(String tableName) throws RequestErrorException {
         String[] tableColumn = manager.getTableColumnsNames(tableName).toArray(new String[0]);
 
-       List<DataSet> result = manager.findData(tableName);
+        List<DataSet> result = manager.findData(tableName);
 
         Object[][] values = new Object[result.size()][tableColumn.length];
 

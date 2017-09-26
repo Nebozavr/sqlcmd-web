@@ -9,8 +9,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class InsertData implements Command {
     public static final String INSERT_DATA_SAMPLE = "insert|tableName|columnName1|value1|...|columnNameN|valueN";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public InsertData(View view, DatabaseManager manager) {
         this.view = view;

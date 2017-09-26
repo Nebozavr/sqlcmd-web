@@ -4,8 +4,8 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
 public class isConnected implements Command {
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public isConnected(View view, DatabaseManager manager) {
         this.view = view;

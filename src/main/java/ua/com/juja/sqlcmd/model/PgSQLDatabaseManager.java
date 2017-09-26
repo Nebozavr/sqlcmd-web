@@ -5,12 +5,15 @@ import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
 
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
     private Connection connection;
-    private String lineSeparator = System.getProperty("line.separator");
+    private final String lineSeparator = System.getProperty("line.separator");
 
     @Override
     public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
@@ -21,7 +24,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
-                    database + "?loggerLevel=OFF",  userName, password );
+                    database + "?loggerLevel=OFF", userName, password);
         } catch (SQLException e) {
             connection = null;
             throw new BadConnectionException(String.format("Can't get connection for database:" +
@@ -192,14 +195,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
-    @Override
-    public void checkRows(String tableName, String column, String value) throws RequestErrorException {
+    private void checkRows(String tableName, String column, String value) throws RequestErrorException {
 
         String sql = String.format("SELECT * FROM %s WHERE %s = %s", tableName, column, value);
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
-            if (!resultSet.next()){
+            if (!resultSet.next()) {
                 final String message = String.format("Request was not execute, " +
                         "because the fields with this value (%s = %s) are not in the table %s", column, value, tableName);
                 throw new RequestErrorException(message);

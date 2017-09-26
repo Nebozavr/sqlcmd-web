@@ -4,7 +4,7 @@ import java.util.*;
 
 public class DataSet {
 
-    private Map<String, Object> data = new LinkedHashMap<>();
+    private final Map<String, Object> data = new LinkedHashMap<>();
 
     public void put(String name, Object value) {
         data.put(name, value);

@@ -3,11 +3,11 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Help implements Command {
-    public static final String HELP_SAMPLE = "help";
+    private static final String HELP_SAMPLE = "help";
 
-    private View view;
+    private final View view;
 
-    private String lineSeparator = System.getProperty("line.separator");
+    private final String lineSeparator = System.getProperty("line.separator");
 
 
     public Help(View view) {

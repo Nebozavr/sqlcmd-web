@@ -8,8 +8,8 @@ import ua.com.juja.sqlcmd.view.View;
 
 public class MainController {
 
-    private Command[] commands;
-    private View view;
+    private final Command[] commands;
+    private final View view;
 
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
@@ -50,9 +50,6 @@ public class MainController {
                         command.process(input);
                         break;
                     }
-                } catch (ExitException e) {
-                    throw e;
-
                 } catch (WrongNumberParametersException e) {
                     view.writeError(e);
                     break;

@@ -9,8 +9,8 @@ import ua.com.juja.sqlcmd.view.View;
 public class UpdateData implements Command {
     public static final String UPDATE_DATA_SAMPLE = "update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet";
 
-    private View view;
-    private DatabaseManager manager;
+    private final View view;
+    private final DatabaseManager manager;
 
     public UpdateData(View view, DatabaseManager manager) {
         this.view = view;

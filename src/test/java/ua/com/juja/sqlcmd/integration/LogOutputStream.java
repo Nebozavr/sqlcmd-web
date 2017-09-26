@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.integration;
 import java.io.IOException;
 import java.io.OutputStream;
 
-class LogOutputStream extends OutputStream{
+class LogOutputStream extends OutputStream {
     private String log = "";
 
     @Override
