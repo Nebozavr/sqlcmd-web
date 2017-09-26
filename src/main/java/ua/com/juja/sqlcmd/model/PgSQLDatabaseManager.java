@@ -3,6 +3,7 @@ package ua.com.juja.sqlcmd.model;
 import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
 import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
 import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.sql.*;
 import java.util.LinkedHashSet;
@@ -12,8 +13,16 @@ import java.util.Set;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
-    private Connection connection;
+    private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
+    private static final String HOST = propertiesLoader.getServerName();
+    private static final String PORT = propertiesLoader.getDatabasePort();
+    private static final String DRIVER = propertiesLoader.getDriver();
+    private static final String LOGGER_LEVEL = propertiesLoader.getLoggerLevel();
+    private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
+
     private final String lineSeparator = System.getProperty("line.separator");
+
+    private Connection connection;
 
     @Override
     public void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException {
@@ -23,8 +32,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             throw new NoDriverException("Please add JDBC jar to you project");
         }
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" +
-                    database + "?loggerLevel=OFF", userName, password);
+            connection = DriverManager.getConnection(DATABASE_URL + database + LOGGER_LEVEL, userName, password);
         } catch (SQLException e) {
             connection = null;
             throw new BadConnectionException(String.format("Can't get connection for database:" +
