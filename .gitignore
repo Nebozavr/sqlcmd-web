@@ -89,4 +89,6 @@ buildNumber.properties
 .idea/
 sqlcmd.iml
 
+prodaction/
+
 
