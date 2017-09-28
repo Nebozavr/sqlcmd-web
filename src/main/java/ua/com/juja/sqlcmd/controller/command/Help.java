@@ -21,28 +21,28 @@ public class Help implements Command {
 
     @Override
     public void process(String command) {
-        view.write("List of all commands:");
+        view.write("List of all commands:" + lineSeparator);
         view.write("\t " + Connect.CONNECT_SAMPLE + " " + lineSeparator +
-                "\t\t Connect to database");
+                "\t\t Connect to database" + lineSeparator);
         view.write("\t " + HELP_SAMPLE + " " + lineSeparator +
-                "\t\t View all commands and their description");
+                "\t\t View all commands and their description" + lineSeparator);
         view.write("\t " + ListTables.LIST_TABLES_SAMPLE + " " + lineSeparator +
-                "\t\t Show all tables from database");
+                "\t\t Show all tables from database" + lineSeparator);
         view.write("\t " + FindData.FIND_DATA_SAMPLE + " " + lineSeparator +
-                "\t\t Show all data from tableName");
+                "\t\t Show all data from tableName" + lineSeparator);
         view.write("\t " + CreateTable.CREATE_TABLE_SAMPLE + " " + lineSeparator +
-                "\t\t Create new table");
+                "\t\t Create new table" + lineSeparator);
         view.write("\t " + DropTable.DROP_TABLE_SAMPLE + " " + lineSeparator +
-                "\t\t Delete table");
+                "\t\t Delete table" + lineSeparator);
         view.write("\t " + ClearTable.CLEAR_TABLE_SAMPLE + " " + lineSeparator +
-                "\t\t Clear all data from table");
+                "\t\t Clear all data from table" + lineSeparator);
         view.write("\t " + InsertData.INSERT_DATA_SAMPLE + " " + lineSeparator +
-                "\t\t Insert new data to table");
+                "\t\t Insert new data to table" + lineSeparator);
         view.write("\t " + DeleteRows.DELETE_ROWS_SAMPLE + " " + lineSeparator +
-                "\t\t Delete data from table");
+                "\t\t Delete data from table" + lineSeparator);
         view.write("\t " + UpdateData.UPDATE_DATA_SAMPLE + " " + lineSeparator +
-                "\t\t Update data from table");
+                "\t\t Update data from table" + lineSeparator);
         view.write("\t " + Exit.EXIT_SAMPLE + " " + lineSeparator +
-                "\t\t Close connection to database and exit program!");
+                "\t\t Close connection to database and exit program!" + lineSeparator);
     }
 }

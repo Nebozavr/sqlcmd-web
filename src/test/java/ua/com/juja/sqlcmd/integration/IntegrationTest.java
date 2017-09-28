@@ -65,29 +65,29 @@ public class IntegrationTest {
 
         assertEquals("Hello User" + lineSeparator +
                 "Please enter database name, username and password, in the format: connect|database|username|password" + lineSeparator +
-                "List of all commands:" + lineSeparator +
+                "List of all commands:" + lineSeparator + lineSeparator +
                 "\t connect|database|username|password " + lineSeparator +
-                "\t\t Connect to database" + lineSeparator +
+                "\t\t Connect to database" + lineSeparator + lineSeparator +
                 "\t help " + lineSeparator +
-                "\t\t View all commands and their description" + lineSeparator +
+                "\t\t View all commands and their description" + lineSeparator + lineSeparator +
                 "\t list " + lineSeparator +
-                "\t\t Show all tables from database" + lineSeparator +
+                "\t\t Show all tables from database" + lineSeparator + lineSeparator +
                 "\t find|tableName " + lineSeparator +
-                "\t\t Show all data from tableName" + lineSeparator +
+                "\t\t Show all data from tableName" + lineSeparator + lineSeparator +
                 "\t create|tableName|column1Name fieldType|...|columnNName fieldType " + lineSeparator +
-                "\t\t Create new table" + lineSeparator +
+                "\t\t Create new table" + lineSeparator + lineSeparator +
                 "\t drop|tableName " + lineSeparator +
-                "\t\t Delete table" + lineSeparator +
+                "\t\t Delete table" + lineSeparator + lineSeparator +
                 "\t clear|tableName " + lineSeparator +
-                "\t\t Clear all data from table" + lineSeparator +
+                "\t\t Clear all data from table" + lineSeparator + lineSeparator +
                 "\t insert|tableName|columnName1|value1|...|columnNameN|valueN " + lineSeparator +
-                "\t\t Insert new data to table" + lineSeparator +
+                "\t\t Insert new data to table" + lineSeparator + lineSeparator +
                 "\t delete|tableName|columnName|value " + lineSeparator +
-                "\t\t Delete data from table" + lineSeparator +
+                "\t\t Delete data from table" + lineSeparator + lineSeparator +
                 "\t update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet " + lineSeparator +
-                "\t\t Update data from table" + lineSeparator +
+                "\t\t Update data from table" + lineSeparator + lineSeparator +
                 "\t exit " + lineSeparator +
-                "\t\t Close connection to database and exit program!" + lineSeparator +
+                "\t\t Close connection to database and exit program!" + lineSeparator + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
