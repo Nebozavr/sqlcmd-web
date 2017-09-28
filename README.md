@@ -1,4 +1,4 @@
-## SQLCMD - juja study project
+## SQLCMD - juja study project!
 This application is written in the Java language and implements the functionality of the console client to work with a specific database.<br/>
 Application interface English<br/>
 Before start program please check config file (sqlcmd.properties)<br/>
