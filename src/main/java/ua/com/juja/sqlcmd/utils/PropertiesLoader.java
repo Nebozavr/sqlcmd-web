@@ -1,6 +1,9 @@
 package ua.com.juja.sqlcmd.utils;
 
 
+import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -10,12 +13,13 @@ public class PropertiesLoader {
 
     private Properties properties;
 
-    public PropertiesLoader() {
+    public PropertiesLoader()  {
         properties = new Properties();
         try (InputStream in = PropertiesLoader.class.getClassLoader().getResourceAsStream(CONFIG_SQLCMD_PROPERTIES)) {
             properties.load(in);
-        } catch (Exception e) {
-            System.out.println("Error loading config " + CONFIG_SQLCMD_PROPERTIES);
+        } catch (IOException e) {
+            String message = "Error loading config " + CONFIG_SQLCMD_PROPERTIES;
+            System.out.println(message);
             e.printStackTrace();
         }
     }
