@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class InsertData implements Command {
@@ -43,7 +43,7 @@ public class InsertData implements Command {
         try {
             manager.insertData(tableName, dataSet);
             view.write(String.format("New data was add to %s", tableName));
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }

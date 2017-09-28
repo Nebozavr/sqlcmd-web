@@ -1,33 +1,31 @@
 package ua.com.juja.sqlcmd.model;
 
-import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
-import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 
 import java.util.List;
 import java.util.Set;
 
 public interface DatabaseManager {
 
-    void connect(String database, String userName, String password) throws NoDriverException, BadConnectionException;
+    void connect(String database, String userName, String password) throws PgSQLDatabaseManagerException;
 
-    Set<String> listTables() throws RequestErrorException;
+    Set<String> listTables() throws PgSQLDatabaseManagerException;
 
-    void clearTable(String tableName) throws RequestErrorException;
+    void clearTable(String tableName) throws PgSQLDatabaseManagerException;
 
-    void dropTable(String tableName) throws RequestErrorException;
+    void dropTable(String tableName) throws PgSQLDatabaseManagerException;
 
-    void createTable(String tableName, String... columns) throws RequestErrorException;
+    void createTable(String tableName, String... columns) throws PgSQLDatabaseManagerException;
 
-    List<DataSet> findData(String tableName) throws RequestErrorException;
+    List<DataSet> findData(String tableName) throws PgSQLDatabaseManagerException;
 
-    void insertData(String tableName, DataSet input) throws RequestErrorException;
+    void insertData(String tableName, DataSet input) throws PgSQLDatabaseManagerException;
 
-    void update(String tableName, DataSet dataWhere, DataSet dataSet) throws RequestErrorException;
+    void update(String tableName, DataSet dataWhere, DataSet dataSet) throws PgSQLDatabaseManagerException;
 
-    void deleteRecords(String tableName, DataSet input) throws RequestErrorException;
+    void deleteRecords(String tableName, DataSet input) throws PgSQLDatabaseManagerException;
 
-    Set<String> getTableColumnsNames(String tableName) throws RequestErrorException;
+    Set<String> getTableColumnsNames(String tableName) throws PgSQLDatabaseManagerException;
 
     boolean isConnected();
 

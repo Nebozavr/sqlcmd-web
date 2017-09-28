@@ -1,8 +1,6 @@
 package ua.com.juja.sqlcmd.utils;
 
 
-import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

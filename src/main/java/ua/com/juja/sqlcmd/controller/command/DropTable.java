@@ -2,7 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DropTable implements Command {
@@ -34,7 +34,7 @@ public class DropTable implements Command {
         try {
             manager.dropTable(tableName);
             view.write(String.format("Table %s was delete", tableName));
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }

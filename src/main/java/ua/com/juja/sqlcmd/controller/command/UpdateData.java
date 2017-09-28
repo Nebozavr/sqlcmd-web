@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class UpdateData implements Command {
@@ -45,7 +45,7 @@ public class UpdateData implements Command {
         try {
             manager.update(tableName, dataWhere, dataSet);
             view.write(String.format("Data from %s was updated", tableName));
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }

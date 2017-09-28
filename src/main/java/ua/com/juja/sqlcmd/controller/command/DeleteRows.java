@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class DeleteRows implements Command {
@@ -40,7 +40,7 @@ public class DeleteRows implements Command {
         try {
             manager.deleteRecords(tableName, dataSet);
             view.write(String.format("The data was delete from table: %s", tableName));
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }

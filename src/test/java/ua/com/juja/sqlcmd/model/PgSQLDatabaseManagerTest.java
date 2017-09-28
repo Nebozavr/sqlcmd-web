@@ -3,9 +3,7 @@ package ua.com.juja.sqlcmd.model;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
-import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class PgSQLDatabaseManagerTest {
             databaseManager.createTable("users", "id int", "userName text", "password text");
             databaseManager.createTable("roles", "roleID int", "roleName text", "description text");
 
-        } catch (BadConnectionException | NoDriverException | RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -39,26 +37,26 @@ public class PgSQLDatabaseManagerTest {
         try {
             databaseManager.dropTable("users");
             databaseManager.dropTable("roles");
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             e.getMessage();
         }
     }
 
-    @Test(expected = BadConnectionException.class)
-    public void testConnectionWithError() throws NoDriverException, BadConnectionException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testConnectionWithError() throws PgSQLDatabaseManagerException {
         DatabaseManager testManager = new PgSQLDatabaseManager();
         testManager.connect(DATABASE, USER, "errorPass");
     }
 
     @Test
-    public void testListTable() throws RequestErrorException {
+    public void testListTable() throws PgSQLDatabaseManagerException {
         String result = "[roles, users]";
 
         assertEquals(result, databaseManager.listTables().toString());
     }
 
     @Test
-    public void testDropTable() throws RequestErrorException {
+    public void testDropTable() throws PgSQLDatabaseManagerException {
         databaseManager.dropTable("roles");
 
         String result = "[users]";
@@ -66,18 +64,18 @@ public class PgSQLDatabaseManagerTest {
 
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testDropTableWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testDropTableWithError() throws PgSQLDatabaseManagerException {
         databaseManager.dropTable("errorTableName");
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testCreateTableWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testCreateTableWithError() throws PgSQLDatabaseManagerException {
         databaseManager.createTable("test", " integer", "name text");
     }
 
     @Test
-    public void testFindData() throws RequestErrorException {
+    public void testFindData() throws PgSQLDatabaseManagerException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
@@ -96,13 +94,13 @@ public class PgSQLDatabaseManagerTest {
         databaseManager.clearTable("users");
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testFindDataWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testFindDataWithError() throws PgSQLDatabaseManagerException {
         databaseManager.findData("errorTableName");
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testInsertDataWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testInsertDataWithError() throws PgSQLDatabaseManagerException {
         DataSet input = new DataSet();
         input.put("username", "yura22");
         input.put("user_id", "1");
@@ -111,7 +109,7 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void testUpdate() throws RequestErrorException {
+    public void testUpdate() throws PgSQLDatabaseManagerException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
@@ -136,8 +134,8 @@ public class PgSQLDatabaseManagerTest {
         assertEquals("[2, yuraTest, changePass]", user.getValues().toString());
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testUpdateDataWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testUpdateDataWithError() throws PgSQLDatabaseManagerException {
         DataSet where = new DataSet();
         where.put("username", "yuraTest");
 
@@ -152,19 +150,19 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void testGetTableColumnsNames() throws RequestErrorException {
+    public void testGetTableColumnsNames() throws PgSQLDatabaseManagerException {
         String actual = databaseManager.getTableColumnsNames("users").toString();
         assertEquals("[id, username, password]", actual);
     }
 
     @Test
-    public void testGetTableColumnsNamesWithError() throws RequestErrorException {
+    public void testGetTableColumnsNamesWithError() throws PgSQLDatabaseManagerException {
         String actual = databaseManager.getTableColumnsNames("errorTableName").toString();
         assertEquals("[]", actual);
     }
 
     @Test
-    public void testDeleteData() throws RequestErrorException {
+    public void testDeleteData() throws PgSQLDatabaseManagerException {
         databaseManager.clearTable("users");
 
         DataSet input = new DataSet();
@@ -190,8 +188,8 @@ public class PgSQLDatabaseManagerTest {
         assertEquals(0, results.size());
     }
 
-    @Test(expected = RequestErrorException.class)
-    public void testDeleteDataWithError() throws RequestErrorException {
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testDeleteDataWithError() throws PgSQLDatabaseManagerException {
         DataSet del = new DataSet();
         del.put("username", "testName");
         databaseManager.deleteRecords("errorTableName", del);

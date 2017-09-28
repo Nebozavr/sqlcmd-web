@@ -6,9 +6,7 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.Main;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PgSQLDatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.BadConnectionException;
-import ua.com.juja.sqlcmd.model.exceptions.NoDriverException;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.io.PrintStream;
@@ -41,7 +39,7 @@ public class IntegrationTest {
             databaseManager.createTable("users", "id int", "userName text", "password text");
             databaseManager.createTable("roles", "roleID int", "roleName text", "description text");
 
-        } catch (BadConnectionException | NoDriverException | RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -51,7 +49,7 @@ public class IntegrationTest {
         try {
             databaseManager.dropTable("users");
             databaseManager.dropTable("roles");
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             e.getMessage();
         }
     }

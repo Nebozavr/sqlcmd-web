@@ -1,7 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class ListTables implements Command {
@@ -25,7 +25,7 @@ public class ListTables implements Command {
         try {
             String message = manager.listTables().toString();
             view.write(message);
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }

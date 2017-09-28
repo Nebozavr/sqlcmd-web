@@ -4,7 +4,7 @@ import dnl.utils.text.table.TextTable;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.exceptions.RequestErrorException;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.List;
@@ -36,12 +36,12 @@ public class FindData implements Command {
 
         try {
             printTable(tableName);
-        } catch (RequestErrorException e) {
+        } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }
 
-    private void printTable(String tableName) throws RequestErrorException {
+    private void printTable(String tableName) throws PgSQLDatabaseManagerException {
         String[] tableColumn = manager.getTableColumnsNames(tableName).toArray(new String[0]);
 
         List<DataSet> result = manager.findData(tableName);
