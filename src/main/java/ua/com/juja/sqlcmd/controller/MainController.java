@@ -23,6 +23,7 @@ public class MainController {
                 new FindData(view, manager),
                 new CreateTable(view, manager),
                 new DropTable(view, manager),
+                new DropAllTable(view, manager),
                 new ClearTable(view, manager),
                 new InsertData(view, manager),
                 new DeleteRows(view, manager),

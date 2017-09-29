@@ -80,6 +80,14 @@ public class PgSQLDatabaseManagerTest {
 
     }
 
+    @Test
+    public void testDropAllTable() throws PgSQLDatabaseManagerException {
+        databaseManager.dropAllTable();
+        String result = "[]";
+        assertEquals(result, databaseManager.listTables().toString());
+
+    }
+
     @Test(expected = PgSQLDatabaseManagerException.class)
     public void testDropTableWithError() throws PgSQLDatabaseManagerException {
         databaseManager.dropTable("errorTableName");

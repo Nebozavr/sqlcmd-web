@@ -17,6 +17,8 @@ public interface DatabaseManager {
 
     void dropTable(String tableName) throws PgSQLDatabaseManagerException;
 
+    void dropAllTable() throws PgSQLDatabaseManagerException;
+
     void createTable(String tableName, String... columns) throws PgSQLDatabaseManagerException;
 
     List<DataSet> findData(String tableName) throws PgSQLDatabaseManagerException;

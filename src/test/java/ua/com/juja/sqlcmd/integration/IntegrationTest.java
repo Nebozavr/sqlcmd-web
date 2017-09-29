@@ -78,6 +78,8 @@ public class IntegrationTest {
                 "\t\t Create new table" + lineSeparator + lineSeparator +
                 "\t drop|tableName " + lineSeparator +
                 "\t\t Delete table" + lineSeparator + lineSeparator +
+                "\t dropAll " + lineSeparator +
+                "\t\t Delete all tables" + lineSeparator + lineSeparator +
                 "\t clear|tableName " + lineSeparator +
                 "\t\t Clear all data from table" + lineSeparator + lineSeparator +
                 "\t insert|tableName|columnName1|value1|...|columnNameN|valueN " + lineSeparator +
@@ -270,6 +272,25 @@ public class IntegrationTest {
                 "Table qwe was delete" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "[roles, users]" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed!" + lineSeparator +
+                "Bye!!!" + lineSeparator + "", out.getData());
+    }
+
+    @Test
+    public void testDropAllTable() {
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
+        in.add("dropAll");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, " +
+                "in the format: connect|database|username|password" + lineSeparator +
+                "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "All tables have been deleted" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());

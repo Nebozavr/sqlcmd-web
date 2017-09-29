@@ -99,6 +99,15 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public void dropAllTable() throws PgSQLDatabaseManagerException {
+        Set<String> tables = listTables();
+        for (String tableName : tables
+                ) {
+            dropTable(tableName);
+        }
+    }
+
+    @Override
     public void createTable(String tableName, String... columns) throws PgSQLDatabaseManagerException {
         try (Statement statement = connection.createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
