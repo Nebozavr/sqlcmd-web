@@ -40,6 +40,18 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public void disconnect() throws PgSQLDatabaseManagerException {
+        try {
+            if (connection != null) {
+                connection.close();
+                connection = null;
+            }
+        } catch (SQLException e) {
+            throw new PgSQLDatabaseManagerException("Can't close connection for database:" + lineSeparator + e.getMessage());
+        }
+    }
+
+    @Override
     public Set<String> listTables() throws PgSQLDatabaseManagerException {
         String[] types = {"TABLE"};
         DatabaseMetaData md;

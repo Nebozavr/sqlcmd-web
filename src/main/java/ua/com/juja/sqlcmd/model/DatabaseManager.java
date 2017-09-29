@@ -9,6 +9,8 @@ public interface DatabaseManager {
 
     void connect(String database, String userName, String password) throws PgSQLDatabaseManagerException;
 
+    void disconnect() throws PgSQLDatabaseManagerException;
+
     Set<String> listTables() throws PgSQLDatabaseManagerException;
 
     void clearTable(String tableName) throws PgSQLDatabaseManagerException;
