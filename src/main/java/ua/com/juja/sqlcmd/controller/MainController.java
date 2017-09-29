@@ -14,7 +14,7 @@ public class MainController {
     public MainController(View view, DatabaseManager manager) {
         this.view = view;
         this.commands = new Command[]{
-                new Exit(view),
+                new Exit(view, manager),
                 new Help(view),
                 new Connect(view, manager),
                 new Disconnect(view, manager),

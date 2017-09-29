@@ -89,7 +89,6 @@ public class IntegrationTest {
                 "\t exit " + lineSeparator +
                 "\t\t Close connection to database and exit program!" + lineSeparator + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
@@ -102,7 +101,6 @@ public class IntegrationTest {
         assertEquals("Hello User" + lineSeparator +
                 "Please enter database name, username and password, " +
                 "in the format: connect|database|username|password" + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
@@ -137,7 +135,6 @@ public class IntegrationTest {
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
@@ -154,7 +151,6 @@ public class IntegrationTest {
                 "The entered number of parameters is not correct. Must be 4 param, but you enter: 3" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
@@ -172,7 +168,6 @@ public class IntegrationTest {
                 "FATAL: password authentication failed for user \"errorUser\"" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 
@@ -227,7 +222,6 @@ public class IntegrationTest {
                 "Before using any command you must connect to database" + lineSeparator +
                 "Please connect to database! Use this format: connect|database|username|password" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
     }
 

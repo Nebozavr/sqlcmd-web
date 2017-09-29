@@ -1,15 +1,19 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.controller.command.exceptions.ExitException;
+import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Exit implements Command {
     public static final String EXIT_SAMPLE = "exit";
 
     private final View view;
+    private DatabaseManager manager;
 
-    public Exit(View view) {
+    public Exit(View view, DatabaseManager manager) {
         this.view = view;
+        this.manager = manager;
     }
 
     @Override
@@ -19,7 +23,14 @@ public class Exit implements Command {
 
     @Override
     public void process(String command) {
-        view.write("Connection was closed!");
+        if (manager.isConnected()){
+            try {
+                manager.disconnect();
+                view.write("Connection was closed!");
+            } catch (PgSQLDatabaseManagerException e) {
+                view.writeError(e);
+            }
+        }
         view.write("Bye!!!");
         throw new ExitException();
     }
