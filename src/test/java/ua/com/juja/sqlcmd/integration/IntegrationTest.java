@@ -66,6 +66,8 @@ public class IntegrationTest {
                 "List of all commands:" + lineSeparator + lineSeparator +
                 "\t connect|database|username|password " + lineSeparator +
                 "\t\t Connect to database" + lineSeparator + lineSeparator +
+                "\t disconnect " + lineSeparator +
+                "\t\t Disconnect from current database" + lineSeparator + lineSeparator +
                 "\t help " + lineSeparator +
                 "\t\t View all commands and their description" + lineSeparator + lineSeparator +
                 "\t list " + lineSeparator +
@@ -115,6 +117,25 @@ public class IntegrationTest {
                 "Please enter database name, username and password, " +
                 "in the format: connect|database|username|password" + lineSeparator +
                 "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed!" + lineSeparator +
+                "Bye!!!" + lineSeparator + "", out.getData());
+    }
+
+    @Test
+    public void testDisconnect() {
+        in.add("connect|" + DATABASE + "|" + USER + "|" + PASSWORD);
+        in.add("disconnect");
+        in.add("exit");
+
+        Main.main(new String[0]);
+
+        assertEquals("Hello User" + lineSeparator +
+                "Please enter database name, username and password, " +
+                "in the format: connect|database|username|password" + lineSeparator +
+                "Connection was successful!" + lineSeparator +
+                "Enter a new command or use help command." + lineSeparator +
+                "Connection was closed" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());

@@ -9,6 +9,8 @@ import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PgSQLDatabaseManagerTest {
     private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
@@ -46,6 +48,20 @@ public class PgSQLDatabaseManagerTest {
     public void testConnectionWithError() throws PgSQLDatabaseManagerException {
         DatabaseManager testManager = new PgSQLDatabaseManager();
         testManager.connect(DATABASE, USER, "errorPass");
+    }
+
+    @Test
+    public void testDisconnect() throws PgSQLDatabaseManagerException{
+        DatabaseManager testManager = new PgSQLDatabaseManager();
+        testManager.connect(DATABASE, USER, PASSWORD);
+        testManager.disconnect();
+        assertFalse(testManager.isConnected());
+    }
+
+    @Test(expected = PgSQLDatabaseManagerException.class)
+    public void testDisconnectWithError() throws PgSQLDatabaseManagerException{
+        DatabaseManager testManager = new PgSQLDatabaseManager();
+        testManager.disconnect();
     }
 
     @Test

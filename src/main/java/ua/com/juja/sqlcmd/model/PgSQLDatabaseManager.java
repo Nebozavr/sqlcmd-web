@@ -41,13 +41,15 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void disconnect() throws PgSQLDatabaseManagerException {
-        try {
-            if (connection != null) {
+        if (connection != null) {
+            try {
                 connection.close();
-                connection = null;
+            } catch (SQLException e) {
+                throw new PgSQLDatabaseManagerException("Can't close connection for database:" + lineSeparator + e.getMessage());
             }
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Can't close connection for database:" + lineSeparator + e.getMessage());
+            connection = null;
+        } else {
+            throw new PgSQLDatabaseManagerException("Disconnect failed. You are not connected to any Database");
         }
     }
 

@@ -6,6 +6,8 @@ import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class Disconnect implements Command {
+    public static final String DISCONNECT_SAMPLE = "disconnect";
+
     private View view;
     private DatabaseManager manager;
 

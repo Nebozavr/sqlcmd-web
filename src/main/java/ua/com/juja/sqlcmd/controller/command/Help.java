@@ -24,6 +24,8 @@ public class Help implements Command {
         view.write("List of all commands:" + lineSeparator);
         view.write("\t " + Connect.CONNECT_SAMPLE + " " + lineSeparator +
                 "\t\t Connect to database" + lineSeparator);
+        view.write("\t " + Disconnect.DISCONNECT_SAMPLE + " " + lineSeparator +
+                "\t\t Disconnect from current database" + lineSeparator);
         view.write("\t " + HELP_SAMPLE + " " + lineSeparator +
                 "\t\t View all commands and their description" + lineSeparator);
         view.write("\t " + ListTables.LIST_TABLES_SAMPLE + " " + lineSeparator +
