@@ -1,7 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.*;
-import ua.com.juja.sqlcmd.controller.command.exceptions.ExitException;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -32,13 +31,6 @@ public class MainController {
     }
 
     public void run() {
-        try {
-            doWork();
-        } catch (ExitException e) {
-        }
-    }
-
-    private void doWork() {
         view.write("Hello User");
         view.write("Please enter database name, username and password, " +
                 "in the format: " + Connect.CONNECT_SAMPLE);
@@ -56,6 +48,10 @@ public class MainController {
                     view.writeError(e);
                     break;
                 }
+            }
+
+            if (input.equals("exit")){
+                break;
             }
             view.write("Enter a new command or use help command.");
         }
