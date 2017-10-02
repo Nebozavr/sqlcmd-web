@@ -50,7 +50,7 @@ public class MainController {
                 }
             }
 
-            if (input.equals("exit")){
+            if (input.equals(Exit.EXIT_SAMPLE)){
                 break;
             }
             view.write("Enter a new command or use help command.");

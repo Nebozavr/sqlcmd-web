@@ -23,17 +23,17 @@ public class ExitTest {
     }
 
     @Test
-    public void testExitIsDetected() {
+    public void testExitCanProcess() {
         assertTrue(command.canProcess("exit"));
     }
 
     @Test
-    public void testWrongExitIsDetected() {
+    public void testWrongExitCanProcess() {
         assertFalse(command.canProcess("escape"));
     }
 
     @Test
-    public void testExitExecute() throws WrongNumberParametersException {
+    public void testExitProcess() throws WrongNumberParametersException {
         command.process("exit");
         verify(view).write("Bye!!!");
     }
