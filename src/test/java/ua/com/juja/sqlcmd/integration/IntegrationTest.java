@@ -241,7 +241,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like " +
-                "\"create|tableName|column1Name fieldType|...|columnNName " + "fieldType\", " +
+                "create|tableName|column1Name fieldType|...|columnNName " + "fieldType, " +
                 "but you enter: create|tableName" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
