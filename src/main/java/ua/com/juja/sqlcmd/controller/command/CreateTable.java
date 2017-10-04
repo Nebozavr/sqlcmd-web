@@ -26,12 +26,17 @@ public class CreateTable implements Command {
         String[] data = command.split("\\|");
         if (data.length < 3) {
             throw new WrongNumberParametersException("Error entering command, must be like " +
-                    "\"" + CREATE_TABLE_SAMPLE + "\", but you enter: " + command);
+                    CREATE_TABLE_SAMPLE + ", but you enter: " + command);
         }
         String tableName = data[1];
         String columns = data[2];
 
         try {
+            if (manager.hasTable(tableName)) {
+                String message = String.format("Table wih name %s is already exists!", tableName);
+                view.write(message);
+                return;
+            }
             manager.createTable(tableName, columns);
             view.write(String.format("Table %s was created!", tableName));
         } catch (PgSQLDatabaseManagerException e) {
