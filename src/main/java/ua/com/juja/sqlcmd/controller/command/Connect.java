@@ -33,6 +33,11 @@ public class Connect implements Command {
         String password = data[3];
 
         try {
+            if (manager.isConnected()){
+                String message = String.format("You are already was connect to DB.");
+                view.write(message);
+                return;
+            }
             manager.connect(databaseName, userName, password);
             view.write("Connection was successful!");
         } catch (PgSQLDatabaseManagerException e) {
