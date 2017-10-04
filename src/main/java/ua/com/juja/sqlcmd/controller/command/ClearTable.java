@@ -31,6 +31,10 @@ public class ClearTable implements Command {
         String tableName = data[1];
 
         try {
+            if (!manager.hasTable(tableName)) {
+                String message = String.format("Table %s doesn't exists!", tableName);
+                throw new PgSQLDatabaseManagerException(message);
+            }
             manager.clearTable(tableName);
             view.write(String.format("Table %s was cleared", tableName));
         } catch (PgSQLDatabaseManagerException e) {
