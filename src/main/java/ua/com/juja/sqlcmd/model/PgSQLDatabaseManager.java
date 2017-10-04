@@ -225,6 +225,15 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         return connection != null;
     }
 
+    @Override
+    public boolean hasTable(String tableName) throws PgSQLDatabaseManagerException {
+        for (String name : listTables()) {
+            if (name.equals(tableName)) return true;
+        }
+
+        return false;
+    }
+
     private void checkRows(String tableName, String column, String value) throws PgSQLDatabaseManagerException {
 
         String sql = String.format("SELECT * FROM %s WHERE %s = %s", tableName, column, value);

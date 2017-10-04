@@ -33,4 +33,5 @@ public interface DatabaseManager {
 
     boolean isConnected();
 
+    boolean hasTable(String tableName) throws PgSQLDatabaseManagerException;
 }
