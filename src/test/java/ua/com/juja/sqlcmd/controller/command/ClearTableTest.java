@@ -7,10 +7,6 @@ import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -38,20 +34,28 @@ public class ClearTableTest {
 
     @Test
     public void testClearTablesProcess() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
-       command.process("clear|users");
+        String tableName = "users";
+        when(databaseManager.hasTable(tableName)).thenReturn(true);
+        command.process("clear|" + tableName);
+        verify(databaseManager).clearTable(tableName);
+        verify(view).write("Table users was cleared");
+    }
 
-       verify(databaseManager).clearTable("users");
-       verify(view).write("Table users was cleared");
+    @Test
+    public void testClearWrongTable() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+        String tableName = "wrongName";
+        when(databaseManager.hasTable(tableName)).thenReturn(false);
+        command.process("clear|" + tableName);
+        verify(view).write(String.format("Table %s doesn't exists!", tableName));
+
     }
 
     @Test
     public void testClearTableProcessWithWrongParameters() {
-        // when
         try {
             command.process("clear");
             fail();
         } catch (WrongNumberParametersException e) {
-            // then
             assertEquals("Error entering command, must be like clear|tableName, but you enter:clear", e.getMessage());
         }
     }
