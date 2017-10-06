@@ -57,7 +57,7 @@ public class CreateTableTest {
             fail();
         } catch (WrongNumberParametersException e) {
             assertEquals("Error entering command, must be like " +
-                    "create|tableName|column1Name fieldType|...|columnNName fieldType, but you enter: create|users", e.getMessage());
+                    "create|tableName|column1Name fieldType,...,columnNName fieldType, but you enter: create|users", e.getMessage());
         }
     }
 }

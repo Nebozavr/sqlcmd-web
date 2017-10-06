@@ -6,7 +6,7 @@ import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 public class CreateTable implements Command {
-    public static final String CREATE_TABLE_SAMPLE = "create|tableName|column1Name fieldType|...|columnNName fieldType";
+    public static final String CREATE_TABLE_SAMPLE = "create|tableName|column1Name fieldType,...,columnNName fieldType";
 
     private final View view;
     private final DatabaseManager manager;
