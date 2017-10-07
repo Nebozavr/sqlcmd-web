@@ -49,7 +49,7 @@ public class DeleteRowsTest {
 
 
     @Test
-    public void testDeleteRowsWithError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+    public void testDeleteRowsSQLError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
         String tableName = "users";
         String columnName = "id";
         String value = "1";

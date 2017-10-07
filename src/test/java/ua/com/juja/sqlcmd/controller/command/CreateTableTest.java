@@ -51,6 +51,17 @@ public class CreateTableTest {
     }
 
     @Test
+    public void testCreateTablesSQLError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+        String tableName = "users";
+        when(databaseManager.hasTable(tableName)).thenReturn(false);
+        PgSQLDatabaseManagerException error = new PgSQLDatabaseManagerException("Error");
+        doThrow(error).when(databaseManager).createTable(tableName,"id int");
+        command.process("create|" + tableName + "|id int");
+        verify(databaseManager).createTable(tableName,"id int");
+        verify(view).writeError(error);
+    }
+
+    @Test
     public void testCreateTableProcessWithWrongParameters() {
         try {
             command.process("create|users");
