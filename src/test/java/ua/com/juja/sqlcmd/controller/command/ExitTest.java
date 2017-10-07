@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
 
 import static org.junit.Assert.assertFalse;
@@ -36,6 +37,16 @@ public class ExitTest {
     public void testExitProcess() throws WrongNumberParametersException {
         command.process("exit");
         verify(view).write("Bye!!!");
+    }
+
+    @Test
+    public void testExitSQLError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+        when(databaseManager.isConnected()).thenReturn(true);
+        PgSQLDatabaseManagerException error = new PgSQLDatabaseManagerException("error");
+        doThrow(error).when(databaseManager).disconnect();
+        command.process("exit");
+        verify(databaseManager).disconnect();
+        verify(view).writeError(error);
     }
 
     @Test

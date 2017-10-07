@@ -46,6 +46,16 @@ public class ListTablesTest {
         command.process("list");
         verify(view).write(tableNames.toString());
     }
+
+    @Test
+    public void testListTablesSQLError() throws PgSQLDatabaseManagerException, WrongNumberParametersException {
+        PgSQLDatabaseManagerException error = new PgSQLDatabaseManagerException("error");
+        when(databaseManager.listTables()).thenThrow(error);
+        command.process("list");
+        verify(databaseManager).listTables();
+        verify(view).writeError(error);
+    }
+
     @Test
     public void testListTablesProcessEmpty() throws PgSQLDatabaseManagerException, WrongNumberParametersException {
         Set<String> tableNames = new HashSet<>();
