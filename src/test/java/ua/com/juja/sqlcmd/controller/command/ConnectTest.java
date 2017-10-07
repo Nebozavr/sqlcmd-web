@@ -56,6 +56,20 @@ public class ConnectTest {
     }
 
     @Test
+    public void testConnectWithError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+        String database = "sqlcmd";
+        String userName = "postgres";
+        String password = "postgres";
+        String connectCommand = ("connect|" + database + "|" + userName + "|" + password);
+        when(databaseManager.isConnected()).thenReturn(false);
+        PgSQLDatabaseManagerException error = new PgSQLDatabaseManagerException("Connection Error");
+        doThrow(error).when(databaseManager).connect(database, userName, password);
+        command.process(connectCommand);
+        verify(databaseManager).connect(database, userName, password);
+        verify(view).writeError(error);
+    }
+
+    @Test
     public void testConnectProcessWithWrongParameters() {
         try {
             command.process("connect|sqlcmd");
