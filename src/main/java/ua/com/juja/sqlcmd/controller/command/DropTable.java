@@ -32,6 +32,11 @@ public class DropTable implements Command {
         String tableName = data[1];
 
         try {
+            if (!manager.hasTable(tableName)) {
+                String message = String.format("Table %s doesn't exists!", tableName);
+                view.write(message);
+                return;
+            }
             manager.dropTable(tableName);
             view.write(String.format("Table %s was delete", tableName));
         } catch (PgSQLDatabaseManagerException e) {
