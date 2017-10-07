@@ -47,7 +47,17 @@ public class ClearTableTest {
         when(databaseManager.hasTable(tableName)).thenReturn(false);
         command.process("clear|" + tableName);
         verify(view).write(String.format("Table %s doesn't exists!", tableName));
+    }
 
+    @Test
+    public void testClearTableSQLError() throws WrongNumberParametersException, PgSQLDatabaseManagerException {
+        String tableName = "users";
+        when(databaseManager.hasTable(tableName)).thenReturn(true);
+        PgSQLDatabaseManagerException error = new PgSQLDatabaseManagerException("error");
+        doThrow(error).when(databaseManager).clearTable(tableName);
+        command.process("clear|" + tableName);
+        verify(databaseManager).clearTable(tableName);
+        verify(view).writeError(error);
     }
 
     @Test
