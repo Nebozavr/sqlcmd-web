@@ -309,8 +309,7 @@ public class IntegrationTest {
                 "in the format: connect|database|username|password" + lineSeparator +
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
-                "Request was not execute, because: ERROR: table \"errortablename\" does not exist" + lineSeparator +
-                "Please try again" + lineSeparator +
+                "Table errorTableName doesn't exists!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
