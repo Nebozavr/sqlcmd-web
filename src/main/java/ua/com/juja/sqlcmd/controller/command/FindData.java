@@ -35,25 +35,16 @@ public class FindData implements Command {
         String tableName = data[1];
 
         try {
-            printTable(tableName);
+            if (!manager.hasTable(tableName)) {
+                String message = String.format("Table %s doesn't exists!", tableName);
+                view.write(message);
+                return;
+            }
+            view.writeTable(tableName, manager);
         } catch (PgSQLDatabaseManagerException e) {
             view.writeError(e);
         }
     }
 
-    private void printTable(String tableName) throws PgSQLDatabaseManagerException {
-        String[] tableColumn = manager.getTableColumnsNames(tableName).toArray(new String[0]);
 
-        List<DataSet> result = manager.findData(tableName);
-
-        Object[][] values = new Object[result.size()][tableColumn.length];
-
-        for (int i = 0; i < result.size(); i++) {
-            values[i] = result.get(i).getValues().toArray();
-        }
-
-        TextTable table = new TextTable(tableColumn, values);
-
-        table.printTable();
-    }
 }
