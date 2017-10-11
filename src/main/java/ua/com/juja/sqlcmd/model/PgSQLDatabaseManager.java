@@ -1,7 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
-import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.sql.*;
