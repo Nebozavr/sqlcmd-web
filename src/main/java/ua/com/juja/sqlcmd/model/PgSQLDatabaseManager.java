@@ -97,6 +97,23 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
     }
 
+
+    @Override
+    public void dropDatabase(String dbName) throws PgSQLDatabaseManagerException {
+        String checkConnect = String.format("SELECT * FROM pg_stat_activity WHERE datname = '%s'", dbName);
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(checkConnect)) {
+            String sql = String.format("DROP DATABASE %s", dbName);
+
+            if (resultSet.next()){
+                throw new PgSQLDatabaseManagerException("Cannot drop the currently open database. Please disconnect.");
+            }
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
+        }
+    }
+
     @Override
     public void dropAllTable() throws PgSQLDatabaseManagerException {
         Set<String> tables = listTables();

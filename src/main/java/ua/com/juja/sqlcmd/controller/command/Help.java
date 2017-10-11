@@ -38,6 +38,8 @@ public class Help implements Command {
                 "\t\t Create new Database" + lineSeparator);
         view.write("\t " + DropTable.DROP_TABLE_SAMPLE + " " + lineSeparator +
                 "\t\t Delete table" + lineSeparator);
+        view.write("\t " + DropDatabase.DROP_DB_SAMPLE + " " + lineSeparator +
+                "\t\t Delete database" + lineSeparator);
         view.write("\t " + DropAllTable.DROP_ALL_TABLE_SAMPLE + " " + lineSeparator +
                 "\t\t Delete all tables" + lineSeparator);
         view.write("\t " + ClearTable.CLEAR_TABLE_SAMPLE + " " + lineSeparator +
