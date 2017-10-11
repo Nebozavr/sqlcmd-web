@@ -21,6 +21,8 @@ public interface DatabaseManager {
 
     void createTable(String tableName, String... columns) throws PgSQLDatabaseManagerException;
 
+    void createDataBase(String dbName) throws PgSQLDatabaseManagerException;
+
     List<DataSet> findData(String tableName) throws PgSQLDatabaseManagerException;
 
     void insertData(String tableName, DataSet input) throws PgSQLDatabaseManagerException;
