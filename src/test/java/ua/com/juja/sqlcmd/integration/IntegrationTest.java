@@ -76,6 +76,8 @@ public class IntegrationTest {
                 "\t\t Show all data from tableName" + lineSeparator + lineSeparator +
                 "\t create|tableName|column1Name fieldType,...,columnNName fieldType " + lineSeparator +
                 "\t\t Create new table" + lineSeparator + lineSeparator +
+                "\t createDB|databaseName " + lineSeparator +
+                "\t\t Create new Database" + lineSeparator + lineSeparator +
                 "\t drop|tableName " + lineSeparator +
                 "\t\t Delete table" + lineSeparator + lineSeparator +
                 "\t dropAll " + lineSeparator +
