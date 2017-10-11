@@ -34,6 +34,8 @@ public class Help implements Command {
                 "\t\t Show all data from tableName" + lineSeparator);
         view.write("\t " + CreateTable.CREATE_TABLE_SAMPLE + " " + lineSeparator +
                 "\t\t Create new table" + lineSeparator);
+        view.write("\t " + CreateDatabase.CREATE_DB_SAMPLE + " " + lineSeparator +
+                "\t\t Create new Database" + lineSeparator);
         view.write("\t " + DropTable.DROP_TABLE_SAMPLE + " " + lineSeparator +
                 "\t\t Delete table" + lineSeparator);
         view.write("\t " + DropAllTable.DROP_ALL_TABLE_SAMPLE + " " + lineSeparator +

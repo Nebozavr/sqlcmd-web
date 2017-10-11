@@ -123,6 +123,16 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public void createDataBase(String dbName) throws PgSQLDatabaseManagerException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = "CREATE DATABASE " + dbName + " WITH ENCODING='UTF8'";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
+        }
+    }
+
+    @Override
     public List<DataSet> findData(String tableName) throws PgSQLDatabaseManagerException {
         String sql = String.format("SELECT * FROM %s", tableName);
         try (Statement statement = connection.createStatement();

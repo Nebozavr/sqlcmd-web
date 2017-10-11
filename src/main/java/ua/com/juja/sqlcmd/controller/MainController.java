@@ -21,6 +21,7 @@ public class MainController {
                 new ListTables(view, manager),
                 new FindData(view, manager),
                 new CreateTable(view, manager),
+                new CreateDatabase(view, manager),
                 new DropTable(view, manager),
                 new DropAllTable(view, manager),
                 new ClearTable(view, manager),
