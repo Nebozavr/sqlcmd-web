@@ -100,6 +100,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void dropDatabase(String dbName) throws PgSQLDatabaseManagerException {
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, "postgres", "postgres");
+        } catch (SQLException e) {
+            connection = null;
+            throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
+        }
+
         String checkConnect = String.format("SELECT * FROM pg_stat_activity WHERE datname = '%s'", dbName);
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(checkConnect)) {
@@ -141,6 +148,13 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void createDataBase(String dbName) throws PgSQLDatabaseManagerException {
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, "postgres", "postgres");
+        } catch (SQLException e) {
+            connection = null;
+            throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
+        }
+
         try (Statement statement = connection.createStatement()) {
             String sql = "CREATE DATABASE " + dbName + " WITH ENCODING='UTF8'";
             statement.executeUpdate(sql);
