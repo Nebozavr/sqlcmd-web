@@ -80,6 +80,8 @@ public class IntegrationTest {
                 "\t\t Create new Database" + lineSeparator + lineSeparator +
                 "\t drop|tableName " + lineSeparator +
                 "\t\t Delete table" + lineSeparator + lineSeparator +
+                "\t dropDB|databaseName " + lineSeparator +
+                "\t\t Delete database" + lineSeparator + lineSeparator +
                 "\t dropAll " + lineSeparator +
                 "\t\t Delete all tables" + lineSeparator + lineSeparator +
                 "\t clear|tableName " + lineSeparator +

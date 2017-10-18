@@ -15,6 +15,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     private static final String HOST = propertiesLoader.getServerName();
     private static final String PORT = propertiesLoader.getDatabasePort();
     private static final String DRIVER = propertiesLoader.getDriver();
+    private static final String USERNAME = propertiesLoader.getUserName();
+    private static final String PASSWORD = propertiesLoader.getPassword();
     private static final String LOGGER_LEVEL = propertiesLoader.getLoggerLevel();
     private static final String DATABASE_URL = DRIVER + HOST + ":" + PORT + "/";
 
@@ -101,7 +103,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     @Override
     public void dropDatabase(String dbName) throws PgSQLDatabaseManagerException {
         try {
-            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, "postgres", "postgres");
+            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             connection = null;
             throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
@@ -149,7 +151,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     @Override
     public void createDataBase(String dbName) throws PgSQLDatabaseManagerException {
         try {
-            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, "postgres", "postgres");
+            connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             connection = null;
             throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
