@@ -1,8 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
@@ -10,7 +8,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class PgSQLDatabaseManagerTest {
     private static final PropertiesLoader propertiesLoader = new PropertiesLoader();
@@ -19,6 +16,7 @@ public class PgSQLDatabaseManagerTest {
     private static final String PASSWORD = propertiesLoader.getPassword();
 
     private DatabaseManager databaseManager;
+
 
     @Before
     public void setup() {
