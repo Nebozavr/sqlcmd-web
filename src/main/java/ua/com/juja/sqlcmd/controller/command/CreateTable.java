@@ -25,8 +25,7 @@ public class CreateTable implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length < 3) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    CREATE_TABLE_SAMPLE + ", but you enter: " + command);
+            throw new WrongNumberParametersException(CREATE_TABLE_SAMPLE ,command);
         }
         String tableName = data[1];
         String columns = data[2];

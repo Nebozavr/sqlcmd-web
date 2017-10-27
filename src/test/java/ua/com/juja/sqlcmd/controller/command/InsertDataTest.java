@@ -70,7 +70,7 @@ public class InsertDataTest {
             command.process("insert|users|id");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, but you enter:insert|users|id", e.getMessage());
+            assertEquals("Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, but you enter: insert|users|id", e.getMessage());
         }
     }
 }

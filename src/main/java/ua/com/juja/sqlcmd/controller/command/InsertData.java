@@ -26,8 +26,7 @@ public class InsertData implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length % 2 != 0) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    INSERT_DATA_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(INSERT_DATA_SAMPLE, command);
         }
 
         String tableName = data[1];

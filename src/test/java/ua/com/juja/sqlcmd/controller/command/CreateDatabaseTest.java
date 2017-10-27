@@ -57,7 +57,7 @@ public class CreateDatabaseTest {
             fail();
         } catch (WrongNumberParametersException e) {
             assertEquals("Error entering command, must be like " +
-                    "createDB|databaseName, but you enter:createDB|test|postgres", e.getMessage());
+                    "createDB|databaseName, but you enter: createDB|test|postgres", e.getMessage());
         }
     }
 }

@@ -25,8 +25,7 @@ public class DropDatabase implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    DROP_DB_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(DROP_DB_SAMPLE, command);
         }
 
         String dbName = data[1];

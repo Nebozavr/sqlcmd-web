@@ -57,7 +57,7 @@ public class DropDatabaseTest {
             fail();
         } catch (WrongNumberParametersException e) {
             assertEquals("Error entering command, must be like " +
-                    "dropDB|databaseName, but you enter:dropDB|test|postgres", e.getMessage());
+                    "dropDB|databaseName, but you enter: dropDB|test|postgres", e.getMessage());
         }
     }
 }

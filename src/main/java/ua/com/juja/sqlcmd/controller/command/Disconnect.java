@@ -1,6 +1,5 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
@@ -22,7 +21,7 @@ public class Disconnect implements Command {
     }
 
     @Override
-    public void process(String command) throws WrongNumberParametersException {
+    public void process(String command) {
         try {
             manager.disconnect();
             view.write("Connection was closed");

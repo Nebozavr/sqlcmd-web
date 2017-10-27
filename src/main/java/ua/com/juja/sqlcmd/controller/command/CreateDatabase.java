@@ -25,8 +25,7 @@ public class CreateDatabase implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    CREATE_DB_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(CREATE_DB_SAMPLE, command);
         }
         String dbName = data[1];
 

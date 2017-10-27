@@ -25,8 +25,7 @@ public class ClearTable implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    CLEAR_TABLE_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(CLEAR_TABLE_SAMPLE, command);
         }
         String tableName = data[1];
 

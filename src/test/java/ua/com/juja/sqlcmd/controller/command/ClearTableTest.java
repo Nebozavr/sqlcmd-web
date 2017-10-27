@@ -66,7 +66,7 @@ public class ClearTableTest {
             command.process("clear");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("Error entering command, must be like clear|tableName, but you enter:clear", e.getMessage());
+            assertEquals("Error entering command, must be like clear|tableName, but you enter: clear", e.getMessage());
         }
     }
 }

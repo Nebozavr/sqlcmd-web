@@ -154,7 +154,7 @@ public class IntegrationTest {
         assertEquals("Hello User" + lineSeparator +
                 "Please enter database name, username and password, " +
                 "in the format: connect|database|username|password" + lineSeparator +
-                "The entered number of parameters is not correct. Must be 4 param, but you enter: 3" + lineSeparator +
+                "Error entering command, must be like connect|database|username|password, but you enter: connect|sqlcmd|postgres" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Bye!!!" + lineSeparator + "", out.getData());
@@ -333,7 +333,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, " +
-                "must be like drop|tableName, but you enter:drop|errorTableName|test" + lineSeparator +
+                "must be like drop|tableName, but you enter: drop|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
@@ -354,7 +354,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like clear|tableName, " +
-                "but you enter:clear|errorTableName|test" + lineSeparator +
+                "but you enter: clear|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
@@ -375,7 +375,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like insert|tableName|columnName1|value1|...|columnNameN|valueN, " +
-                "but you enter:insert|errorTableName|test" + lineSeparator +
+                "but you enter: insert|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
@@ -465,7 +465,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like delete|tableName|columnName|value, " +
-                "but you enter:delete|errorTableName|test" + lineSeparator +
+                "but you enter: delete|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +
@@ -624,7 +624,7 @@ public class IntegrationTest {
                 "Connection was successful!" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Error entering command, must be like " +
-                "update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter:update|errorTableName|test" + lineSeparator +
+                "update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter: update|errorTableName|test" + lineSeparator +
                 "Please try again" + lineSeparator +
                 "Enter a new command or use help command." + lineSeparator +
                 "Connection was closed!" + lineSeparator +

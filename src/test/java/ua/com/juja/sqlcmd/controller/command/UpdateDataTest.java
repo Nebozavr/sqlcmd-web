@@ -78,7 +78,7 @@ public class UpdateDataTest {
             command.process("update|users|id");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("Error entering command, must be like update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter:update|users|id", e.getMessage());
+            assertEquals("Error entering command, must be like update|tableName|columnNameWhere|valueWhere|columnNameSet|valueSet, but you enter: update|users|id", e.getMessage());
         }
     }
 }

@@ -68,7 +68,7 @@ public class DeleteRowsTest {
             command.process("delete|users");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("Error entering command, must be like delete|tableName|columnName|value, but you enter:delete|users", e.getMessage());
+            assertEquals("Error entering command, must be like delete|tableName|columnName|value, but you enter: delete|users", e.getMessage());
         }
     }
 }

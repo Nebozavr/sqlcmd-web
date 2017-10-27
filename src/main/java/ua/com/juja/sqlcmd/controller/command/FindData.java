@@ -1,13 +1,9 @@
 package ua.com.juja.sqlcmd.controller.command;
 
-import dnl.utils.text.table.TextTable;
 import ua.com.juja.sqlcmd.controller.command.exceptions.WrongNumberParametersException;
-import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.view.View;
-
-import java.util.List;
 
 public class FindData implements Command {
     public static final String FIND_DATA_SAMPLE = "find|tableName";
@@ -29,8 +25,7 @@ public class FindData implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 2) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    FIND_DATA_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(FIND_DATA_SAMPLE, command);
         }
         String tableName = data[1];
 

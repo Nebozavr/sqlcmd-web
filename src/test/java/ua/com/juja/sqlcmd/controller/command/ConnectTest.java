@@ -75,8 +75,7 @@ public class ConnectTest {
             command.process("connect|sqlcmd");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("The entered number of parameters is not correct. " +
-                    "Must be 4 param, but you enter: 2", e.getMessage());
+            assertEquals("Error entering command, must be like connect|database|username|password, but you enter: connect|sqlcmd", e.getMessage());
         }
     }
 }

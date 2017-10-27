@@ -26,8 +26,7 @@ public class UpdateData implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 6) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    UPDATE_DATA_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(UPDATE_DATA_SAMPLE, command);
         }
 
         String tableName = data[1];

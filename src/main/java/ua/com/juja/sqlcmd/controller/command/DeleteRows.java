@@ -26,8 +26,7 @@ public class DeleteRows implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != 4) {
-            throw new WrongNumberParametersException("Error entering command, must be like " +
-                    DELETE_ROWS_SAMPLE + ", but you enter:" + command);
+            throw new WrongNumberParametersException(DELETE_ROWS_SAMPLE, command);
         }
 
         String tableName = data[1];

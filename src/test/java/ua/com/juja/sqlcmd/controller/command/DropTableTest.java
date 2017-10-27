@@ -68,7 +68,7 @@ public class DropTableTest {
             fail();
         } catch (WrongNumberParametersException e) {
             assertEquals("Error entering command, must be like " +
-                    "drop|tableName, but you enter:drop|users|invoices", e.getMessage());
+                    "drop|tableName, but you enter: drop|users|invoices", e.getMessage());
         }
     }
 }

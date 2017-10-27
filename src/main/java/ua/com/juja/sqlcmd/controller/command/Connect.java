@@ -25,8 +25,7 @@ public class Connect implements Command {
     public void process(String command) throws WrongNumberParametersException {
         String[] data = command.split("\\|");
         if (data.length != countParams()) {
-            throw new WrongNumberParametersException(String.format("The entered number of parameters is not correct. " +
-                    "Must be %s param, but you enter: %s", countParams(), data.length));
+            throw new WrongNumberParametersException(CONNECT_SAMPLE, command);
         }
         String databaseName = data[1];
         String userName = data[2];

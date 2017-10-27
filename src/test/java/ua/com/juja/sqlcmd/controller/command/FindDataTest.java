@@ -64,7 +64,7 @@ public class FindDataTest {
             command.process("find");
             fail();
         } catch (WrongNumberParametersException e) {
-            assertEquals("Error entering command, must be like find|tableName, but you enter:find", e.getMessage());
+            assertEquals("Error entering command, must be like find|tableName, but you enter: find", e.getMessage());
         }
     }
 }
