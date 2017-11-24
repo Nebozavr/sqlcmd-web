@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.web;
 
+import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.service.Service;
 import ua.com.juja.sqlcmd.service.ServiceImpl;
@@ -26,15 +27,39 @@ public class MainServlet extends HttpServlet {
 
         String action = getAction(req);
 
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+
+        if (action.startsWith("/connect")) {
+            if (manager == null) {
+                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("message", "You are already connected");
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+            return;
+        }
+
+        if (manager == null) {
+            req.getRequestDispatcher("connect.jsp").forward(req, resp);
+            return;
+        }
+
         if (action.startsWith("/menu")) {
             req.setAttribute("items", service.commandsList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
+
         } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
-        } else if (action.startsWith("/connect")) {
-            req.getRequestDispatcher("connect.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/list")) {
+            req.getRequestDispatcher("list.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/find")) {
+            req.getRequestDispatcher("find.jsp").forward(req, resp);
+
         }else {
-            req.getRequestDispatcher("menu.jsp").forward(req, resp);
+            req.setAttribute("message", "Something wrong!!!");
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
     }
 
@@ -52,8 +77,8 @@ public class MainServlet extends HttpServlet {
             String userName = req.getParameter("username");
             String password = req.getParameter("password");
             try {
-                service.connect(databaseName, userName, password);
-              //  req.setAttribute("isConnect", "Connection was successful!!!");
+                DatabaseManager manager = service.connect(databaseName, userName, password);
+                req.getSession().setAttribute("db_manager", manager);
                 resp.sendRedirect(resp.encodeRedirectURL("menu?success=1"));
             } catch (PgSQLDatabaseManagerException e) {
                 req.setAttribute("message", e.getMessage());

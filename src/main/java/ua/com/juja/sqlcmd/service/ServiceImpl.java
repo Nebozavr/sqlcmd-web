@@ -8,19 +8,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ServiceImpl implements Service {
-    private DatabaseManager manager;
-
-    public ServiceImpl() {
-        manager = new PgSQLDatabaseManager();
-    }
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "menu", "connect");
+        return Arrays.asList("list", "find", "disconnect");
     }
 
     @Override
-    public void connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException {
+    public DatabaseManager connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException {
+        DatabaseManager manager = new PgSQLDatabaseManager();
         manager.connect(databaseName, userName, password);
+        return manager;
     }
 }

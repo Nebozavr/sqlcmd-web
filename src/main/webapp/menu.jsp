@@ -6,7 +6,7 @@
     <body>
            <c:choose>
                <c:when test="${param.success eq 1}">
-                   Now you connect to database
+                   <h2> Now you connect to database </h2>
                    <br />
                </c:when>
                <c:otherwise>
