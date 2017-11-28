@@ -25,6 +25,6 @@
 
         <p><h2>After connect, you will be redirect to menu.</h2></p>
 
-        <a href="help">Menu</a><br>
+        <a href="help">HELP</a><br>
     </body>
 </html>

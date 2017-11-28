@@ -10,4 +10,6 @@ public interface Service {
     List<String> commandsList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException;
+
+    DatabaseManager disconnect(DatabaseManager manager) throws PgSQLDatabaseManagerException;
 }

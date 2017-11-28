@@ -34,7 +34,7 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("connect.jsp").forward(req, resp);
             } else {
                 req.setAttribute("message", "You are already connected");
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                req.getRequestDispatcher("menu.jsp").forward(req, resp);
             }
             return;
         }
@@ -56,6 +56,9 @@ public class MainServlet extends HttpServlet {
 
         } else if (action.startsWith("/find")) {
             req.getRequestDispatcher("find.jsp").forward(req, resp);
+
+        }else if (action.startsWith("/disconnect")) {
+            req.getRequestDispatcher("disconnect.jsp").forward(req, resp);
 
         }else {
             req.setAttribute("message", "Something wrong!!!");
@@ -81,6 +84,16 @@ public class MainServlet extends HttpServlet {
                 req.getSession().setAttribute("db_manager", manager);
                 resp.sendRedirect(resp.encodeRedirectURL("menu?success=1"));
             } catch (PgSQLDatabaseManagerException e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        } else if (action.startsWith("/disconnect")){
+            try {
+
+                DatabaseManager manager = service.disconnect((DatabaseManager) req.getSession().getAttribute("db_manager"));
+                req.getSession().setAttribute("db_manager", manager);
+                resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
+            }  catch (PgSQLDatabaseManagerException e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }

@@ -20,4 +20,10 @@ public class ServiceImpl implements Service {
         manager.connect(databaseName, userName, password);
         return manager;
     }
+
+    @Override
+    public DatabaseManager disconnect(DatabaseManager manager) throws PgSQLDatabaseManagerException {
+        manager.disconnect();
+        return null;
+    }
 }
