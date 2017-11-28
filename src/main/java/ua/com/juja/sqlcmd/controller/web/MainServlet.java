@@ -27,7 +27,7 @@ public class MainServlet extends HttpServlet {
 
         String action = getAction(req);
 
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        DatabaseManager manager = getDB_manager(req);
 
         if (action.startsWith("/connect")) {
             if (manager == null) {
@@ -52,7 +52,13 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
 
         } else if (action.startsWith("/list")) {
-            req.getRequestDispatcher("list.jsp").forward(req, resp);
+            try {
+                req.setAttribute("tables", service.listTables(getDB_manager(req)));
+                req.getRequestDispatcher("list.jsp").forward(req, resp);
+            } catch (PgSQLDatabaseManagerException e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
 
         } else if (action.startsWith("/find")) {
             req.getRequestDispatcher("find.jsp").forward(req, resp);
@@ -64,6 +70,10 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("message", "Something wrong!!!");
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
+    }
+
+    private DatabaseManager getDB_manager(HttpServletRequest req) {
+        return (DatabaseManager) req.getSession().getAttribute("db_manager");
     }
 
     private String getAction(HttpServletRequest req) {
@@ -90,7 +100,7 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/disconnect")){
             try {
 
-                DatabaseManager manager = service.disconnect((DatabaseManager) req.getSession().getAttribute("db_manager"));
+                DatabaseManager manager = service.disconnect(getDB_manager(req));
                 req.getSession().setAttribute("db_manager", manager);
                 resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
             }  catch (PgSQLDatabaseManagerException e) {

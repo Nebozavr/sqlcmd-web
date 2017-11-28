@@ -6,6 +6,7 @@ import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class ServiceImpl implements Service {
 
@@ -25,5 +26,10 @@ public class ServiceImpl implements Service {
     public DatabaseManager disconnect(DatabaseManager manager) throws PgSQLDatabaseManagerException {
         manager.disconnect();
         return null;
+    }
+
+    @Override
+    public Set<String> listTables(DatabaseManager manager) throws PgSQLDatabaseManagerException {
+       return manager.listTables();
     }
 }
