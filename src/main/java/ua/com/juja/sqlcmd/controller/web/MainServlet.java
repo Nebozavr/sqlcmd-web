@@ -61,12 +61,19 @@ public class MainServlet extends HttpServlet {
             }
 
         } else if (action.startsWith("/find")) {
-            req.getRequestDispatcher("find.jsp").forward(req, resp);
+            String tableName = req.getParameter("table");
+            try {
+                req.setAttribute("tableNames", service.find(manager, tableName));
+                req.getRequestDispatcher("find.jsp").forward(req, resp);
+            } catch (PgSQLDatabaseManagerException e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
 
-        }else if (action.startsWith("/disconnect")) {
+        } else if (action.startsWith("/disconnect")) {
             req.getRequestDispatcher("disconnect.jsp").forward(req, resp);
 
-        }else {
+        } else {
             req.setAttribute("message", "Something wrong!!!");
             req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
@@ -85,7 +92,7 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
 
-        if (action.startsWith("/connect")){
+        if (action.startsWith("/connect")) {
             String databaseName = req.getParameter("dbName");
             String userName = req.getParameter("username");
             String password = req.getParameter("password");
@@ -97,16 +104,20 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-        } else if (action.startsWith("/disconnect")){
+        } else if (action.startsWith("/disconnect")) {
             try {
 
                 DatabaseManager manager = service.disconnect(getDB_manager(req));
                 req.getSession().setAttribute("db_manager", manager);
                 resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
-            }  catch (PgSQLDatabaseManagerException e) {
+            } catch (PgSQLDatabaseManagerException e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-        }
+        } /*else if (action.startsWith("/find")) {
+            String tableName = req.getParameter("tableName");
+            resp.sendRedirect(resp.encodeRedirectURL("find?table=" + tableName));
+
+        }*/
     }
 }

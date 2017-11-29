@@ -15,4 +15,6 @@ public interface Service {
     DatabaseManager disconnect(DatabaseManager manager) throws PgSQLDatabaseManagerException;
 
     Set<String> listTables(DatabaseManager db_manager) throws PgSQLDatabaseManagerException;
+
+    List<List<String>> find(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
 }

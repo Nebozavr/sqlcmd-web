@@ -11,6 +11,7 @@
 
         <p><h2>After disconnect, you will be redirect to connect page.</h2></p>
 
-        <a href="help">HELP</a><br>
+        <br>
+                        <a href="menu">Menu</a><br>
     </body>
 </html>

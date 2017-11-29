@@ -4,10 +4,7 @@ import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.sql.*;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class PgSQLDatabaseManager implements DatabaseManager {
 
@@ -250,7 +247,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
-            Set<String> result = new LinkedHashSet<>();
+            Set<String> result = new HashSet<>();
 
             while (tables.next()) {
                 result.add(tables.getString("column_name"));

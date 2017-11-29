@@ -5,7 +5,10 @@
     </head>
     <body>
              <c:forEach items="${tables}" var="table">
-                          <a href="${table}">${table}</a><br>
+                          <a href="find?table=${table}">${table}</a><br>
                         </c:forEach>
+
+        <br>
+                        <a href="menu">Menu</a><br>
     </body>
 </html>

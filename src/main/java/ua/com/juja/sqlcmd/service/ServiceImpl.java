@@ -1,12 +1,11 @@
 package ua.com.juja.sqlcmd.service;
 
+import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.PgSQLDatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ServiceImpl implements Service {
 
@@ -31,5 +30,23 @@ public class ServiceImpl implements Service {
     @Override
     public Set<String> listTables(DatabaseManager manager) throws PgSQLDatabaseManagerException {
        return manager.listTables();
+    }
+
+    @Override
+    public List<List<String>> find(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
+        List<List<String>> result = new LinkedList<>();
+
+        List<String> tableColumnsNames = new ArrayList<>(manager.getTableColumnsNames(tableName));
+        List<DataSet> tableData = manager.findData(tableName);
+
+        result.add(tableColumnsNames);
+
+
+        for (int i = 0; i < tableData.size(); i++) {
+            List<String> values = (List<String>) (Object)tableData.get(i).getValues();
+            result.add(values);
+        }
+
+        return result;
     }
 }
