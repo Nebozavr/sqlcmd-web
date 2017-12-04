@@ -10,8 +10,13 @@ import java.util.*;
 public class ServiceImpl implements Service {
 
     @Override
-    public List<String> commandsList() {
-        return Arrays.asList("list", "find", "disconnect");
+    public List<String> menuList() {
+        return Arrays.asList("list", "disconnect", "help");
+    }
+
+    @Override
+    public List<String> commandList() {
+        return Arrays.asList("clear", "drop", "insert", "update");
     }
 
     @Override

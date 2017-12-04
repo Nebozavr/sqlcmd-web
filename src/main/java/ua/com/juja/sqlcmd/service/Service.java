@@ -8,7 +8,9 @@ import java.util.Set;
 
 public interface Service {
 
-    List<String> commandsList();
+    List<String> menuList();
+
+    List<String> commandList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException;
 

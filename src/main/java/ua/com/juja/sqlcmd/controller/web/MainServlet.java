@@ -45,7 +45,7 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/menu")) {
-            req.setAttribute("items", service.commandsList());
+            req.setAttribute("items", service.menuList());
             req.getRequestDispatcher("menu.jsp").forward(req, resp);
 
         } else if (action.startsWith("/help")) {
@@ -63,8 +63,19 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/find")) {
             String tableName = req.getParameter("table");
             try {
+              //  req.setAttribute("table", tableName);
                 req.setAttribute("tableNames", service.find(manager, tableName));
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
+            } catch (PgSQLDatabaseManagerException e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+
+        }else if (action.startsWith("/control")) {
+            String tableName = req.getParameter("table");
+            try {
+                req.setAttribute("tableNames", service.find(manager, tableName));
+                req.getRequestDispatcher("control.jsp").forward(req, resp);
             } catch (PgSQLDatabaseManagerException e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

@@ -4,6 +4,7 @@
         <title>SQLCmd</title>
     </head>
     <body>
+    <h3> Table - <c:out value ="${param.table}" /> </h3>
        <table border="1">
             <c:forEach items="${tableNames}" var="row">
                 <tr>
@@ -17,6 +18,8 @@
         </table>
 
         <br>
-                        <a href="menu">Menu</a><br>
+
+        <a href="control?table=${param.table}">Data table management</a><br>
+        <a href="menu">Menu</a><br>
     </body>
 </html>
