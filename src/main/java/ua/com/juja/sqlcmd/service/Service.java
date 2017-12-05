@@ -21,4 +21,6 @@ public interface Service {
     List<List<String>> find(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
 
     void clear(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
+
+    void drop(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
 }

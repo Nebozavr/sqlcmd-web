@@ -59,4 +59,9 @@ public class ServiceImpl implements Service {
     public void clear(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
         manager.clearTable(tableName);
     }
+
+    @Override
+    public void drop(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
+        manager.dropTable(tableName);
+    }
 }

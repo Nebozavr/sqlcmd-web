@@ -134,6 +134,9 @@ public class MainServlet extends HttpServlet {
                if (action.equals("Clear")){
                    service.clear(manager, tableName);
                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+               } else if (action.equals("Drop")){
+                   service.drop(manager, tableName);
+                   resp.sendRedirect(resp.encodeRedirectURL("list"));
                }
                 //resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
             } catch (PgSQLDatabaseManagerException e) {
