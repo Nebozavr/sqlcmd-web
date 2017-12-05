@@ -101,9 +101,9 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String urlAction = getAction(req);
 
-        if (action.startsWith("/connect")) {
+        if (urlAction.startsWith("/connect")) {
             String databaseName = req.getParameter("dbName");
             String userName = req.getParameter("username");
             String password = req.getParameter("password");
@@ -115,7 +115,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-        } else if (action.startsWith("/disconnect")) {
+        } else if (urlAction.startsWith("/disconnect")) {
             try {
 
                 DatabaseManager manager = service.disconnect(getDB_manager(req));
@@ -125,10 +125,21 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-        } /*else if (action.startsWith("/find")) {
-            String tableName = req.getParameter("tableName");
-            resp.sendRedirect(resp.encodeRedirectURL("find?table=" + tableName));
+        } else if (urlAction.startsWith("/control")) {
+            try {
 
-        }*/
+                DatabaseManager manager = getDB_manager(req);
+                String action = req.getParameter("action");
+                String tableName = req.getParameter("table");
+               if (action.equals("Clear")){
+                   service.clear(manager, tableName);
+                   resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+               }
+                //resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
+            } catch (PgSQLDatabaseManagerException e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
     }
 }

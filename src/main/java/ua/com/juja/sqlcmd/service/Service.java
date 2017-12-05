@@ -19,4 +19,6 @@ public interface Service {
     Set<String> listTables(DatabaseManager db_manager) throws PgSQLDatabaseManagerException;
 
     List<List<String>> find(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
+
+    void clear(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
 }

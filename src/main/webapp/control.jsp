@@ -19,6 +19,7 @@
        <br>
 
             <form  action="control" method="POST">
+            <input type="hidden" name="table" value="${param.table}"/>
               <table>
                 <tr>
                     <td> <input type="submit" name="action" value="Clear"/>
