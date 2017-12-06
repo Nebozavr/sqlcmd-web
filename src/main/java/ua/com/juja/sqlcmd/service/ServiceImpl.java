@@ -79,4 +79,13 @@ public class ServiceImpl implements Service {
 
         manager.insertData(tableName, dataSet);
     }
+
+    @Override
+    public void delete(DatabaseManager manager, String tableName, String columnName, String value) throws PgSQLDatabaseManagerException {
+        DataSet dataSet = new DataSet();
+
+        dataSet.put(columnName, value);
+
+        manager.deleteRecords(tableName, dataSet);
+    }
 }

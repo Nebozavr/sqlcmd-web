@@ -141,15 +141,20 @@ public class MainServlet extends HttpServlet {
                 } else if (action.equals("Drop")) {
                     service.drop(manager, tableName);
                     resp.sendRedirect(resp.encodeRedirectURL("list"));
-                }else if (action.equals("Insert")) {
+                } else if (action.equals("Insert")) {
 
                     List<String> result = new LinkedList<>();
                     List<String> columnsName = service.find(manager, tableName).get(0);
-                    for (String value: columnsName) {
+                    for (String value : columnsName) {
                         result.add(value);
                         result.add(req.getParameter(value));
                     }
                     service.insert(manager, tableName, result);
+                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                } else if (action.equals("Delete")) {
+                    String columnName = req.getParameter("columnDelete");
+                    String value = req.getParameter("valueDelete");
+                    service.delete(manager, tableName, columnName, value);
                     resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
                 }
             } catch (PgSQLDatabaseManagerException e) {
