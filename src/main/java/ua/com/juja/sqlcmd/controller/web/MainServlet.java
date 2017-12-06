@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainServlet extends HttpServlet {
 
@@ -63,7 +65,6 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/find")) {
             String tableName = req.getParameter("table");
             try {
-              //  req.setAttribute("table", tableName);
                 req.setAttribute("tableNames", service.find(manager, tableName));
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
             } catch (PgSQLDatabaseManagerException e) {
@@ -71,7 +72,7 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
 
-        }else if (action.startsWith("/control")) {
+        } else if (action.startsWith("/control")) {
             String tableName = req.getParameter("table");
             try {
                 req.setAttribute("tableNames", service.find(manager, tableName));
@@ -115,6 +116,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
+
         } else if (urlAction.startsWith("/disconnect")) {
             try {
 
@@ -125,20 +127,31 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
+
         } else if (urlAction.startsWith("/control")) {
             try {
 
                 DatabaseManager manager = getDB_manager(req);
                 String action = req.getParameter("action");
                 String tableName = req.getParameter("table");
-               if (action.equals("Clear")){
-                   service.clear(manager, tableName);
-                   resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
-               } else if (action.equals("Drop")){
-                   service.drop(manager, tableName);
-                   resp.sendRedirect(resp.encodeRedirectURL("list"));
-               }
-                //resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
+
+                if (action.equals("Clear")) {
+                    service.clear(manager, tableName);
+                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                } else if (action.equals("Drop")) {
+                    service.drop(manager, tableName);
+                    resp.sendRedirect(resp.encodeRedirectURL("list"));
+                }else if (action.equals("Insert")) {
+
+                    List<String> result = new LinkedList<>();
+                    List<String> columnsName = service.find(manager, tableName).get(0);
+                    for (String value: columnsName) {
+                        result.add(value);
+                        result.add(req.getParameter(value));
+                    }
+                    service.insert(manager, tableName, result);
+                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                }
             } catch (PgSQLDatabaseManagerException e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

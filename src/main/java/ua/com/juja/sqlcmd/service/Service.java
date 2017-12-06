@@ -23,4 +23,6 @@ public interface Service {
     void clear(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
 
     void drop(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException;
+
+    void insert(DatabaseManager manager, String tableName, List<String> result) throws PgSQLDatabaseManagerException;
 }

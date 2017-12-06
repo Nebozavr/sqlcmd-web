@@ -247,7 +247,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         try (ResultSet tables = md.getColumns(null, null, tableName, null)) {
-            Set<String> result = new HashSet<>();
+            Set<String> result = new LinkedHashSet<>();
 
             while (tables.next()) {
                 result.add(tables.getString("column_name"));

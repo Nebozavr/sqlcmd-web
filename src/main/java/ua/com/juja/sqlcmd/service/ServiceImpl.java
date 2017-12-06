@@ -41,14 +41,15 @@ public class ServiceImpl implements Service {
     public List<List<String>> find(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
         List<List<String>> result = new LinkedList<>();
 
-        List<String> tableColumnsNames = new ArrayList<>(manager.getTableColumnsNames(tableName));
+        List<String> tableColumnsNames = new ArrayList<String>(manager.getTableColumnsNames(tableName)) {
+        };
         List<DataSet> tableData = manager.findData(tableName);
 
         result.add(tableColumnsNames);
 
 
         for (int i = 0; i < tableData.size(); i++) {
-            List<String> values = (List<String>) (Object)tableData.get(i).getValues();
+            LinkedList<String> values = (LinkedList<String>) (Object)tableData.get(i).getValues();
             result.add(values);
         }
 
@@ -63,5 +64,19 @@ public class ServiceImpl implements Service {
     @Override
     public void drop(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
         manager.dropTable(tableName);
+    }
+
+    @Override
+    public void insert(DatabaseManager manager, String tableName, List<String> result) throws PgSQLDatabaseManagerException {
+        DataSet dataSet = new DataSet();
+
+        for (int index = 0; index < result.size() / 2; index++) {
+            String columnName = result.get(index * 2);
+            String value = result.get(index * 2 + 1);
+
+            dataSet.put(columnName, value);
+        }
+
+        manager.insertData(tableName, dataSet);
     }
 }

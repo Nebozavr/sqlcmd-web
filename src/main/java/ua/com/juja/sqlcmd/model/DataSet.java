@@ -12,7 +12,7 @@ public class DataSet {
 
 
     public List<Object> getValues() {
-        return new ArrayList<>(data.values());
+        return new LinkedList<>(data.values());
     }
 
     public Set<String> getNames() {
