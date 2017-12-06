@@ -88,4 +88,15 @@ public class ServiceImpl implements Service {
 
         manager.deleteRecords(tableName, dataSet);
     }
+
+    @Override
+    public void update(DatabaseManager manager, String tableName, List<String> result) throws PgSQLDatabaseManagerException {
+        DataSet dataWhere = new DataSet();
+        DataSet dataSet = new DataSet();
+
+        dataWhere.put(result.get(0), result.get(1));
+        dataSet.put(result.get(2), result.get(3));
+
+        manager.update(tableName, dataWhere, dataSet);
+    }
 }

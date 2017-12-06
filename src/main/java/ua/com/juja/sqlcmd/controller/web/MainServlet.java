@@ -151,6 +151,16 @@ public class MainServlet extends HttpServlet {
                     }
                     service.insert(manager, tableName, result);
                     resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                }else if (action.equals("Update")) {
+
+                    List<String> result = new LinkedList<>();
+                    result.add(req.getParameter("columnWhere"));
+                    result.add(req.getParameter("valueWhere"));
+                    result.add(req.getParameter("columnSet"));
+                    result.add(req.getParameter("valueSet"));
+
+                    service.update(manager, tableName, result);
+                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
                 } else if (action.equals("Delete")) {
                     String columnName = req.getParameter("columnDelete");
                     String value = req.getParameter("valueDelete");
