@@ -10,8 +10,23 @@
     <name>SQLcmd</name>
     <packaging>war</packaging>
 
+    <properties>
+        <org.springframework.version>4.3.5.RELEASE</org.springframework.version>
+    </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>jstl</groupId>
