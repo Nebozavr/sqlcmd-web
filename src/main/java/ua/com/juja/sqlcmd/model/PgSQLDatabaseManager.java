@@ -1,11 +1,15 @@
 package ua.com.juja.sqlcmd.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.sql.*;
 import java.util.*;
 
+@Component
+@Scope(value = "prototype")
 public class PgSQLDatabaseManager implements DatabaseManager {
 
     private static final PropertiesLoader propertiesLoader = new PropertiesLoader();

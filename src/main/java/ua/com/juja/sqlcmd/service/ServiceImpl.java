@@ -1,6 +1,6 @@
 package ua.com.juja.sqlcmd.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
@@ -11,8 +11,10 @@ import java.util.*;
 @Component
 public class ServiceImpl implements Service {
 
-    @Autowired
-    private DataBaseManagerFactory factory;
+    @Lookup
+    public DatabaseManager getDatabaseManager(){
+        return null;
+    }
 
     @Override
     public List<String> menuList() {
@@ -26,7 +28,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException {
-        DatabaseManager manager = factory.createManager();
+        DatabaseManager manager = getDatabaseManager();
         manager.connect(databaseName, userName, password);
         return manager;
     }
