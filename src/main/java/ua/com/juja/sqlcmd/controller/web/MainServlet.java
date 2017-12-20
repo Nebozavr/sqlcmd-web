@@ -21,7 +21,7 @@ public class MainServlet extends HttpServlet {
     private Service service;
 
     @Override
-    public void init(ServletConfig config) throws ServletException{
+    public void init(ServletConfig config) throws ServletException {
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 
@@ -36,72 +36,61 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/connect")) {
             if (manager == null) {
-                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+                goTo("connect.jsp", req, resp);
             } else {
                 req.setAttribute("message", "You are already connected");
-                req.getRequestDispatcher("menu.jsp").forward(req, resp);
+                goTo("menu.jsp", req, resp);
             }
             return;
         }
 
         if (manager == null) {
-            req.getRequestDispatcher("connect.jsp").forward(req, resp);
+            goTo("connect.jsp", req, resp);
             return;
         }
 
         if (action.startsWith("/menu")) {
             req.setAttribute("items", service.menuList());
-            req.getRequestDispatcher("menu.jsp").forward(req, resp);
+            goTo("menu.jsp", req, resp);
 
         } else if (action.startsWith("/help")) {
-            req.getRequestDispatcher("help.jsp").forward(req, resp);
+            goTo("help.jsp", req, resp);
 
         } else if (action.startsWith("/list")) {
             try {
-                req.setAttribute("tables", service.listTables(getDB_manager(req)));
-                req.getRequestDispatcher("list.jsp").forward(req, resp);
+                req.setAttribute("tables", service.listTables(manager));
+                goTo("list.jsp", req, resp);
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
 
         } else if (action.startsWith("/find")) {
             String tableName = req.getParameter("table");
             try {
                 req.setAttribute("tableNames", service.find(manager, tableName));
-                req.getRequestDispatcher("find.jsp").forward(req, resp);
+                goTo("find.jsp", req, resp);
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
 
         } else if (action.startsWith("/control")) {
             String tableName = req.getParameter("table");
             try {
                 req.setAttribute("tableNames", service.find(manager, tableName));
-                req.getRequestDispatcher("control.jsp").forward(req, resp);
+                goTo("control.jsp", req, resp);
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
 
         } else if (action.startsWith("/disconnect")) {
-            req.getRequestDispatcher("disconnect.jsp").forward(req, resp);
+            goTo("disconnect.jsp", req, resp);
 
         } else {
             req.setAttribute("message", "Something wrong!!!");
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
+            goTo("error.jsp", req, resp);
         }
     }
 
-    private DatabaseManager getDB_manager(HttpServletRequest req) {
-        return (DatabaseManager) req.getSession().getAttribute("db_manager");
-    }
-
-    private String getAction(HttpServletRequest req) {
-        String requestURI = req.getRequestURI();
-        return requestURI.substring(req.getContextPath().length(), requestURI.length());
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -114,10 +103,9 @@ public class MainServlet extends HttpServlet {
             try {
                 DatabaseManager manager = service.connect(databaseName, userName, password);
                 req.getSession().setAttribute("db_manager", manager);
-                resp.sendRedirect(resp.encodeRedirectURL("menu?success=1"));
+                redirectTo("menu?success=1", resp);
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
 
         } else if (urlAction.startsWith("/disconnect")) {
@@ -125,10 +113,9 @@ public class MainServlet extends HttpServlet {
 
                 DatabaseManager manager = service.disconnect(getDB_manager(req));
                 req.getSession().setAttribute("db_manager", manager);
-                resp.sendRedirect(resp.encodeRedirectURL("menu?success=2"));
+                redirectTo("menu?success=2", resp);
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
 
         } else if (urlAction.startsWith("/control")) {
@@ -140,10 +127,10 @@ public class MainServlet extends HttpServlet {
 
                 if (action.equals("Clear")) {
                     service.clear(manager, tableName);
-                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                    redirectTo("control?table=" + tableName, resp);
                 } else if (action.equals("Drop")) {
                     service.drop(manager, tableName);
-                    resp.sendRedirect(resp.encodeRedirectURL("list"));
+                    redirectTo("list", resp);
                 } else if (action.equals("Insert")) {
 
                     List<String> result = new LinkedList<>();
@@ -153,8 +140,8 @@ public class MainServlet extends HttpServlet {
                         result.add(req.getParameter(value));
                     }
                     service.insert(manager, tableName, result);
-                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
-                }else if (action.equals("Update")) {
+                    redirectTo("control?table=" + tableName, resp);
+                } else if (action.equals("Update")) {
 
                     List<String> result = new LinkedList<>();
                     result.add(req.getParameter("columnWhere"));
@@ -163,17 +150,38 @@ public class MainServlet extends HttpServlet {
                     result.add(req.getParameter("valueSet"));
 
                     service.update(manager, tableName, result);
-                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                    redirectTo("control?table=" + tableName, resp);
                 } else if (action.equals("Delete")) {
                     String columnName = req.getParameter("columnDelete");
                     String value = req.getParameter("valueDelete");
                     service.delete(manager, tableName, columnName, value);
-                    resp.sendRedirect(resp.encodeRedirectURL("control?table=" + tableName));
+                    redirectTo("control?table=" + tableName, resp);
                 }
             } catch (PgSQLDatabaseManagerException e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                exceptionPage(e, req, resp);
             }
         }
+    }
+
+    private void redirectTo(String url, HttpServletResponse resp) throws IOException {
+        resp.sendRedirect(resp.encodeRedirectURL(url));
+    }
+
+    private void exceptionPage(PgSQLDatabaseManagerException e, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("message", e.getMessage());
+        goTo("error.jsp", req, resp);
+    }
+
+    private void goTo(String url, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher(url).forward(req, resp);
+    }
+
+    private DatabaseManager getDB_manager(HttpServletRequest req) {
+        return (DatabaseManager) req.getSession().getAttribute("db_manager");
+    }
+
+    private String getAction(HttpServletRequest req) {
+        String requestURI = req.getRequestURI();
+        return requestURI.substring(req.getContextPath().length(), requestURI.length());
     }
 }

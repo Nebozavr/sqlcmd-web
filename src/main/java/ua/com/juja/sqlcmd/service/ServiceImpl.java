@@ -12,7 +12,7 @@ import java.util.*;
 public class ServiceImpl implements Service {
 
     @Lookup
-    public DatabaseManager getDatabaseManager(){
+    private DatabaseManager getDatabaseManager(){
         return null;
     }
 
