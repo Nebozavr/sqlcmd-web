@@ -59,7 +59,6 @@ public class ServiceImpl implements Service {
             LinkedList<String> values = (LinkedList<String>) (Object)tableData.get(i).getValues();
             result.add(values);
         }
-
         return result;
     }
 
