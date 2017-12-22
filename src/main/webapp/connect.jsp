@@ -12,7 +12,7 @@
             </h2>
         </p>
 
-        <form action="connect" target="_blank" method="POST">
+        <form action="connect" method="POST">
             Database name:<br>
             <input type="text" name="dbName"><br>
             User name:<br>

@@ -12,7 +12,7 @@ import java.util.*;
 public class ServiceImpl implements Service {
 
     @Lookup
-    private DatabaseManager getDatabaseManager(){
+    public DatabaseManager getDatabaseManager(){
         return null;
     }
 
@@ -104,5 +104,20 @@ public class ServiceImpl implements Service {
         dataSet.put(result.get(2), result.get(3));
 
         manager.update(tableName, dataWhere, dataSet);
+    }
+
+    @Override
+    public void createTable(DatabaseManager manager, String tableName, List<String> columns) throws PgSQLDatabaseManagerException {
+        StringBuilder sql = new StringBuilder();
+
+        for (String column : columns) {
+            sql.append(column + ",");
+        }
+
+        sql.delete(sql.length() - 1, sql.length());
+
+        String res = sql.toString();
+
+        manager.createTable(tableName, res);
     }
 }

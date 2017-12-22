@@ -9,6 +9,7 @@
         </c:forEach>
 
         <br>
+        <a href="create">Create Table</a><br>
         <a href="menu">Menu</a><br>
     </body>
 </html>

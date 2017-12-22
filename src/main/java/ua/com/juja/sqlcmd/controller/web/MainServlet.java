@@ -56,6 +56,9 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/help")) {
             goTo("help.jsp", req, resp);
 
+        } else if (action.startsWith("/create")) {
+            goTo("create.jsp", req, resp);
+
         } else if (action.startsWith("/list")) {
             try {
                 req.setAttribute("tables", service.listTables(manager));
@@ -113,6 +116,26 @@ public class MainServlet extends HttpServlet {
                 DatabaseManager manager = service.disconnect(getDB_manager(req));
                 req.getSession().setAttribute("db_manager", manager);
                 redirectTo("menu?success=2", resp);
+            } catch (PgSQLDatabaseManagerException e) {
+                exceptionPage(e, req, resp);
+            }
+
+        } else if (urlAction.startsWith("/create")) {
+
+            String tableName = req.getParameter("tableName");
+            int count = Integer.parseInt(req.getParameter("countRows"));
+            List<String> columns = new LinkedList<>();
+            for (int i = 1; i <= count; i++) {
+                String result = req.getParameter("columnName" + i) + " " + req.getParameter("typeColumn" + i);
+                columns.add(result);
+            }
+
+            try {
+
+                DatabaseManager manager = getDB_manager(req);
+                req.getSession().setAttribute("db_manager", manager);
+                service.createTable(manager, tableName, columns);
+                redirectTo("list", resp);
             } catch (PgSQLDatabaseManagerException e) {
                 exceptionPage(e, req, resp);
             }
