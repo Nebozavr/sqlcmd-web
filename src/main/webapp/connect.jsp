@@ -1,31 +1,46 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-    <head>
-        <title>Connect</title>
-    </head>
-    <body>
+<style>
+    <%@include file='css/style.css' %>
+</style>
+<head>
+    <title>Connect</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
 
-        <p>
-            <h2>Hello! <br>
-                Before use this program you must connect to database <br>
-                Please connect to any database!
-            </h2>
-        </p>
+<div class="field">
+    <label>Hello! <br>
+        Before use this program you must connect to database <br>
+        Please connect to any database!
+    </label>
+</div>
 
-        <form action="connect" method="POST">
-            Database name:<br>
-            <input type="text" name="dbName"><br>
-            User name:<br>
-            <input type="text" name="username"><br>
-            Password:<br>
-            <input type="password" name="password"><br><br>
-            <input type="submit" value="connect">
-        </form>
+<form id="loginForm" action="connect" method="POST">
+    <div class="field">
+        <label>Database name:</label>
+        <div class="input"><input type="text" name="dbName" value="" id="database"/></div>
+    </div>
 
-        <p>
-            <h2>After connect, you will be redirect to menu.</h2>
-        </p>
+    <div class="field">
+        <label>User name:</label>
+        <div class="input"><input type="text" name="username" value="" id="login"/></div>
+    </div>
 
-        <a href="help">HELP</a><br>
-    </body>
+    <div class="field">
+        <label> Password:</label>
+        <div class="input"><input type="password" name="password" value="" id="pass"/></div>
+    </div>
+
+    <div class="submit">
+        <button type="submit">Connect</button>
+    </div>
+
+</form>
+
+<div class="field">
+    <label>After connect, you will be redirect to menu.</label>
+</div>
+
+</body>
 </html>
