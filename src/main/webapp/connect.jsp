@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<div class="field">
+<div class="div">
     <label>Hello! <br>
         Before use this program you must connect to database <br>
         Please connect to any database!
@@ -38,7 +38,7 @@
 
 </form>
 
-<div class="field">
+<div class="div">
     <label>After connect, you will be redirect to menu.</label>
 </div>
 

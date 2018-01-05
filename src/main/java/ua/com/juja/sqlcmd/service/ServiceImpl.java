@@ -18,7 +18,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> menuList() {
-        return Arrays.asList("list", "disconnect", "help");
+        return Arrays.asList("list", "disconnect");
     }
 
     @Override

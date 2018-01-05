@@ -1,4 +1,7 @@
 <html>
+<style>
+    <%@include file='css/style.css' %>
+</style>
     <head>
          <title>HELP</title>
     </head>
