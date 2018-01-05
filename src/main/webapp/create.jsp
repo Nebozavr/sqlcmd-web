@@ -49,7 +49,7 @@
     var i = 2;
 
 
-    function myFunction(e) {
+    function myFunction() {
 
         document.getElementById("countRows").value = String(i);
 

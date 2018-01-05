@@ -62,7 +62,6 @@ body {
 }
 .input input:focus {
 	border-color: #B7D4EA;
-	box-shadow: inset 2px 2px 6px #EBEBEB, 0 0 4px #D0E6F6, 0 0 0 5px #F2F8FC;
 }
 #loginForm .submit {
 	overflow: hidden;
@@ -132,3 +131,26 @@ button {
 .href button::-moz-focus-inner{border:0}
 
 #loginForm .submit button::-moz-focus-inner{border:0}
+
+#tableData {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#tableData td, #tableData th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#tableData tr:nth-child(even){background-color: #f2f2f2;}
+
+#tableData tr:hover {background-color: #ddd;}
+
+#tableData th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+}

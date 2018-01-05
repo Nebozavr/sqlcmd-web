@@ -3,85 +3,129 @@
 <style>
     <%@include file='css/style.css' %>
 </style>
-    <head>
-        <title>SQLCmd</title>
-    </head>
-    <body>
-        <h3> Table -
-            <c:out value="${param.table}"/>
-        </h3>
-        <table border="1">
-            <c:forEach items="${tableNames}" var="row">
-                <tr>
-                    <c:forEach items="${row}" var="element">
-                        <td>
-                            ${element}
-                        </td>
-                    </c:forEach>
-                </tr>
+<head>
+    <title>SQLCmd</title>
+</head>
+<body>
+<div class="div">
+    <label>Table - <c:out value="${param.table}"/></label>
+</div>
+
+<table border="1" id="tableData">
+    <c:forEach items="${tableNames}" var="columns" begin="0" end="0">
+        <tr>
+            <c:forEach items="${columns}" var="column">
+                <th> ${column} </th>
             </c:forEach>
-        </table>
-        <br>
+        </tr>
+    </c:forEach>
 
-        <br>
+    <c:forEach items="${tableNames}" var="row" begin="1">
+        <tr>
+            <c:forEach items="${row}" var="element">
+                <td>
+                        ${element}
+                </td>
+            </c:forEach>
+        </tr>
+    </c:forEach>
+</table>
+<br>
 
-        <form action="control" method="POST">
-            <input type="hidden" name="table" value="${param.table}"/>
-            <table>
-                <tr>
-                    <td><input type="submit" name="action" value="Clear"/>
-                        <input type="submit" name="action" value="Drop"/></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td> Column name to update: <input type="text" name="columnWhere"></td>
-                </tr>
-                <tr>
-                    <td> Field value to update: <input type="text" name="valueWhere"></td>
-                </tr>
-                <tr>
-                    <td> Column name to set: <input type="text" name="columnSet"></td>
-                </tr>
-                <tr>
-                    <td> Field value to set: <input type="text" name="valueSet"></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" name="action" value="Update"/></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
 
-                <c:forEach items="${tableNames}" var="columns" begin="0" end="0">
-                    <c:forEach items="${columns}" var="column">
-                        <tr>
-                            <td> ${column} <input type="text" name="${column}"></td>
-                        </tr>
-                    </c:forEach>
+<div class="divCreate">
+    <button type="submit" name="action" form="control" value="Clear">Clear</button>
+    <button type="submit" name="action" form="control" value="Drop">Drop</button>
+</div>
+
+<form action="control" method="POST" id="control">
+    <input type="hidden" name="table" value="${param.table}"/>
+        <table>
+        <tr>
+
+            <tr>
+                <td>
+                    <label>Column name to update:</label>
+                    <div class="input"><input type="text" name="columnWhere"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Field value to update:</label>
+                    <div class="input"><input type="text" name="valueWhere"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Column name to set:</label>
+                    <div class="input"><input type="text" name="columnSet"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Field value to set:</label>
+                    <div class="input"><input type="text" name="valueSet"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="divCreate">
+                        <button type="submit" name="action" form="control" value="Update">Update</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+
+            <c:forEach items="${tableNames}" var="columns" begin="0" end="0">
+                <c:forEach items="${columns}" var="column">
+                    <tr>
+                        <td>
+                            <label>${column}</label>
+                            <div class="input"><input type="text" name="${column}"/></div>
+                        </td>
+                    </tr>
                 </c:forEach>
-                <tr>
-                    <td><input type="submit" name="action" value="Insert"/></td>
-                </tr>
+            </c:forEach>
+            <tr>
+                <td>
+                    <div class="divCreate">
+                        <button type="submit" name="action" value="Insert">Insert</button>
+                    </div>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
 
-                <tr>
-                    <td> Column name to delete: <input type="text" name="columnDelete"></td>
-                </tr>
-                <tr>
-                    <td> Field value to delete: <input type="text" name="valueDelete"></td>
-                </tr>
-                <td><input type="submit" name="action" value="Delete"/></td>
-                </tr>
-            </table>
-        </form>
+            <tr>
+                <td>
+                    <label>Column name to delete:</label>
+                    <div class="input"><input type="text" name="columnDelete"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Field value to delete:</label>
+                    <div class="input"><input type="text" name="valueDelete"/></div>
+                </td>
+            </tr>
+            <td>
+                <div class="divCreate">
+                    <button type="submit" name="action" form="control" value="Delete">Delete</button>
+                </div>
+            </td>
+            </tr>
+
+        </tr>
+    </table>
+</form>
 
 
-        <br>
-        <a href="menu">Menu</a><br>
-    </body>
+<div class="divCreate">
+    <button onclick="location.href='menu'">Menu</button>
+</div>
+</body>
 </html>
