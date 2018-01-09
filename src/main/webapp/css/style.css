@@ -100,11 +100,26 @@ body {
     display: block;
     margin: 0 0 11px;
     text-align: center;
-}.divCreate {
+}
+.divCreate {
     display: block;
     margin: 0 0 11px;
 
 }
+.controlDiv{
+	text-align: justify;
+}
+
+.controlDiv form{
+	display: inline-block;
+}
+
+.controlDiv:after{
+	display: inline-block;
+	content: "";
+	width: 100%;
+}
+
 button {
     display: inline-block;
 	padding: 6px 20px;

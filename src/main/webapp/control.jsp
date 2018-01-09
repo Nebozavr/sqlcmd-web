@@ -33,96 +33,79 @@
 <br>
 
 
-<div class="divCreate">
-    <button type="submit" name="action" form="control" value="Clear">Clear</button>
-    <button type="submit" name="action" form="control" value="Drop">Drop</button>
-</div>
-
-<form action="control" method="POST" id="control">
+<form class="control1" action="control" method="POST">
     <input type="hidden" name="table" value="${param.table}"/>
-        <table>
-        <tr>
-
-            <tr>
-                <td>
-                    <label>Column name to update:</label>
-                    <div class="input"><input type="text" name="columnWhere"/></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Field value to update:</label>
-                    <div class="input"><input type="text" name="valueWhere"/></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Column name to set:</label>
-                    <div class="input"><input type="text" name="columnSet"/></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Field value to set:</label>
-                    <div class="input"><input type="text" name="valueSet"/></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="divCreate">
-                        <button type="submit" name="action" form="control" value="Update">Update</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-
-            <c:forEach items="${tableNames}" var="columns" begin="0" end="0">
-                <c:forEach items="${columns}" var="column">
-                    <tr>
-                        <td>
-                            <label>${column}</label>
-                            <div class="input"><input type="text" name="${column}"/></div>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:forEach>
-            <tr>
-                <td>
-                    <div class="divCreate">
-                        <button type="submit" name="action" value="Insert">Insert</button>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>Column name to delete:</label>
-                    <div class="input"><input type="text" name="columnDelete"/></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Field value to delete:</label>
-                    <div class="input"><input type="text" name="valueDelete"/></div>
-                </td>
-            </tr>
-            <td>
-                <div class="divCreate">
-                    <button type="submit" name="action" form="control" value="Delete">Delete</button>
-                </div>
-            </td>
-            </tr>
-
-        </tr>
-    </table>
+    <div class="divCreate">
+        <button type="submit" name="action" value="Clear">Clear</button>
+        <button type="submit" name="action" value="Drop">Drop</button>
+    </div>
 </form>
 
+<div class="controlDiv">
+    <form action="control" method="POST">
+        <input type="hidden" name="table" value="${param.table}"/>
+        <div class="field">
+            <label>Column name to update:</label>
+            <div class="input"><input type="text" name="columnWhere"/></div>
+        </div>
+
+        <div class="field">
+            <label>Field value to update:</label>
+            <div class="input"><input type="text" name="valueWhere"/></div>
+        </div>
+
+        <div class="field">
+            <label>Column name to set:</label>
+            <div class="input"><input type="text" name="columnSet"/></div>
+        </div>
+
+        <div class="field">
+            <label>Field value to set:</label>
+            <div class="input"><input type="text" name="valueSet"/></div>
+        </div>
+
+        <div class="divCreate">
+            <button type="submit" name="action" value="Update">Update</button>
+        </div>
+
+    </form>
+
+    <form action="control" method="POST">
+        <input type="hidden" name="table" value="${param.table}"/>
+
+        <c:forEach items="${tableNames}" var="columns" begin="0" end="0">
+            <c:forEach items="${columns}" var="column">
+                <div class="field">
+                    <label>${column}</label>
+                    <div class="input"><input type="text" name="${column}"/></div>
+                </div>
+            </c:forEach>
+        </c:forEach>
+
+        <div class="divCreate">
+            <button type="submit" name="action" value="Insert">Insert</button>
+        </div>
+
+    </form>
+
+    <form action="control" method="POST">
+        <input type="hidden" name="table" value="${param.table}"/>
+        <div class="field">
+            <label>Column name to delete:</label>
+            <div class="input"><input type="text" name="columnDelete"/></div>
+        </div>
+
+        <div class="field">
+            <label>Field value to delete:</label>
+            <div class="input"><input type="text" name="valueDelete"/></div>
+        </div>
+
+        <div class="divCreate">
+            <button type="submit" name="action" value="Delete">Delete</button>
+        </div>
+
+    </form>
+</div>
 
 <div class="divCreate">
     <button onclick="location.href='menu'">Menu</button>
