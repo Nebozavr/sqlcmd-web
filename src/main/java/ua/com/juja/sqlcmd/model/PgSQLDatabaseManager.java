@@ -107,7 +107,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             connection = null;
-            throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
+            throw new PgSQLDatabaseManagerException("Can't get connection for database:" + lineSeparator + e.getMessage());
         }
 
         String checkConnect = String.format("SELECT * FROM pg_stat_activity WHERE datname = '%s'", dbName);
@@ -155,7 +155,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             connection = DriverManager.getConnection(DATABASE_URL + LOGGER_LEVEL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             connection = null;
-            throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:") + lineSeparator + e.getMessage());
+            throw new PgSQLDatabaseManagerException("Can't get connection for database:" + lineSeparator + e.getMessage());
         }
 
         try (Statement statement = connection.createStatement()) {
@@ -294,20 +294,20 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     private String getValuesFormatted(DataSet input) {
-        String values = "";
+        StringBuilder values = new StringBuilder();
         for (Object value : input.getValues()) {
-            values += String.format("'%s',", value);
+            values.append(String.format("'%s',", value));
         }
-        values = values.substring(0, values.length() - 1);
-        return values;
+        values = new StringBuilder(values.substring(0, values.length() - 1));
+        return values.toString();
     }
 
     private String getNameFormatted(DataSet newValue) {
-        String string = "";
+        StringBuilder string = new StringBuilder();
         for (String name : newValue.getNames()) {
-            string += String.format("%s,", name);
+            string.append(String.format("%s,", name));
         }
-        string = string.substring(0, string.length() - 1);
-        return string;
+        string = new StringBuilder(string.substring(0, string.length() - 1));
+        return string.toString();
     }
 }

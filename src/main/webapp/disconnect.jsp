@@ -8,19 +8,19 @@
 </head>
 <body>
 
-<div class="div">
-    <label>After disconnect, you will be redirect to connect page.</label>
-</div>
-
-<form action="disconnect" method="POST">
     <div class="div">
-        <button type="submit">disconnect</button>
+        <label>After disconnect, you will be redirect to connect page.</label>
     </div>
-</form>
 
-<div class="div">
+    <form action="disconnect" method="POST">
+        <div class="div">
+            <button type="submit">disconnect</button>
+        </div>
+    </form>
+
+    <div class="div">
         <button onclick="location.href='menu'">Menu</button>
-</div>
+    </div>
 
 
 </body>

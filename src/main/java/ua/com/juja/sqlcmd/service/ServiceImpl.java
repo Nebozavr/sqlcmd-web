@@ -1,6 +1,5 @@
 package ua.com.juja.sqlcmd.service;
 
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
@@ -9,12 +8,9 @@ import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import java.util.*;
 
 @Component
-public class ServiceImpl implements Service {
+public abstract class ServiceImpl implements Service {
 
-    @Lookup
-    public DatabaseManager getDatabaseManager(){
-        return null;
-    }
+    public abstract DatabaseManager getDatabaseManager();
 
     @Override
     public List<String> menuList() {
@@ -55,8 +51,8 @@ public class ServiceImpl implements Service {
         result.add(tableColumnsNames);
 
 
-        for (int i = 0; i < tableData.size(); i++) {
-            LinkedList<String> values = (LinkedList<String>) (Object)tableData.get(i).getValues();
+        for (DataSet aTableData : tableData) {
+            LinkedList<String> values = (LinkedList<String>) (Object) aTableData.getValues();
             result.add(values);
         }
         return result;

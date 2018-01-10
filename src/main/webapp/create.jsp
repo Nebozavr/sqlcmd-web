@@ -71,7 +71,6 @@
         y1.appendChild(d1);
 
 
-
         var y2 = document.createElement("td");
         var l2 = document.createElement("label");
         var u3 = document.createTextNode("Type column:");
