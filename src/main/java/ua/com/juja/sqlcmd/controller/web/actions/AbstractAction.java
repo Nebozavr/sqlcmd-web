@@ -21,6 +21,11 @@ public abstract class AbstractAction implements Action {
         req.getRequestDispatcher(url).forward(req, resp);
     }
 
+    @Override
+    public void postProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // do nothing
+    }
+
     protected DatabaseManager getDB_manager(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
 

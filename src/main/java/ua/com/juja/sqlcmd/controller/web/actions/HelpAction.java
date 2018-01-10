@@ -17,10 +17,6 @@ public class HelpAction extends AbstractAction{
         goTo("help.jsp", req, resp);
     }
 
-    @Override
-    public void postProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //do nothing
-    }
 
     @Override
     public boolean canProcess(String url) {

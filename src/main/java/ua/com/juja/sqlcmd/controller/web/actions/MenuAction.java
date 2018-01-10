@@ -19,11 +19,6 @@ public class MenuAction extends AbstractAction{
     }
 
     @Override
-    public void postProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //do nothing
-    }
-
-    @Override
     public boolean canProcess(String url) {
         return url.startsWith("/menu");
     }
