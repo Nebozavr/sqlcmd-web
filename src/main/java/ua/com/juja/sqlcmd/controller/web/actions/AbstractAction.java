@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public abstract class AbstractAction implements Action {
+    public AbstractAction() {
+    }
 
     protected Service service;
 

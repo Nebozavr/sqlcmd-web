@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class NullAction extends AbstractAction {
+
+    public NullAction() {
+        super();
+    }
+
     public NullAction(Service service) {
         super(service);
     }
