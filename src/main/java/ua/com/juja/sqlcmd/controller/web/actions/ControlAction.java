@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.web.actions;
 
+import ua.com.juja.sqlcmd.controller.web.AbstractAction;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.service.Service;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ControlAction extends AbstractAction{
+public class ControlAction extends AbstractAction {
     public ControlAction(Service service) {
         super(service);
     }

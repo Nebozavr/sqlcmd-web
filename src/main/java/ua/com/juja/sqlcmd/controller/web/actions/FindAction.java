@@ -1,5 +1,6 @@
 package ua.com.juja.sqlcmd.controller.web.actions;
 
+import ua.com.juja.sqlcmd.controller.web.AbstractAction;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.service.Service;
 
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class FindAction extends AbstractAction{
+public class FindAction extends AbstractAction {
     public FindAction(Service service) {
         super(service);
     }

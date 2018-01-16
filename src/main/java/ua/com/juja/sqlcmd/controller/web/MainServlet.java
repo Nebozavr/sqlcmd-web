@@ -2,8 +2,6 @@ package ua.com.juja.sqlcmd.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import ua.com.juja.sqlcmd.controller.web.actions.Action;
-import ua.com.juja.sqlcmd.controller.web.actions.ActionResolver;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
