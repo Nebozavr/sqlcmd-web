@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.web.actions;
 
 
+import ua.com.juja.sqlcmd.controller.web.AbstractAction;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.service.Service;
 
