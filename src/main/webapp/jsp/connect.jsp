@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <style>
-    <%@include file='css/style.css' %>
+    <%@include file='../css/style.css' %>
 </style>
 <head>
     <title>Connect</title>

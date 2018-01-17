@@ -1,6 +1,6 @@
 <html>
 <style>
-    <%@include file='css/style.css' %>
+    <%@include file='../css/style.css' %>
 </style>
     <head>
          <title>HELP</title>
