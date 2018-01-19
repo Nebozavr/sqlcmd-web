@@ -2,16 +2,19 @@ package ua.com.juja.sqlcmd.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.service.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -25,34 +28,36 @@ public class MainController {
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connectGet(HttpServletRequest request, HttpSession session) {
+    public String connectGet(Model model, HttpSession session) {
+        model.addAttribute("connection", new Connection());
         if (getDB_manager(session) == null) {
             return "connect";
         } else {
-            request.setAttribute("message", "You are already connected");
+            model.addAttribute("message", "You are already connected");
             return "menu";
         }
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public String connectPost(HttpServletRequest request, HttpSession session) {
-        String databaseName = request.getParameter("dbName");
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
+    public String connectPost(@ModelAttribute("connection") Connection connection,
+                              Model model, HttpSession session) {
         try {
-            DatabaseManager manager = service.connect(databaseName, userName, password);
+            DatabaseManager manager = service.connect(
+                    connection.getDatabaseName(),
+                    connection.getUserName(),
+                    connection.getPassword());
+
             session.setAttribute("db_manager", manager);
             return "redirect:menu?success=1";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
-
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menuGet(HttpServletRequest request) {
-        request.setAttribute("items", service.menuList());
+    public String menuGet(Model model) {
+        model.addAttribute("items", service.menuList());
         return "menu";
     }
 
@@ -65,40 +70,41 @@ public class MainController {
     }
 
     @RequestMapping(value = "/disconnect", method = RequestMethod.POST)
-    public String disconnectPost(HttpServletRequest request, HttpSession session) {
+    public String disconnectPost(Model model, HttpSession session) {
         try {
             session.setAttribute("db_manager", service.disconnect(getDB_manager(session)));
             return "redirect:/connect";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listGet(HttpServletRequest request, HttpSession session) {
+    public String listGet(Model model, HttpSession session) {
         if (getDB_manager(session) == null) {
             return "redirect:/connect";
         }
         try {
-            request.setAttribute("tables", service.listTables(getDB_manager(session)));
+            model.addAttribute("tables", service.listTables(getDB_manager(session)));
             return "list";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public String findGet(HttpServletRequest request, HttpSession session) {
+    public String findGet(@RequestParam("table") String tableName,
+                          Model model, HttpSession session) {
         if (getDB_manager(session) == null) {
             return "redirect:/connect";
         }
         try {
-            request.setAttribute("tableNames", service.find(getDB_manager(session), request.getParameter("table")));
+            model.addAttribute("tableNames", service.find(getDB_manager(session), tableName));
             return "find";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
@@ -112,46 +118,50 @@ public class MainController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createPost(HttpServletRequest request, HttpSession session) {
-        int count = Integer.parseInt(request.getParameter("countRows"));
+    public String createPost(@RequestParam Map<String, String> params,
+                             Model model, HttpSession session) {
+
+
+        int count = Integer.parseInt(params.get("countRows"));
         List<String> columns = new LinkedList<>();
         for (int i = 1; i <= count; i++) {
-            String result = request.getParameter("columnName" + i) + " " + request.getParameter("typeColumn" + i);
+            String result = params.get("columnName" + i) + " " + params.get("typeColumn" + i);
             columns.add(result);
         }
 
         try {
             DatabaseManager manager = getDB_manager(session);
-            request.getSession().setAttribute("db_manager", manager);
-            service.createTable(manager, request.getParameter("tableName"), columns);
+            session.setAttribute("db_manager", manager);
+            service.createTable(manager, params.get("tableName"), columns);
             return "redirect:list";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/control", method = RequestMethod.GET)
-    public String controlGet(HttpServletRequest request, HttpSession session) {
+    public String controlGet(@RequestParam("table") String tableName,
+                             Model model, HttpSession session) {
         if (getDB_manager(session) == null) {
             return "redirect:/connect";
         }
         try {
-            request.setAttribute("tableNames", service.find(getDB_manager(session), request.getParameter("table")));
+            model.addAttribute("tableNames", service.find(getDB_manager(session), tableName));
             return "control";
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
 
     @RequestMapping(value = "/control", method = RequestMethod.POST)
-    public String controlPost(HttpServletRequest request, HttpSession session) {
+    public String controlPost(@RequestParam Map<String, String> params, Model model, HttpSession session) {
         try {
 
             DatabaseManager manager = getDB_manager(session);
-            String action = request.getParameter("action");
-            String tableName = request.getParameter("table");
+            String action = params.get("action");
+            String tableName = params.get("table");
 
             if (action.equals("Clear")) {
                 service.clear(manager, tableName);
@@ -165,31 +175,31 @@ public class MainController {
                 List<String> columnsName = service.find(manager, tableName).get(0);
                 for (String value : columnsName) {
                     result.add(value);
-                    result.add(request.getParameter(value));
+                    result.add(params.get(value));
                 }
                 service.insert(manager, tableName, result);
                 return "redirect:control?table=" + tableName;
             } else if (action.equals("Update")) {
 
                 List<String> result = new LinkedList<>();
-                result.add(request.getParameter("columnWhere"));
-                result.add(request.getParameter("valueWhere"));
-                result.add(request.getParameter("columnSet"));
-                result.add(request.getParameter("valueSet"));
+                result.add(params.get("columnWhere"));
+                result.add(params.get("valueWhere"));
+                result.add(params.get("columnSet"));
+                result.add(params.get("valueSet"));
 
                 service.update(manager, tableName, result);
                 return "redirect:control?table=" + tableName;
             } else if (action.equals("Delete")) {
-                String columnName = request.getParameter("columnDelete");
-                String value = request.getParameter("valueDelete");
+                String columnName = params.get("columnDelete");
+                String value = params.get("valueDelete");
                 service.delete(manager, tableName, columnName, value);
                 return "redirect:control?table=" + tableName;
             } else {
-                request.setAttribute("message", "Something WRONG!!! Run...... :)");
+                model.addAttribute("message", "Something WRONG!!! Run...... :)");
                 return "error";
             }
         } catch (PgSQLDatabaseManagerException e) {
-            request.setAttribute("message", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return "error";
         }
     }
