@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.controller.web;
+package ua.com.juja.sqlcmd.controller.web.oldWithoutSpringMVC;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;

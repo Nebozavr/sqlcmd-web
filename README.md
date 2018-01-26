@@ -3,4 +3,4 @@ This is web application written in the Java language and implements the function
 Application interface English<br/>
 Before start program please check config file (sqlcmd.properties)<br/>
 For the program to work, you need to install the PostgreSQL DBMS<br/>
-It is possible to build a project through maven into a jar file and then launch it from the console (using the command "mvn clean compile assembly: single" from the application's root folder)<br/>
+This project uses same frameworks, as Spring.

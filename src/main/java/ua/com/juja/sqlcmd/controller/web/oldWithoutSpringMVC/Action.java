@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.controller.web;
+package ua.com.juja.sqlcmd.controller.web.oldWithoutSpringMVC;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

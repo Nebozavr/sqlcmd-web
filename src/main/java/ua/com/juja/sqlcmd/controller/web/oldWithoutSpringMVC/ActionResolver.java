@@ -1,7 +1,7 @@
-package ua.com.juja.sqlcmd.controller.web;
+package ua.com.juja.sqlcmd.controller.web.oldWithoutSpringMVC;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.com.juja.sqlcmd.controller.web.actions.*;
+import ua.com.juja.sqlcmd.controller.web.oldWithoutSpringMVC.actions.*;
 import ua.com.juja.sqlcmd.service.Service;
 
 import java.util.Arrays;
