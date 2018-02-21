@@ -1,12 +1,17 @@
 package ua.com.juja.sqlcmd.model;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @Scope(value = "prototype")
@@ -24,6 +29,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     private final String lineSeparator = System.getProperty("line.separator");
 
     private Connection connection;
+    private JdbcTemplate template; //= new JdbcTemplate(new SingleConnectionDataSource(connection, false));
 
     @Override
     public void connect(String database, String userName, String password) throws PgSQLDatabaseManagerException {
@@ -34,6 +40,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database + LOGGER_LEVEL, userName, password);
+            template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
             throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:" +
@@ -115,7 +122,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
              ResultSet resultSet = statement.executeQuery(checkConnect)) {
             String sql = String.format("DROP DATABASE %s", dbName);
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 throw new PgSQLDatabaseManagerException("Cannot drop the currently open database. Please disconnect.");
             }
             statement.executeUpdate(sql);
@@ -167,27 +174,23 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<DataSet> findData(String tableName) throws PgSQLDatabaseManagerException {
+    public List<DataSet> findData(String tableName) {
         String sql = String.format("SELECT * FROM %s", tableName);
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
 
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            resultSetMetaData.getColumnName(1);
-            List<DataSet> result = new LinkedList<>();
-
-            while (resultSet.next()) {
-                DataSet dataSet = new DataSet();
-                result.add(dataSet);
-                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
-                    dataSet.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+        List<DataSet> result = template.query(sql,
+                new RowMapper<DataSet>() {
+                    @Override
+                    public DataSet mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+                        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                        DataSet dataSet = new DataSet();
+                        for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                            dataSet.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                        }
+                        return dataSet;
+                    }
                 }
-            }
-
-            return result;
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+        );
+        return result;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package ua.com.juja.sqlcmd.model;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.jdbc.BadSqlGrammarException;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
 
@@ -116,7 +119,7 @@ public class PgSQLDatabaseManagerTest {
         databaseManager.clearTable("users");
     }
 
-    @Test(expected = PgSQLDatabaseManagerException.class)
+    @Test(expected = BadSqlGrammarException.class)
     public void testFindDataWithError() throws PgSQLDatabaseManagerException {
         databaseManager.findData("errorTableName");
     }
