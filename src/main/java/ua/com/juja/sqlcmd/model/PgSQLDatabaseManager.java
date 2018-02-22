@@ -135,7 +135,6 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void createTable(String tableName, String... columns) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
 
             for (String column : columns) {
@@ -143,10 +142,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
             }
 
             sql.delete(sql.length() - 1, sql.length()).append(")");
-            statement.executeUpdate(String.valueOf(sql));
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+
+            template.execute(String.valueOf(sql));
     }
 
     @Override
@@ -188,23 +185,17 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void insertData(String tableName, DataSet input) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
             String columnNames = collectionToDelimitedString(input.getNames(), ",");
             String values = collectionToDelimitedString(input.getValues(), ",", "'", "'");
-
             String sql = "INSERT INTO " + tableName + " (" + columnNames + ")" +
+
                     "VALUES (" + values + ")";
 
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+            template.execute(sql);
     }
 
     @Override
     public void update(String tableName, DataSet dataWhere, DataSet dataSet) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
-
             String columnWhere = collectionToDelimitedString(dataWhere.getNames(), ",");
             String valuesWhere = collectionToDelimitedString(dataWhere.getValues(), ",", "'", "'");
             String columnSet = collectionToDelimitedString(dataSet.getNames(), ",");
@@ -216,25 +207,19 @@ public class PgSQLDatabaseManager implements DatabaseManager {
                     "SET " + columnSet + " = " + valuesSet + " " +
                     "WHERE " + columnWhere + " = " + valuesWhere;
 
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+            template.execute(sql);
     }
 
     @Override
     public void deleteRecords(String tableName, DataSet input) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
-            String column = collectionToDelimitedString(input.getNames(), ",");
-            String value = collectionToDelimitedString(input.getValues(), ",", "'", "'");
+        String column = collectionToDelimitedString(input.getNames(), ",");
+        String value = collectionToDelimitedString(input.getValues(), ",", "'", "'");
 
-            checkRows(tableName, column, value);
+        checkRows(tableName, column, value);
 
-            String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+        String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
+
+        template.execute(sql);
     }
 
     @Override

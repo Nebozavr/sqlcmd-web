@@ -1,8 +1,6 @@
 package ua.com.juja.sqlcmd.model;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.jdbc.BadSqlGrammarException;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 import ua.com.juja.sqlcmd.utils.PropertiesLoader;
@@ -19,7 +17,6 @@ public class PgSQLDatabaseManagerTest {
     private static final String PASSWORD = propertiesLoader.getPassword();
 
     private DatabaseManager databaseManager;
-
 
     @Before
     public void setup() {
@@ -40,6 +37,7 @@ public class PgSQLDatabaseManagerTest {
         try {
             databaseManager.dropTable("users");
             databaseManager.dropTable("roles");
+            databaseManager.disconnect();
         } catch (PgSQLDatabaseManagerException | BadSqlGrammarException e) {
             e.getMessage();
         }
@@ -94,7 +92,7 @@ public class PgSQLDatabaseManagerTest {
         databaseManager.dropTable("errorTableName");
     }
 
-    @Test(expected = PgSQLDatabaseManagerException.class)
+    @Test(expected = BadSqlGrammarException.class)
     public void testCreateTableWithError() throws PgSQLDatabaseManagerException {
         databaseManager.createTable("test", " integer", "name text");
     }
@@ -124,7 +122,7 @@ public class PgSQLDatabaseManagerTest {
         databaseManager.findData("errorTableName");
     }
 
-    @Test(expected = PgSQLDatabaseManagerException.class)
+    @Test(expected = BadSqlGrammarException.class)
     public void testInsertDataWithError() throws PgSQLDatabaseManagerException {
         DataSet input = new DataSet();
         input.put("username", "yura22");
