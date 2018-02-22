@@ -13,6 +13,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.springframework.util.StringUtils.collectionToDelimitedString;
+
 @Component
 @Scope(value = "prototype")
 public class PgSQLDatabaseManager implements DatabaseManager {
@@ -187,8 +189,9 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     @Override
     public void insertData(String tableName, DataSet input) throws PgSQLDatabaseManagerException {
         try (Statement statement = connection.createStatement()) {
-            String columnNames = getNameFormatted(input);
-            String values = getValuesFormatted(input);
+            String columnNames = collectionToDelimitedString(input.getNames(), ",");
+            String values = collectionToDelimitedString(input.getValues(), ",", "'", "'");
+
             String sql = "INSERT INTO " + tableName + " (" + columnNames + ")" +
                     "VALUES (" + values + ")";
 
@@ -202,10 +205,10 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     public void update(String tableName, DataSet dataWhere, DataSet dataSet) throws PgSQLDatabaseManagerException {
         try (Statement statement = connection.createStatement()) {
 
-            String columnWhere = getNameFormatted(dataWhere);
-            String valuesWhere = getValuesFormatted(dataWhere);
-            String columnSet = getNameFormatted(dataSet);
-            String valuesSet = getValuesFormatted(dataSet);
+            String columnWhere = collectionToDelimitedString(dataWhere.getNames(), ",");
+            String valuesWhere = collectionToDelimitedString(dataWhere.getValues(), ",", "'", "'");
+            String columnSet = collectionToDelimitedString(dataSet.getNames(), ",");
+            String valuesSet = collectionToDelimitedString(dataSet.getValues(), ",", "'", "'");
 
             checkRows(tableName, columnWhere, valuesWhere);
 
@@ -222,9 +225,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     @Override
     public void deleteRecords(String tableName, DataSet input) throws PgSQLDatabaseManagerException {
         try (Statement statement = connection.createStatement()) {
-
-            String column = getNameFormatted(input);
-            String value = getValuesFormatted(input);
+            String column = collectionToDelimitedString(input.getNames(), ",");
+            String value = collectionToDelimitedString(input.getValues(), ",", "'", "'");
 
             checkRows(tableName, column, value);
 
@@ -287,21 +289,4 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
     }
 
-    private String getValuesFormatted(DataSet input) {
-        StringBuilder values = new StringBuilder();
-        for (Object value : input.getValues()) {
-            values.append(String.format("'%s',", value));
-        }
-        values = new StringBuilder(values.substring(0, values.length() - 1));
-        return values.toString();
-    }
-
-    private String getNameFormatted(DataSet newValue) {
-        StringBuilder string = new StringBuilder();
-        for (String name : newValue.getNames()) {
-            string.append(String.format("%s,", name));
-        }
-        string = new StringBuilder(string.substring(0, string.length() - 1));
-        return string.toString();
-    }
 }
