@@ -87,24 +87,15 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
     @Override
     public void clearTable(String tableName) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("DELETE FROM %s", tableName);
+        String sql = String.format("DELETE FROM %s", tableName);
+        template.execute(sql);
 
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
     }
 
     @Override
     public void dropTable(String tableName) throws PgSQLDatabaseManagerException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format("DROP TABLE %s", tableName);
-
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new PgSQLDatabaseManagerException("Request was not execute, because: " + e.getMessage());
-        }
+        String sql = String.format("DROP TABLE %s", tableName);
+        template.execute(sql);
     }
 
 

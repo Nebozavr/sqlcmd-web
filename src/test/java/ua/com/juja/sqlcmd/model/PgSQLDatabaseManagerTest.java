@@ -40,7 +40,7 @@ public class PgSQLDatabaseManagerTest {
         try {
             databaseManager.dropTable("users");
             databaseManager.dropTable("roles");
-        } catch (PgSQLDatabaseManagerException e) {
+        } catch (PgSQLDatabaseManagerException | BadSqlGrammarException e) {
             e.getMessage();
         }
     }
@@ -82,14 +82,14 @@ public class PgSQLDatabaseManagerTest {
     }
 
     @Test
-    public void testDropAllTable() throws PgSQLDatabaseManagerException {
+    public void testDropAllTable() throws PgSQLDatabaseManagerException, BadSqlGrammarException {
         databaseManager.dropAllTable();
         String result = "[]";
         assertEquals(result, databaseManager.listTables().toString());
 
     }
 
-    @Test(expected = PgSQLDatabaseManagerException.class)
+    @Test(expected = BadSqlGrammarException.class)
     public void testDropTableWithError() throws PgSQLDatabaseManagerException {
         databaseManager.dropTable("errorTableName");
     }
