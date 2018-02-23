@@ -31,7 +31,9 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     private final String lineSeparator = System.getProperty("line.separator");
 
     private Connection connection;
-    private JdbcTemplate template; //= new JdbcTemplate(new SingleConnectionDataSource(connection, false));
+    private JdbcTemplate template;
+    private String username;
+    private String database;
 
     @Override
     public void connect(String database, String userName, String password) throws PgSQLDatabaseManagerException {
@@ -43,6 +45,8 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection(DATABASE_URL + database + LOGGER_LEVEL, userName, password);
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
+            this.username = userName;
+            this.database = database;
         } catch (SQLException e) {
             connection = null;
             throw new PgSQLDatabaseManagerException(String.format("Can't get connection for database:" +
@@ -90,7 +94,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
     @Override
     public void clearTable(String tableName) throws PgSQLDatabaseManagerException {
         String sql = String.format("DELETE FROM %s", tableName);
-        template.execute(sql);
+        template.update(sql);
 
     }
 
@@ -191,7 +195,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
                     "VALUES (" + values + ")";
 
-            template.execute(sql);
+            template.update(sql);
     }
 
     @Override
@@ -207,7 +211,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
                     "SET " + columnSet + " = " + valuesSet + " " +
                     "WHERE " + columnWhere + " = " + valuesWhere;
 
-            template.execute(sql);
+            template.update(sql);
     }
 
     @Override
@@ -219,7 +223,7 @@ public class PgSQLDatabaseManager implements DatabaseManager {
 
         String sql = String.format("DELETE FROM %s WHERE %s = %s", tableName, column, value);
 
-        template.execute(sql);
+        template.update(sql);
     }
 
     @Override
@@ -256,6 +260,16 @@ public class PgSQLDatabaseManager implements DatabaseManager {
         }
 
         return false;
+    }
+
+    @Override
+    public String getDatabase() {
+        return database;
+    }
+
+    @Override
+    public String getUserName() {
+        return username;
     }
 
     private void checkRows(String tableName, String column, String value) throws PgSQLDatabaseManagerException {
