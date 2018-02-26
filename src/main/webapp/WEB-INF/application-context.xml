@@ -14,9 +14,7 @@
         <lookup-method name="getDatabaseManager" bean="pgSQLDatabaseManager"/>
     </bean>
 
-    <bean id="usrActionsDao" class="ua.com.juja.sqlcmd.model.UserActionsDaoImpl">
-        <property name="dataSource" ref="logDataSource"/>
-    </bean>
+
 
     <bean id="logDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${log.jdbc.driverClassName}"/>
@@ -25,6 +23,6 @@
         <property name="password" value="${log.jdbc.password}"/>
     </bean>
 
-    <context:property-placeholder location="classpath:config/log.jdbc.properties"/>
+    <context:property-placeholder location="classpath:log.jdbc.properties"/>
 
 </beans>

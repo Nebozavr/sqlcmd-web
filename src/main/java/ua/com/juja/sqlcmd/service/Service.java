@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.service;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.model.UserAction;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface Service {
     void update(DatabaseManager manager, String tableName, List<String> result) throws PgSQLDatabaseManagerException;
 
     void createTable(DatabaseManager manager, String tableName, List<String> columns) throws PgSQLDatabaseManagerException;
+
+    List<UserAction> getActionsForUser(String userName);
 }

@@ -109,6 +109,12 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/actions", method = RequestMethod.GET)
+    public String actionsGet(Model model, HttpSession session) {
+        model.addAttribute("actions", service.getActionsForUser(getDB_manager(session).getUserName()));
+        return "actions";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createGet(HttpSession session) {
         if (getDB_manager(session) == null) {
