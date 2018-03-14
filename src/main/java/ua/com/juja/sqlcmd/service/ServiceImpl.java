@@ -3,9 +3,11 @@ package ua.com.juja.sqlcmd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DatabaseConnectionRepository;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.entity.UserAction;
 import ua.com.juja.sqlcmd.model.UserActionRepository;
+import ua.com.juja.sqlcmd.model.entity.DatabaseConnection;
+import ua.com.juja.sqlcmd.model.entity.UserAction;
 import ua.com.juja.sqlcmd.model.exceptions.PgSQLDatabaseManagerException;
 
 import java.util.*;
@@ -15,6 +17,9 @@ public abstract class ServiceImpl implements Service {
 
     @Autowired
     private UserActionRepository userActions;
+
+    @Autowired
+    private DatabaseConnectionRepository databaseConnections;
 
     public abstract DatabaseManager getDatabaseManager();
 
@@ -32,20 +37,23 @@ public abstract class ServiceImpl implements Service {
     public DatabaseManager connect(String databaseName, String userName, String password) throws PgSQLDatabaseManagerException {
         DatabaseManager manager = getDatabaseManager();
         manager.connect(databaseName, userName, password);
-        userActions.save(new UserAction(userName, databaseName, "CONNECT"));
+
+        createAction(databaseName, userName, "CONNECT");
+
         return manager;
     }
+
 
     @Override
     public DatabaseManager disconnect(DatabaseManager manager) throws PgSQLDatabaseManagerException {
         manager.disconnect();
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "DISCONNECT"));
+        createAction(manager.getDatabase(), manager.getUserName(), "DISCONNECT");
         return null;
     }
 
     @Override
     public Set<String> listTables(DatabaseManager manager) throws PgSQLDatabaseManagerException {
-       userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "LIST TABLES"));
+        createAction(manager.getDatabase(), manager.getUserName(), "LIST TABLES");
        return manager.listTables();
     }
 
@@ -64,19 +72,19 @@ public abstract class ServiceImpl implements Service {
             LinkedList<String> values = (LinkedList<String>) (Object) aTableData.getValues();
             result.add(values);
         }
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "FIND DATA FROM " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "FIND DATA FROM " + tableName);
         return result;
     }
 
     @Override
     public void clear(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "CLEAR TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "CLEAR TABLE " + tableName);
         manager.clearTable(tableName);
     }
 
     @Override
     public void drop(DatabaseManager manager, String tableName) throws PgSQLDatabaseManagerException {
-        userActions.save( new UserAction(manager.getUserName(), manager.getDatabase(), "DROP TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "DROP TABLE " + tableName);
         manager.dropTable(tableName);
     }
 
@@ -92,7 +100,7 @@ public abstract class ServiceImpl implements Service {
         }
 
         manager.insertData(tableName, dataSet);
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "INSERT DATA TO TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "INSERT DATA TO TABLE " + tableName);
     }
 
     @Override
@@ -102,7 +110,7 @@ public abstract class ServiceImpl implements Service {
         dataSet.put(columnName, value);
 
         manager.deleteRecords(tableName, dataSet);
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "DELETE DATA FROM TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "DELETE DATA FROM TABLE " + tableName);
     }
 
     @Override
@@ -114,7 +122,7 @@ public abstract class ServiceImpl implements Service {
         dataSet.put(result.get(2), result.get(3));
 
         manager.update(tableName, dataWhere, dataSet);
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "UPDATE DATA FROM TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "UPDATE DATA FROM TABLE " + tableName);
     }
 
     @Override
@@ -130,7 +138,7 @@ public abstract class ServiceImpl implements Service {
         String res = sql.toString();
 
         manager.createTable(tableName, res);
-        userActions.save(new UserAction(manager.getUserName(), manager.getDatabase(), "CREATE TABLE " + tableName));
+        createAction(manager.getDatabase(), manager.getUserName(), "CREATE TABLE " + tableName);
     }
 
 
@@ -138,4 +146,13 @@ public abstract class ServiceImpl implements Service {
     public List<UserAction> getActionsForUser(String userName){
         return userActions.findAllByUserName(userName);
     }
+
+    private void createAction(String databaseName, String userName, String action) {
+        DatabaseConnection databaseConnection = databaseConnections.findAllByUserNameAndDbName(userName, databaseName);
+        if (databaseConnection == null){
+            databaseConnection = databaseConnections.save(new DatabaseConnection(userName, databaseName));
+        }
+        userActions.save(new UserAction(action, databaseConnection));
+    }
+
 }

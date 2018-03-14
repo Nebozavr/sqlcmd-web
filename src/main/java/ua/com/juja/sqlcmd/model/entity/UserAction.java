@@ -6,48 +6,43 @@ import javax.persistence.*;
 @Table(name = "user_actions")
 public class UserAction {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "user_name")
-    private String userName;
 
-    @Column(name = "db_name")
-    private String dbName;
 
+    @JoinColumn(name = "db_connection_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private DatabaseConnection databaseConnection;
 
     private String actions;
 
     public UserAction() {
     }
 
-    public UserAction(String userName, String dbName, String actions) {
-        this.userName = userName;
-        this.dbName = dbName;
+    public UserAction(String actions, DatabaseConnection databaseConnection) {
         this.actions = actions;
+        this.databaseConnection = databaseConnection;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-
-    public String getUserName() {
-        return userName;
+    public DatabaseConnection getDatabaseConnection() {
+        return databaseConnection;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setDatabaseConnection(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
     }
 
     public String getActions() {

@@ -20,8 +20,8 @@
         <c:forEach items="${actions}" var="userAction" >
             <tr>
 
-                    <td> ${userAction.userName} </td>
-                    <td> ${userAction.dbName} </td>
+                    <td> ${userAction.databaseConnection.userName} </td>
+                    <td> ${userAction.databaseConnection.dbName} </td>
                     <td> ${userAction.actions} </td>
             </tr>
         </c:forEach>
